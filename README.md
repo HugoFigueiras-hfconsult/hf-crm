@@ -37,7 +37,7 @@ hf-crm/
 │  ├─ LOG.md                 # chronologisches Setup-Log
 │  ├─ 00-entscheidungen.md
 │  ├─ 01-azure-basis.md      # Phase 1+2: Abo, Budget, SQL
-│  ├─ 02-schema.md           # Phase 3
+│  ├─ 02-schema.md           # Phase 3 (Schema offen)
 │  ├─ 03-dab-mcp.md          # Phase 4
 │  ├─ 04-claude-connector.md # Phase 5
 │  ├─ 05-copilot.md          # Phase 6

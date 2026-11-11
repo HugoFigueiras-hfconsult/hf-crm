@@ -9,7 +9,7 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 2. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
 3. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
 4. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt
-5. `docs/HANDOVER-2026-11-11.md`: ursprüngliches Übergabedokument (historisch, nicht ändern)
+5. `docs/HANDOVER-2026-11-11.md`: ursprüngliches Übergabedokument (historisch). **Dessen Schema-Entwurf (Phase 3) ist ungültig, nicht verwenden.**
 
 ## Harte Regeln
 

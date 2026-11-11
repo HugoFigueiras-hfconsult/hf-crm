@@ -14,7 +14,7 @@ Ergebnis (Abo-ID, Tenant-ID, Tenant-Name) in `docs/LOG.md` eintragen, danach `in
 | 0 | Repo + Dokumentationsstruktur | ✅ | diese Datei | – |
 | 1 | Azure-Basis: Abo prüfen, Variablen, Budget 5 € | 🟡 | `01-azure-basis.md` | `infra/00-vars.sh`, `infra/01-budget.sh` |
 | 2 | Azure SQL Free Offer (Entra-only, AutoPause) | 🟡 | `01-azure-basis.md` | `infra/02-rg-sql.sh` |
-| 3 | Schema `001_init.sql` | 🟡 Entwurf, mit Hugo abstimmen | `02-schema.md` | `db/migrations/001_init.sql` |
+| 3 | DB-Schema | ⬜ **offen**: Entwurf aus Handover ungültig, wird mit Hugo neu definiert | `02-schema.md` | `db/migrations/` (leer) |
 | 4 | DAB / SQL MCP Server auf Container Apps | 🟡 | `03-dab-mcp.md` | `dab/`, `infra/03-containerapp.sh` |
 | 5 | Claude Custom Connector (Entra OAuth) | 🟡 | `04-claude-connector.md` | `infra/04-entra.sh` |
 | 6 | Copilot Studio (nur lesen) | ⬜ | `05-copilot.md` | – |
@@ -42,7 +42,7 @@ Ergebnis (Abo-ID, Tenant-ID, Tenant-Name) in `docs/LOG.md` eintragen, danach `in
 |---|---|---|
 | O1 | Testversion → Pay-As-You-Go bis 11.12.2026 | Hugo |
 | O2 | DNS-Anbieter für `hf-consult.de` (für Custom Domain, Phase 4.10) | Hugo |
-| O3 | Schema-Entwurf bestätigen/ergänzen (`docs/02-schema.md`) | Hugo |
+| O3 | DB-Schema neu definieren (Handover-Entwurf ungültig). Blockiert Phase 3, DAB-Entities (4.3) und alles danach | Hugo + Agent |
 | O4 | JDC-Anbindung (kein API/MCP; Browser-Weg nur mit Always-on-PC) | später |
 | O5 | AVV-Lage: Max = Consumer Terms, kein AVV mit Anthropic. Team-Plan später | Hugo, bewusst entschieden |
 | O6 | Liefert DAB `/.well-known/oauth-protected-resource`? (Phase 5.6) | Agent, recherchieren |

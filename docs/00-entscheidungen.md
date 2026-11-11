@@ -20,4 +20,5 @@ Nicht ohne neuen Grund neu diskutieren. Neue Entscheidungen unten anhängen (Dat
 |---|---|---|---|
 | 2026-11-11 | Repo | GitHub `HugoFigueiras-hfconsult/hf-crm` (privat), Arbeit wird nach jedem Schritt gepusht | Hugo arbeitet abwechselnd in Claude-Cloud-Sessions und auf dem Laptop |
 | 2026-11-11 | Container-App-Logs | `--logs-destination none` | Log Analytics kann Kosten verursachen; Ziel 0 € |
+| 2026-11-11 | DB-Schema | Schema-Entwurf aus dem Handover ist **ungültig**. Schema wird neu mit Hugo definiert | Vorgabe Hugo |
 | 2026-11-11 | DAB-Config | Umgebungsspezifisches (Connection String, JWT Audience/Issuer) per `@env()` | Config enthält keine Secrets und keine Tenant-Werte, Image ist umgebungsneutral |
