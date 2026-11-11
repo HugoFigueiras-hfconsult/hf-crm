@@ -1,0 +1,13 @@
+# Secrets / lokale Overrides – nie committen
+.env
+.env.*
+*.local
+*.local.sh
+infra/secrets*
+*.pfx
+*.pem
+*.key
+# Tools
+.vscode/
+.idea/
+.DS_Store
