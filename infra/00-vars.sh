@@ -41,6 +41,6 @@ BUDGET_NAME=budget-hf-crm-5eur
 BUDGET_AMOUNT=5                   # in Abrechnungswährung (EUR)
 
 # --- Nach Ausführung nachtragen (keine Secrets) ------------------------------
-SUBSCRIPTION_ID=""                # az account show --query id -o tsv
-TENANT_ID=""                      # az account show --query tenantId -o tsv
+SUBSCRIPTION_ID="b349b1a4-88aa-4b1f-82bf-8b24bbe47daa"  # Azure subscription 1 (FreeTrial), 2026-11-11
+TENANT_ID="14cc25a5-e8d0-4504-90dc-cb97d813d29c"        # HF Consulting = hf-consult.de
 MCP_APP_CLIENT_ID=""              # nach infra/04-entra.sh

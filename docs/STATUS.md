@@ -4,7 +4,8 @@ Stand: 2026-11-11 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 ## Nächster Schritt
 
-**Lokale Claude-Code-Session auf Hugos Windows-PC** starten und `docs/LOKALE-SESSION.md` abarbeiten (Start-Prompt dort).
+Lokale Session auf Hugos Windows-PC läuft: `az login` ok, Tenant geprüft (R1 erledigt), IDs in `infra/00-vars.sh`.
+**Jetzt:** Budget-Alarm (`infra/01-budget.sh`, Hugo nennt die Alarm-E-Mail, O8), danach SQL (`infra/02-rg-sql.sh`).
 Ziel: Azure SQL aufsetzen + MCP-Connector für Claude. Schema folgt am 2026-11-12.
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), daher lokal.
 
@@ -26,7 +27,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 
 | Ressource | Name | ID | Status |
 |---|---|---|---|
-| Abo | Kostenlose Testversion | _noch nicht notiert_ | angelegt von Hugo |
+| Abo | Azure subscription 1 (`FreeTrial_2014-09-01`, Ausgabenlimit an) | `b349b1a4-88aa-4b1f-82bf-8b24bbe47daa` | aktiv · Tenant `14cc25a5-e8d0-4504-90dc-cb97d813d29c` (HF Consulting = `hf-consult.de`) |
 | Alle weiteren | – | – | **noch keine angelegt** |
 
 ## Fristen
@@ -54,7 +55,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 
 | # | Risiko | Auswirkung | Prüfung / Gegenmaßnahme |
 |---|---|---|---|
-| **R1** | Die Testversion wurde im Verzeichnis **„HF Consulting“** angelegt. Ist das ein **anderer Entra-Tenant** als der M365-Tenant `hf-consult.de`? | Domain `hf-consult.de` dort nicht verifiziert → App-ID-URI `https://mcp.hf-consult.de/mcp` unmöglich (Phase 5.2). Copilot Studio + Hugos M365-Identität in fremdem Tenant | `az account show --query tenantId` vergleichen mit M365 Admin Center → Einstellungen → Organisationsprofil (Mandanten-ID). Falls verschieden: Abo per „Verzeichnis ändern“ in den M365-Tenant verschieben, **bevor** Ressourcen angelegt werden |
+| ~~R1~~ | ✅ **Erledigt 2026-11-11**: Verzeichnis „HF Consulting“ ist der M365-Tenant `hf-consult.de` (Abo-Tenant = Tenant mit verifizierter Domain, `14cc25a5-…`). Siehe LOG | – | – |
 | R2 | Entra + claude.ai Custom Connector (Issues anthropics/claude-ai-mcp #506, #122) | Phase 5 scheitert | Nach 2 ernsthaften Versuchen → Fallback Supabase |
 | R3 | Log Analytics der Container-App-Umgebung verursacht Kosten | Budget | `--logs-destination none` in `infra/03-containerapp.sh` |
 | R4 | Image in privater GHCR → Container App braucht Pull-Credentials | Deployment | PAT (nur `read:packages`) als Registry-Secret der Container App, siehe `03-dab-mcp.md` |

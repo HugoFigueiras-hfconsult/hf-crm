@@ -35,3 +35,17 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
 - **Hugo**: Entscheidung, Azure-Setup in einer lokalen Claude-Code-Session auf dem Windows-PC fortzusetzen (Claude-Cloud-Session kann sich nicht anmelden, Edge-Tab lässt sich nicht an eine Cloud-Session übergeben).
 - **Agent**: `docs/LOKALE-SESSION.md` angelegt (Installation per winget, Start-Prompt, Ablauf, Weg zum Connector). Skripte Git-Bash-tauglich gemacht: `MSYS_NO_PATHCONV=1`, JSON-Bodies für `az rest` als Datei, keine interaktiven Abfragen (`CONFIRMED=j`), `new_uuid` mit PowerShell-Fallback, kein `getent`. `.gitattributes` erzwingt LF. → ok
 - **Offen**: O7 (DAB ohne Entities?), O8 (Budget-E-Mail).
+
+### Lokale Session (Hugos Windows-PC, Claude Code Desktop)
+
+- **Hugo**: `winget install --id Git.Git -e` (Upgrade auf 2.56.0.windows.4), `winget install --id Microsoft.AzureCLI -e` (2.92.0, 64 Bit). → ok
+- **Hugo**: `gh auth login` mit `HugoFigueiras-hfconsult` (zweites Konto neben `ChasingPixel`), `gh auth setup-git`. Repo geklont. → ok
+- **Hinweis Agent-Shell**: Die Claude-Desktop-App (MSIX) sieht eine virtualisierte Kopie von `%APPDATA%\GitHub CLI\hosts.yml` (nur `ChasingPixel`) → `git push` meldet „Repository not found“. Lösung: eigene `hosts.yml` mit `user: HugoFigueiras-hfconsult` außerhalb von AppData, `GH_CONFIG_DIR` darauf setzen. Token kommt aus dem Windows-Schlüsselbund. → Push ok
+- **Hugo**: `az login` (Windows-Kontoauswahl, `hugo.figueiras@hf-consult.de`, MFA). → ok, **kein** AADSTS530035 lokal
+- **Agent**: Tenant-Prüfung (R1):
+  - `az account list` → 1 Abo: „Azure subscription 1“, `b349b1a4-88aa-4b1f-82bf-8b24bbe47daa`, Tenant `14cc25a5-e8d0-4504-90dc-cb97d813d29c`, Enabled
+  - `GET /subscriptions/{id}` → `quotaId = FreeTrial_2014-09-01`, `spendingLimit = On` (= die Testversion, Anzeigename ist nicht „Kostenlose Testversion“)
+  - `GET graph/v1.0/organization` → `14cc25a5-…`, „HF Consulting“, verifizierte Domains `hfconsult.onmicrosoft.com`, `hf-consult.de`
+  - **Ergebnis: R1 erledigt.** Verzeichnis „HF Consulting“ **ist** der M365-Tenant `hf-consult.de`. Kein Verschieben nötig.
+  - `az group list` → keine Ressourcengruppen.
+- **Agent**: `SUBSCRIPTION_ID`, `TENANT_ID` in `infra/00-vars.sh` eingetragen.
