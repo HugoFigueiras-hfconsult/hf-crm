@@ -45,7 +45,10 @@ hf-crm/
 │  ├─ 07-dashboard.md        # Phase 8
 │  └─ HANDOVER-2026-11-11.md # ursprüngliches Übergabedokument
 ├─ infra/                    # alle Azure-Aktionen als Skript
-├─ db/migrations/            # T-SQL, nummeriert
+├─ db/
+│  ├─ apply.sh               # SQL-Datei als Entra-Admin ausführen
+│  ├─ migrations/            # Schema, nummeriert (leer, Schema offen)
+│  └─ setup/                 # DB-User/Rechte (kein Schema)
 ├─ dab/                      # dab-config.json + Dockerfile
 ├─ dashboard/                # HTML des Claude-Artefakts (Phase 8)
 └─ .github/workflows/        # Image-Build nach ghcr.io

@@ -1,0 +1,41 @@
+name: DAB-Image bauen und nach GHCR pushen
+
+# Baut dab/Dockerfile und pusht nach ghcr.io/<owner>/hf-crm-dab.
+# Kein Azure-Zugriff aus GitHub nötig: Die Container App zieht das Image selbst
+# (Registry-Credentials als Container-App-Secret, siehe docs/03-dab-mcp.md).
+
+# Vorerst NUR manuell (Actions → Run workflow), solange dab-config.json keine Entities hat.
+# Nach Schema-Freigabe + Entities den push-Trigger wieder aktivieren:
+#  push:
+#    branches: [main]
+#    paths: ["dab/**", ".github/workflows/dab-image.yml"]
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Image-Name (GHCR verlangt Kleinbuchstaben)
+        id: img
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/hf-crm-dab" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: dab
+          push: true
+          tags: |
+            ${{ steps.img.outputs.name }}:latest
+            ${{ steps.img.outputs.name }}:${{ github.sha }}
