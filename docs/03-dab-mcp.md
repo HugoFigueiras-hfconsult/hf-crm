@@ -51,7 +51,18 @@ Sichtbarkeit ändern (einmalig, nur im GitHub-Portal möglich, keine API): GitHu
 
 ## Kosten
 
-Container Apps Consumption, Free Grant pro Monat (laut MS, gegenprüfen): 180.000 vCPU-s, 360.000 GiB-s, 2 Mio. Requests. Bei 0,25 vCPU/0,5 GiB und scale-to-zero weit darunter. Kein ACR, kein Log Analytics.
+Container Apps Consumption, Free Grant pro Abo und Monat: 180.000 vCPU-s, 360.000 GiB-s, 2 Mio. Requests. Kein ACR, kein Log Analytics.
+
+Rechnung für `ca-hf-crm-dab` (0,25 vCPU / 0,5 GiB), Stand 2026-11-11:
+
+| Fall | Aktive Zeit/Monat | Kosten |
+|---|---|---|
+| Kostenlos bis | **≈ 200 h** (180.000 / 0,25 s = 200 h; 360.000 / 0,5 s = 200 h) | 0 € |
+| Realistisch: ~20 Nutzungen/Tag, je ~10 min wach (inkl. 5 min Nachlauf vor scale-to-zero) | ≈ 100 h | 0 € |
+| Darüber | je weitere Stunde ≈ 0,025 € (Listenpreis ca. 0,000024 $/vCPU-s + 0,000003 $/GiB-s; die Retail-Price-API rundet auf 4 Stellen, daher nicht exakt prüfbar) | gering |
+| Worst Case: rund um die Uhr wach (z. B. Dauer-Abfragen, Scanner) | 730 h | ≈ 13 €/Monat (Obergrenze durch max. 1 Replica) |
+
+Bis 11.12.2026 (Testversion mit Ausgabenlimit) wird nichts berechnet. **Vor der Umstellung auf Pay-As-You-Go Budget-Alarm einrichten (O8)**, weil der Worst Case über der 5-€-Grenze liegt. Die SQL-DB kann nie kosten (Free Offer + AutoPause).
 Kaltstart nach Leerlauf: einige Sekunden.
 
 ## Quellen

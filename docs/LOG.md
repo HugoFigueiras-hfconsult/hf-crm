@@ -87,3 +87,4 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - `describe_entities` (anonym) → „NoEntitiesConfigured“: anonyme Rolle sieht **keine** Daten. → ok
   - REST `GET /api/Verbindungstest` ohne Token → 403. → ok
   - `/.well-known/oauth-protected-resource` → 400. **R5 bestätigt**: kein 401/`WWW-Authenticate`, Claude bekommt kein Signal, OAuth zu starten.
+- **Agent**: Kostenrechnung Container App in `docs/03-dab-mcp.md` (Abschnitt Kosten): frei bis ≈ 200 aktive h/Monat, realistisch ≈ 100 h → 0 €; Worst Case 24/7 ≈ 13 €/Monat → Budget-Alarm (O8) vor Pay-As-You-Go nötig.
