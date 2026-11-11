@@ -6,8 +6,8 @@ Stand: 2026-11-11 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 Lokale Session auf Hugos Windows-PC läuft: `az login` ok, Tenant geprüft (R1 erledigt), SQL-Server + DB `hfcrm` im Free Offer angelegt (Phase 2 ✅). Budget-Alarm auf Hugos Wunsch verschoben.
 DAB 2.1.5 lokal gegen die echte DB getestet: startet nur mit mindestens einer Entity (O7) → Platzhalter-Entity `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (keine Schemaänderung). Config korrigiert (`EntraID`, `allowed-hosts`), Image-Tag 2.1.5 gepinnt.
-Image gebaut (`ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest`). Entscheidung: Package wird öffentlich (keine Pull-Credentials).
-**Jetzt:** Hugo stellt das Package `hf-crm-dab` auf GitHub auf „Public“ (Klickpfad `docs/03-dab-mcp.md`), dann Container App (`./infra/03-containerapp.sh`).
+Image gebaut + öffentlich. **Container App `ca-hf-crm-dab` läuft** (`https://ca-hf-crm-dab.purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io/mcp`), Managed Identity hat DB-Zugriff (lesen/schreiben). MCP antwortet, anonym keine Daten.
+**Jetzt:** Phase 5 vorbereiten. Zuerst **R5** klären: DAB fordert keinen Login an (kein 401, kein Discovery-Dokument) → wie bringt man claude.ai dazu, den Entra-OAuth-Ablauf zu starten? Danach `infra/04-entra.sh`. Parallel 4.10 Custom Domain `mcp.hf-consult.de`: braucht DNS-Zugang (O2, Hugo).
 Ziel: Azure SQL aufsetzen + MCP-Connector für Claude. Schema folgt am 2026-11-12.
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), daher lokal.
 
@@ -19,7 +19,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | 1 | Azure-Basis: Abo prüfen, Variablen, Budget 5 € | ✅ Abo/Tenant/Provider · ⬜ Budget (verschoben) | `01-azure-basis.md` | `infra/00-vars.sh`, `infra/01-budget.sh`, `infra/01b-providers.sh` |
 | 2 | Azure SQL Free Offer (Entra-only, AutoPause) | ✅ | `01-azure-basis.md` | `infra/02-rg-sql.sh` |
 | 3 | DB-Schema | ⬜ **offen**: Entwurf aus Handover ungültig, wird mit Hugo neu definiert | `02-schema.md` | `db/migrations/` (leer) |
-| 4 | DAB / SQL MCP Server auf Container Apps | 🟡 Config lokal getestet (2.1.5, Platzhalter-Entity), Image + Container App offen | `03-dab-mcp.md` | `dab/`, `infra/03-containerapp.sh` |
+| 4 | DAB / SQL MCP Server auf Container Apps | ✅ Container App läuft (2.1.5, Platzhalter-Entity), DB-User ok · ⬜ Custom Domain (4.10, O2) · ⛔ Entities (O3) | `03-dab-mcp.md` | `dab/`, `infra/03-containerapp.sh`, `db/setup/01_user_dab.sql` |
 | 5 | Claude Custom Connector (Entra OAuth) | 🟡 | `04-claude-connector.md` | `infra/04-entra.sh` |
 | 6 | Copilot Studio (nur lesen) | ⬜ | `05-copilot.md` | – |
 | 7 | Routine + Telegram-Trigger | ⬜ | `06-trigger-telegram.md` | – |
@@ -33,6 +33,9 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | Ressourcengruppe | `rg-hf-crm` (germanywestcentral) | `/subscriptions/b349b1a4-88aa-4b1f-82bf-8b24bbe47daa/resourceGroups/rg-hf-crm` | ✅ |
 | SQL-Server | `sql-hf-crm-106af6.database.windows.net` | `…/rg-hf-crm/providers/Microsoft.Sql/servers/sql-hf-crm-106af6` | ✅ nur Entra-Auth, Admin Hugo, TLS 1.2, Firewall: Azure-Dienste |
 | SQL-DB | `hfcrm` (GP_S_Gen5, Serverless, Free Offer, AutoPause) | `…/servers/sql-hf-crm-106af6/databases/hfcrm` | ✅ 0 €, leer (kein Schema) |
+| Container-App-Umgebung | `cae-hf-crm` (Consumption, Logs: keine) | `…/rg-hf-crm/providers/Microsoft.App/managedEnvironments/cae-hf-crm` | ✅ Domain `purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io` |
+| Container App | `ca-hf-crm-dab` (0,25 vCPU, 0,5 GiB, Replicas 0–1) | `…/rg-hf-crm/providers/Microsoft.App/containerapps/ca-hf-crm-dab` | ✅ läuft · Managed Identity `d7c46e40-6750-4ce8-ab5a-b993cdaebb94` · `DAB_JWT_AUDIENCE` noch Platzhalter |
+| DB-User | `ca-hf-crm-dab` (EXTERNAL_USER) | – | ✅ `db_datareader` + `db_datawriter`, kein DDL |
 | Budget | `budget-hf-crm-5eur` | – | ⬜ verschoben (Hugo), Ausgabenlimit der Testversion greift |
 
 ## Fristen

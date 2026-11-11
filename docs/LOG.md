@@ -74,3 +74,16 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
 - **Agent**: `infra/03-containerapp.sh`: setzt `DAB_CA_FQDN=<app>.<defaultDomain der Umgebung>`.
 - **Agent**: `gh workflow run dab-image.yml --ref main` → Run `43113418463` (Commit `72533ba`) → **success**. Image `ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest` + `:72533baa68287a3fada8103eda0fbb42df428ea6` (DAB 2.1.5). Package ist privat (Standard). Sichtbarkeit nicht per API geprüft: der `gh`-Token hat kein `read:packages`.
 - **Hugo**: Entscheidung: GHCR-Package `hf-crm-dab` wird **öffentlich** (statt PAT). → `infra/03-containerapp.sh` ohne Registry-Login, prüft vorab anonymen Abruf (HTTP 200). Doku + `00-entscheidungen.md` angepasst. R4 erledigt.
+- **Hugo**: GHCR-Package `hf-crm-dab` auf GitHub auf „Public“ gestellt. Prüfung Agent: anonymer Token 200, Manifest `latest` 200. → ok
+- **Agent**: `./infra/03-containerapp.sh` → 1. Lauf Abbruch (curl exit 23): `MSYS_NO_PATHCONV=1` aus `00-vars.sh` verhindert, dass Git Bash `-o /dev/null` für das native `curl.exe` übersetzt. Image-Prüfung auf Pipe umgestellt (`curl -s -I -w … | tail -n1`). 2. Lauf → ok. Kosten: 0 € erwartet (Consumption-Free-Grant, scale-to-zero, keine Logs, kein ACR).
+  - Umgebung `cae-hf-crm` (Workload-Profil `Consumption`, Logs: keine), Domain `purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io`: `/subscriptions/b349b1a4-88aa-4b1f-82bf-8b24bbe47daa/resourceGroups/rg-hf-crm/providers/Microsoft.App/managedEnvironments/cae-hf-crm`
+  - Container App `ca-hf-crm-dab`, FQDN `ca-hf-crm-dab.purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io`, Image `ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest`, 0,25 vCPU / 0,5 GiB, Replicas 0–1, Port 5000, keine Registry-Credentials, Revision `ca-hf-crm-dab--1570emm`: `/subscriptions/b349b1a4-88aa-4b1f-82bf-8b24bbe47daa/resourceGroups/rg-hf-crm/providers/Microsoft.App/containerapps/ca-hf-crm-dab`
+  - System-Managed-Identity Principal-ID `d7c46e40-6750-4ce8-ab5a-b993cdaebb94`
+  - `DAB_JWT_AUDIENCE` = Platzhalter `PLATZHALTER-NACH-PHASE-5` (bis `infra/04-entra.sh`)
+- **Agent**: `winget install --id Microsoft.Sqlcmd -e` (go-sqlcmd 1.10.0). `./infra/02b-firewall-myip.sh add` → `./db/apply.sh db/setup/01_user_dab.sql` → ok. Prüfung: User `ca-hf-crm-dab` (EXTERNAL_USER) in `db_datareader` + `db_datawriter`, kein DDL. `./infra/02b-firewall-myip.sh remove` → nur noch `AllowAllWindowsAzureIps`.
+- **Agent**: Test über den App-FQDN (ohne Token):
+  - MCP `initialize` → 200 (`SQL MCP Server 2.1.5`), auch nach Kaltstart. `allowed-hosts` mit `DAB_CA_FQDN` wirkt.
+  - `tools/list` (anonym) → `aggregate_records`, `create_record`, `describe_entities`, `read_records`, `update_record` (delete/execute aus, wie konfiguriert)
+  - `describe_entities` (anonym) → „NoEntitiesConfigured“: anonyme Rolle sieht **keine** Daten. → ok
+  - REST `GET /api/Verbindungstest` ohne Token → 403. → ok
+  - `/.well-known/oauth-protected-resource` → 400. **R5 bestätigt**: kein 401/`WWW-Authenticate`, Claude bekommt kein Signal, OAuth zu starten.

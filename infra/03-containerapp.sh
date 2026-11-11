@@ -16,10 +16,11 @@ source "$(dirname "$0")/00-vars.sh"
 echo "== Image anonym abrufbar? (Package muss öffentlich sein)"
 IMG_REPO="${DAB_IMAGE#ghcr.io/}"; IMG_REPO="${IMG_REPO%%:*}"; IMG_TAG="${DAB_IMAGE##*:}"
 GHCR_TOKEN=$(curl -fsS "https://ghcr.io/token?scope=repository:${IMG_REPO}:pull" | sed -E 's/.*"token":"([^"]+)".*/\1/')
-HTTP=$(curl -s -o /dev/null -w '%{http_code}' -I \
+# Kein "-o /dev/null": MSYS_NO_PATHCONV=1 (00-vars.sh) → Git Bash übersetzt /dev/null nicht → curl exit 23.
+HTTP=$(curl -s -I -w '%{http_code}' \
   -H "Authorization: Bearer ${GHCR_TOKEN}" \
   -H "Accept: application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json" \
-  "https://ghcr.io/v2/${IMG_REPO}/manifests/${IMG_TAG}")
+  "https://ghcr.io/v2/${IMG_REPO}/manifests/${IMG_TAG}" | tail -n1 | tr -d '\r')
 [[ "$HTTP" == "200" ]] || { echo "Image ${DAB_IMAGE} nicht anonym abrufbar (HTTP $HTTP). Package auf GitHub öffentlich?"; exit 1; }
 echo "ok (HTTP 200)"
 
