@@ -35,6 +35,7 @@ hf-crm/
 ├─ docs/
 │  ├─ STATUS.md              # Ist-Stand, nächster Schritt, offene Punkte
 │  ├─ LOG.md                 # chronologisches Setup-Log
+│  ├─ LOKALE-SESSION.md      # Setup + Start-Prompt für lokale Session (Windows)
 │  ├─ 00-entscheidungen.md
 │  ├─ 01-azure-basis.md      # Phase 1+2: Abo, Budget, SQL
 │  ├─ 02-schema.md           # Phase 3 (Schema offen)
@@ -54,7 +55,7 @@ hf-crm/
 └─ .github/workflows/        # Image-Build nach ghcr.io
 ```
 
-## Auf dem Laptop weiterarbeiten
+## Lokal weiterarbeiten (PC/Laptop)
 
 ```bash
 git clone https://github.com/HugoFigueiras-hfconsult/hf-crm.git
@@ -64,4 +65,4 @@ git clone https://github.com/HugoFigueiras-hfconsult/hf-crm.git
 cd hf-crm && git pull
 ```
 
-Voraussetzungen lokal: Azure CLI (`az`), `sqlcmd` (go-sqlcmd), .NET SDK 8 + `dab` CLI (erst ab Phase 4).
+Voraussetzungen und Start-Prompt für eine lokale Claude-Code-Session: `docs/LOKALE-SESSION.md`.

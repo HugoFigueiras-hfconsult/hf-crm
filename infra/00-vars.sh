@@ -5,6 +5,14 @@
 # Werte, die erst nach einem Schritt bekannt sind, hier nachtragen und committen
 # (IDs sind keine Secrets).
 
+# --- Plattform ---------------------------------------------------------------
+# Git Bash (Windows): verhindert, dass Argumente mit "/" in Windows-Pfade umgewandelt werden.
+export MSYS_NO_PATHCONV=1
+# Temp-Dateien für JSON-Bodies (az unter Windows zerlegt Inline-JSON, daher immer @datei)
+HFCRM_TMP="${TMPDIR:-${TEMP:-/tmp}}/hf-crm"; mkdir -p "$HFCRM_TMP"
+new_uuid() { cat /proc/sys/kernel/random/uuid 2>/dev/null || uuidgen 2>/dev/null \
+  || powershell.exe -NoProfile -Command "[guid]::NewGuid().ToString()" | tr -d '\r'; }
+
 # --- Region / Gruppe ---------------------------------------------------------
 LOC=germanywestcentral
 RG=rg-hf-crm

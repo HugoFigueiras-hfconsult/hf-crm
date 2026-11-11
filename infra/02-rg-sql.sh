@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 # Phase 2 – Ressourcengruppe, SQL-Server (nur Entra-Auth, Hugo als Admin), DB im Free Offer.
 # Voraussetzung: az login als Hugo, richtiges Abo aktiv, Risiko R1 (Tenant) geklärt.
+# Aufruf: erst ohne Variable (zeigt Kontext), dann  CONFIRMED=j ./infra/02-rg-sql.sh
 set -euo pipefail
 source "$(dirname "$0")/00-vars.sh"
 
 echo "== Kontext"
 az account show --query "{abo:name, id:id, tenant:tenantId, user:user.name}" -o table
-read -r -p "Richtiges Abo und richtiger Tenant? [j/N] " ok; [[ "$ok" == "j" ]] || exit 1
+if [[ "${CONFIRMED:-}" != "j" ]]; then
+  echo "Kontext prüfen (Abo + Tenant = hf-consult.de?). Dann erneut mit CONFIRMED=j aufrufen."; exit 2
+fi
 
 echo "== CLI-Flags prüfen (Free Offer braucht aktuelle az-Version)"
 az sql db create --help | grep -q -- "--use-free-limit" \
@@ -14,10 +17,8 @@ az sql db create --help | grep -q -- "--use-free-limit" \
 az sql db create --help | grep -q -- "--free-limit-exhaustion-behavior" \
   || { echo "az zu alt: --free-limit-exhaustion-behavior fehlt."; exit 1; }
 
-echo "== Servername frei?"
-if getent hosts "${SQL_FQDN}" >/dev/null 2>&1 && ! az sql server show -g "$RG" -n "$SQL_SERVER" >/dev/null 2>&1; then
-  echo "${SQL_FQDN} ist bereits vergeben. Neuen Suffix in infra/00-vars.sh eintragen."; exit 1
-fi
+# Servername global belegt? → az sql server create bricht mit "already exists" ab.
+# Dann neuen Suffix in infra/00-vars.sh eintragen, LOG-Eintrag, erneut ausführen.
 
 echo "== 2.1 Ressourcengruppe"
 az group create -n "$RG" -l "$LOC" --query "{name:name, id:id}" -o table

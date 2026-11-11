@@ -4,8 +4,9 @@ Stand: 2026-11-11 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 ## Nächster Schritt
 
-**Hugo, auf dem Laptop:** `az login` (MFA), dann `az account show -o table` und Tenant prüfen (siehe Risiko R1 unten).
-Ergebnis (Abo-ID, Tenant-ID, Tenant-Name) in `docs/LOG.md` eintragen, danach `infra/01-budget.sh` und `infra/02-rg-sql.sh`.
+**Lokale Claude-Code-Session auf Hugos Windows-PC** starten und `docs/LOKALE-SESSION.md` abarbeiten (Start-Prompt dort).
+Ziel: Azure SQL aufsetzen + MCP-Connector für Claude. Schema folgt am 2026-11-12.
+Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), daher lokal.
 
 ## Phasen
 
@@ -46,6 +47,8 @@ Ergebnis (Abo-ID, Tenant-ID, Tenant-Name) in `docs/LOG.md` eintragen, danach `in
 | O4 | JDC-Anbindung (kein API/MCP; Browser-Weg nur mit Always-on-PC) | später |
 | O5 | AVV-Lage: Max = Consumer Terms, kein AVV mit Anthropic. Team-Plan später | Hugo, bewusst entschieden |
 | O6 | Liefert DAB `/.well-known/oauth-protected-resource`? (Phase 5.6) | Agent, recherchieren |
+| O7 | Startet DAB 2.x ohne Entities? Sonst braucht der Connector-Test vor dem Schema eine Test-Tabelle (nur mit Hugos Freigabe) | Agent, lokal prüfen |
+| O8 | E-Mail-Adresse für Budget-Alarm (nicht ins Repo) | Hugo |
 
 ## Risiken
 
