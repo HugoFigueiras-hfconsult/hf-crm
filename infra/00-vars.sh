@@ -9,7 +9,10 @@
 # Git Bash (Windows): verhindert, dass Argumente mit "/" in Windows-Pfade umgewandelt werden.
 export MSYS_NO_PATHCONV=1
 # Temp-Dateien für JSON-Bodies (az unter Windows zerlegt Inline-JSON, daher immer @datei)
-HFCRM_TMP="${TMPDIR:-${TEMP:-/tmp}}/hf-crm"; mkdir -p "$HFCRM_TMP"
+HFCRM_TMP="${TMPDIR:-${TEMP:-/tmp}}/hf-crm"
+# Git Bash: /c/Users/… in C:/Users/… umwandeln, sonst findet das Windows-az die Datei nicht (MSYS_NO_PATHCONV=1)
+command -v cygpath >/dev/null 2>&1 && HFCRM_TMP=$(cygpath -m "$HFCRM_TMP")
+mkdir -p "$HFCRM_TMP"
 new_uuid() { cat /proc/sys/kernel/random/uuid 2>/dev/null || uuidgen 2>/dev/null \
   || powershell.exe -NoProfile -Command "[guid]::NewGuid().ToString()" | tr -d '\r'; }
 
@@ -45,4 +48,4 @@ BUDGET_AMOUNT=5                   # in Abrechnungswährung (EUR)
 # --- Nach Ausführung nachtragen (keine Secrets) ------------------------------
 SUBSCRIPTION_ID="b349b1a4-88aa-4b1f-82bf-8b24bbe47daa"  # Azure subscription 1 (FreeTrial), 2026-11-11
 TENANT_ID="14cc25a5-e8d0-4504-90dc-cb97d813d29c"        # HF Consulting = hf-consult.de
-MCP_APP_CLIENT_ID=""              # nach infra/04-entra.sh
+MCP_APP_CLIENT_ID="c3f40bf1-158a-4fff-8c08-de80976c7875"  # hf-crm-mcp, angelegt 2026-11-12 (infra/04-entra.sh)

@@ -7,7 +7,9 @@ Status: 🟡 Config lokal mit DAB 2.1.5 gegen die echte DB getestet (2026-11-11)
 | Datei | Zweck |
 |---|---|
 | `dab/dab-config.json` | REST unter `/api`, MCP unter `/mcp`, GraphQL aus, Auth `EntraId`. Alle umgebungsspezifischen Werte per `@env()` |
-| `dab/Dockerfile` | Offizielles DAB-Image + Config |
+| `dab/Dockerfile` | Offizielles DAB-Image + Caddy (Türsteher, Port 8000) + Config |
+| `dab/Caddyfile`, `dab/start.sh` | Türsteher: 401 + OAuth-Discovery für claude.ai, startet DAB (intern :5000) + Caddy (siehe `04-claude-connector.md`) |
+| `infra/03c-update-app.sh` | Bestehende App auf neues Image (`:<commit-sha>`) + aktuelle Env-Variablen |
 | `.github/workflows/dab-image.yml` | Build + Push nach `ghcr.io/hugofigueiras-hfconsult/hf-crm-dab` (vorerst nur manuell) |
 | `infra/03-containerapp.sh` | Container-App-Umgebung + App (scale-to-zero, Managed Identity) |
 | `infra/03b-custom-domain.sh` | `mcp.hf-consult.de` + Managed Cert |

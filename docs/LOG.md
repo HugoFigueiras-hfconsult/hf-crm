@@ -88,3 +88,22 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - REST `GET /api/Verbindungstest` ohne Token → 403. → ok
   - `/.well-known/oauth-protected-resource` → 400. **R5 bestätigt**: kein 401/`WWW-Authenticate`, Claude bekommt kein Signal, OAuth zu starten.
 - **Agent**: Kostenrechnung Container App in `docs/03-dab-mcp.md` (Abschnitt Kosten): frei bis ≈ 200 aktive h/Monat, realistisch ≈ 100 h → 0 €; Worst Case 24/7 ≈ 13 €/Monat → Budget-Alarm (O8) vor Pay-As-You-Go nötig.
+
+## 2026-11-12
+
+### Phase 5: Türsteher (R5) + Entra-App
+
+- **Agent**: Recherche R5/R2 (GitHub `anthropics/claude-ai-mcp`):
+  - Entra direkt als Login-Server für claude.ai-Custom-Connectors ist derzeit **unzuverlässig**: #506, #632, #1080, #1248 offen (Microsoft-Login erfolgreich, claude.ai tauscht den Code nicht ein oder schickt kein Token). Teils funktionierend (Business Central, Sept. 2026).
+  - #82/#214 (geschlossen, 05/2026): Hat der Login-Server einen Pfad im Issuer (Entra: `…/<tenant>/v2.0`), findet claude.ai dessen Metadaten nicht und rät `/authorize`, `/token` auf dem MCP-Host. #219: Groß-/Kleinschreibung von `WWW-Authenticate` ist kein Problem.
+  - Container-Apps-Easy-Auth liefert laut Community kein `WWW-Authenticate` mit `resource_metadata` → nicht genutzt.
+- **Agent**: Entscheidung **Türsteher Caddy 2.11.9 im selben Image** (`dab/Caddyfile`, `dab/start.sh`, `dab/Dockerfile`): Port 8000 = Ingress, DAB nur intern `127.0.0.1:5000`. Liefert 401 + `WWW-Authenticate`, PRM (RFC 9728) und AS-Metadaten (RFC 8414) auf **eigenem Host** mit Entras authorize/token, `/authorize`+`/token` als Rückfallebene an Entra. Kosten: 0 € (gleiche 0,25 vCPU / 0,5 GiB). Siehe `00-entscheidungen.md`.
+- **Agent**: `infra/00-vars.sh`: `MCP_PUBLIC_ORIGIN`, `MCP_SCOPE`. `infra/03-containerapp.sh`: Port 8000 + neue Env-Variablen. Neu `infra/03c-update-app.sh` (bestehende App auf Image `:<commit-sha>`, Env, Port 8000).
+- **Agent**: Build Run `43116934774` (Commit `f05e633`, inkl. `caddy validate`) → success. `IMAGE_TAG=f05e633… ./infra/03c-update-app.sh` → Revision `ca-hf-crm-dab--0000001`, Ingress Port 8000.
+- **Agent**: Test über App-FQDN: `/mcp` ohne Token → **401** + `WWW-Authenticate: Bearer resource_metadata="https://mcp.hf-consult.de/.well-known/oauth-protected-resource", scope="https://mcp.hf-consult.de/mcp/access_as_user"`; PRM (auch `/…/mcp`) → 200; AS-Metadaten → 200 (Entra-Endpunkte, S256); `/authorize` → 302 an Entra; ungültiges Token → 401 `invalid_token` (von DAB); REST ohne Token → 403. → ok
+- **Agent**: Fix `infra/00-vars.sh`: `HFCRM_TMP` per `cygpath -m` als `C:/…`, sonst findet das Windows-`az` die JSON-Dateien nicht (wegen `MSYS_NO_PATHCONV=1`; betraf `01-budget.sh`, `04-entra.sh`).
+- **Agent**: `./infra/04-entra.sh` → ok:
+  - App `hf-crm-mcp`, Client-ID `c3f40bf1-158a-4fff-8c08-de80976c7875`, Object-ID `0e3a33c5-0564-4aa7-a815-0d8994b25a4d`, SP-Object-ID `e7ad019c-7d72-4825-9c66-c7d246aff5f1`
+  - Single-Tenant, App-ID-URI `https://mcp.hf-consult.de/mcp`, Scope `access_as_user`, Token-Version 2, Redirect (Web) `https://claude.ai/api/mcp/auth_callback`, Zuweisung erforderlich, zugewiesen: Hugo Figueiras. Noch **kein** Client Secret.
+- **Agent**: `MCP_APP_CLIENT_ID` in `infra/00-vars.sh`; `./infra/03c-update-app.sh` → Revision `ca-hf-crm-dab--0000002`, `DAB_JWT_AUDIENCE = c3f40bf1-…`, `DAB_JWT_ISSUER = https://login.microsoftonline.com/14cc25a5-…/v2.0`.
+- **Agent**: O2 geklärt: DNS von `hf-consult.de` liegt bei **INWX** (`ns.inwx.de`, `ns2.inwx.de`, `ns3.inwx.eu`). Wildcard `*.hf-consult.de` → `185.181.104.242`; ein eigener CNAME für `mcp` hat Vorrang. `./infra/03b-custom-domain.sh records` → CNAME `mcp` → `ca-hf-crm-dab.purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io`, TXT `asuid.mcp` → `A615C0D9CBDA4E9EA542291C80000F32D37C428C08602AC000839AD9010ED01D` (Verifizierungs-ID, kein Secret).
