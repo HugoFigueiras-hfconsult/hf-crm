@@ -6,7 +6,8 @@ Stand: 2026-11-11 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 Lokale Session auf Hugos Windows-PC läuft: `az login` ok, Tenant geprüft (R1 erledigt), SQL-Server + DB `hfcrm` im Free Offer angelegt (Phase 2 ✅). Budget-Alarm auf Hugos Wunsch verschoben.
 DAB 2.1.5 lokal gegen die echte DB getestet: startet nur mit mindestens einer Entity (O7) → Platzhalter-Entity `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (keine Schemaänderung). Config korrigiert (`EntraID`, `allowed-hosts`), Image-Tag 2.1.5 gepinnt.
-**Jetzt:** Image bauen (GitHub Actions „DAB-Image bauen…“, manuell), dann Container App (`infra/03-containerapp.sh`, braucht GHCR-Zugriff: Hugo gibt PAT mit `read:packages` ein **oder** entscheidet, das Package öffentlich zu machen; enthält keine Secrets).
+Image gebaut (`ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest`, privat).
+**Jetzt:** Container App (`infra/03-containerapp.sh`, braucht GHCR-Zugriff: Hugo gibt PAT mit `read:packages` ein **oder** entscheidet, das Package öffentlich zu machen; enthält keine Secrets).
 Ziel: Azure SQL aufsetzen + MCP-Connector für Claude. Schema folgt am 2026-11-12.
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), daher lokal.
 

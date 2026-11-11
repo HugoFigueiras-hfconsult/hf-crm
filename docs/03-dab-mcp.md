@@ -36,7 +36,7 @@ Begründung: Agent darf Datensätze schreiben, Löschen nur durch Hugo.
 | 4.3 | Entities hinzufügen (`dab add …`), danach Platzhalter `Verbindungstest` entfernen | ⛔ wartet auf Schema (O3) |
 | 4.4 | MCP aktivieren | ✅ Schlüssel gegen Schema 2.1.5 geprüft; `allowed-hosts` ergänzt (Pflicht für Nicht-localhost-Hosts, sonst 403) |
 | 4.5 | Auth `EntraID` per `@env()` | ✅ (Schreibweise `EntraID`, nicht `EntraId`) |
-| 4.6 | Image bauen (GitHub Action) | ⬜ Workflow vorerst nur manuell; push-Trigger nach Entities aktivieren |
+| 4.6 | Image bauen (GitHub Action) | ✅ 2026-11-11, Run 43113418463 (DAB 2.1.5). Workflow weiter nur manuell; push-Trigger nach Entities aktivieren |
 | 4.7 | Container App | 🟡 `infra/03-containerapp.sh` |
 | 4.8 | DB-Zugriff Managed Identity | 🟡 `db/setup/01_user_dab.sql` |
 | 4.9 | Connection String als Secret | 🟡 in 03-containerapp.sh |
