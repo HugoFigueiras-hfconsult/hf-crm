@@ -49,6 +49,7 @@ Alle Skripte sind Bash. Unter Windows **in Git Bash** ausführen (`"C:\Program F
 | 3 | **Tenant prüfen (R1)** | `az account list -o table` und `az rest --method get --uri "https://graph.microsoft.com/v1.0/organization?\$select=id,displayName,verifiedDomains"` | Abo-Tenant ≠ Tenant mit verifizierter Domain `hf-consult.de` → **STOPP**, Hugo entscheidet (Abo verschieben) |
 | 4 | IDs eintragen | `SUBSCRIPTION_ID`, `TENANT_ID` in `infra/00-vars.sh`, LOG, commit + push | – |
 | 5 | Budget | Hugo nach Alarm-E-Mail fragen, dann `BUDGET_EMAIL=… ./infra/01-budget.sh` | E-Mail nie ins Repo/LOG |
+| 5b | Ressourcenanbieter | `./infra/01b-providers.sh` (Microsoft.Sql, Microsoft.App) | sonst `MissingSubscriptionRegistration` |
 | 6 | SQL | `./infra/02-rg-sql.sh` (zeigt Kontext), dann `CONFIRMED=j ./infra/02-rg-sql.sh` | Servername belegt → neuen Suffix, LOG |
 | 7 | Push | LOG + STATUS (Phase 1/2 ✅, Ressourcentabelle), commit + push | – |
 | 8 | Connector-Vorbereitung | siehe Abschnitt 4 | – |

@@ -49,3 +49,10 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - **Ergebnis: R1 erledigt.** Verzeichnis „HF Consulting“ **ist** der M365-Tenant `hf-consult.de`. Kein Verschieben nötig.
   - `az group list` → keine Ressourcengruppen.
 - **Agent**: `SUBSCRIPTION_ID`, `TENANT_ID` in `infra/00-vars.sh` eingetragen.
+- **Hugo**: Budget-Alarm (Phase 1.4, `infra/01-budget.sh`) **verschoben**, wird an einem anderen Tag eingerichtet. Schutz bis dahin: Testversion mit aktivem Ausgabenlimit (`spendingLimit = On`). O8 bleibt offen.
+- **Agent**: `./infra/02-rg-sql.sh` (CONFIRMED=j) → Abbruch bei 2.2: `MissingSubscriptionRegistration` für `Microsoft.Sql`. Neues Skript `infra/01b-providers.sh` (registriert `Microsoft.Sql`, `Microsoft.App`, kostenlos) ausgeführt → beide `Registered`.
+- **Agent**: `CONFIRMED=j ./infra/02-rg-sql.sh` erneut → ok. Kosten: 0 € (Free Offer, AutoPause bei Erschöpfung, Backup lokal).
+  - RG `rg-hf-crm` (germanywestcentral): `/subscriptions/b349b1a4-88aa-4b1f-82bf-8b24bbe47daa/resourceGroups/rg-hf-crm`
+  - SQL-Server `sql-hf-crm-106af6` (Suffix war frei), FQDN `sql-hf-crm-106af6.database.windows.net`, nur Entra-Auth, Admin `hugo.figueiras@hf-consult.de`, TLS 1.2, öffentlicher Zugriff an (Firewall regelt)
+  - DB `hfcrm`: `GP_S_Gen5`, 2 vCores max / 0,5 min, Serverless, `useFreeLimit = true`, `freeLimitExhaustionBehavior = AutoPause`, AutoPause-Verzögerung 60 min, Backup `Local`, Status Online
+  - Firewall `AllowAllWindowsAzureIps` (0.0.0.0) für Container App + Copilot Studio
