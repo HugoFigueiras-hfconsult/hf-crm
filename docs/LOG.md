@@ -56,3 +56,19 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - SQL-Server `sql-hf-crm-106af6` (Suffix war frei), FQDN `sql-hf-crm-106af6.database.windows.net`, nur Entra-Auth, Admin `hugo.figueiras@hf-consult.de`, TLS 1.2, öffentlicher Zugriff an (Firewall regelt)
   - DB `hfcrm`: `GP_S_Gen5`, 2 vCores max / 0,5 min, Serverless, `useFreeLimit = true`, `freeLimitExhaustionBehavior = AutoPause`, AutoPause-Verzögerung 60 min, Backup `Local`, Status Online
   - Firewall `AllowAllWindowsAzureIps` (0.0.0.0) für Container App + Copilot Studio
+
+### Phase 4: DAB lokal geprüft (O6, O7)
+
+- **Agent**: `winget install --id Microsoft.DotNet.SDK.10 -e` (10.0.404), `dotnet tool install -g Microsoft.DataApiBuilder --version 2.1.5`. 2.1.5 = neueste stabile Version (NuGet + MCR, veröffentlicht 2026-10-01), Tool braucht .NET 10. → ok
+- **Agent**: `dab validate` mit Dummy-Werten → 2 Fehler im Config-Schema: Provider heißt `EntraID` (nicht `EntraId`). → korrigiert. `$schema` auf v2.1.5 gepinnt.
+- **Agent**: Neue Pflicht-Einstellung in DAB 2.1: `runtime.mcp.allowed-hosts` (Schutz gegen DNS-Rebinding). Standard = nur localhost. Eingetragen: `mcp.hf-consult.de` + `@env('DAB_CA_FQDN')` (Standard-Hostname der Container App, setzt `infra/03-containerapp.sh`).
+- **Agent**: `./infra/02b-firewall-myip.sh add` (Regel `TempHugoLaptop`, eigene IP), `dab validate` gegen die echte DB (Auth: `Active Directory Default` = Hugos `az login`):
+  - **O7 beantwortet: DAB 2.1.5 startet NICHT ohne Entities** („At least one entity must be defined or discovered from autoentities“).
+  - Lösung **ohne Schemaänderung**: Platzhalter-Entity `Verbindungstest` auf der System-View `INFORMATION_SCHEMA.TABLES` (nur lesen, nur Rolle `authenticated`, zeigt nur Tabellennamen). → `Config is valid`. Wird entfernt, sobald echte Entities da sind. Keine Test-Tabelle angelegt.
+- **Agent**: `dab start` lokal (Port 5055) mit Platzhalter:
+  - MCP `initialize` → 200, `serverInfo: SQL MCP Server 2.1.5`, auch **ohne** Token (Tools sind rollenabhängig)
+  - Host `mcp.hf-consult.de` → 200, fremder Host → **403** („not in the list of trusted hosts“). allowed-hosts wirkt.
+  - **O6 beantwortet: `/.well-known/oauth-protected-resource` → 400**, DAB 2.1.5 liefert dieses Discovery-Dokument nicht. Folge für Phase 5 siehe STATUS (R5).
+- **Agent**: `./infra/02b-firewall-myip.sh remove` → nur noch `AllowAllWindowsAzureIps`. Lokalen DAB-Prozess beendet.
+- **Agent**: `dab/Dockerfile` auf `DAB_TAG=2.1.5` gepinnt. Image-Config geprüft: lauscht auf `:5000`, Arbeitsordner `/App` → passt zu Dockerfile + `--target-port 5000`.
+- **Agent**: `infra/03-containerapp.sh`: setzt `DAB_CA_FQDN=<app>.<defaultDomain der Umgebung>`.

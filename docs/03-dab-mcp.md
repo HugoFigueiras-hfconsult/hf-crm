@@ -1,6 +1,6 @@
 # Phase 4 – Data API builder / SQL MCP Server
 
-Status: 🟡 Config-Grundgerüst + Skripte vorbereitet. **Entities fehlen bewusst**, weil das Schema offen ist (O3).
+Status: 🟡 Config lokal mit DAB 2.1.5 gegen die echte DB getestet (2026-11-11). Einzige Entity: Platzhalter `Verbindungstest` (System-View `INFORMATION_SCHEMA.TABLES`, nur lesen), weil DAB ohne Entity nicht startet und das Schema offen ist (O3).
 
 ## Bausteine
 
@@ -20,6 +20,7 @@ Status: 🟡 Config-Grundgerüst + Skripte vorbereitet. **Entities fehlen bewuss
 | `DAB_CONNSTRING` | `Server=tcp:sql-hf-crm-106af6.database.windows.net,1433;Database=hfcrm;Authentication=Active Directory Managed Identity;Encrypt=True;` | Container-App-**Secret** `dab-connstring` (enthält kein Passwort, trotzdem als Secret) |
 | `DAB_JWT_ISSUER` | `https://login.microsoftonline.com/<TENANT_ID>/v2.0` | 03-containerapp.sh |
 | `DAB_JWT_AUDIENCE` | **Client-ID** der App `hf-crm-mcp` (v2-Tokens: `aud` = Client-ID) | nach Phase 5 setzen |
+| `DAB_CA_FQDN` | Standard-Hostname der Container App (`ca-hf-crm-dab.<defaultDomain>`), für `runtime.mcp.allowed-hosts` | 03-containerapp.sh |
 
 ## MCP-Tools (dml-tools)
 
@@ -30,11 +31,11 @@ Begründung: Agent darf Datensätze schreiben, Löschen nur durch Hugo.
 
 | # | Schritt | Status |
 |---|---|---|
-| 4.1 | `dotnet tool install -g Microsoft.DataApiBuilder` (lokal, ≥ 2.0) | ⬜ |
-| 4.2 | Config-Grundgerüst | ✅ (manuell erstellt, mit `dab validate` gegenprüfen) |
-| 4.3 | Entities hinzufügen (`dab add …`) | ⛔ wartet auf Schema (O3) |
-| 4.4 | MCP aktivieren | ✅ in Config. VERIFIZIEREN: Schlüsselnamen `runtime.mcp.*` mit `dab configure --help` |
-| 4.5 | Auth EntraId per `@env()` | ✅ in Config |
+| 4.1 | `dotnet tool install -g Microsoft.DataApiBuilder --version 2.1.5` (braucht .NET 10 SDK) | ✅ 2026-11-11 |
+| 4.2 | Config-Grundgerüst | ✅ `dab validate` gegen echte DB ok (mit Platzhalter-Entity) |
+| 4.3 | Entities hinzufügen (`dab add …`), danach Platzhalter `Verbindungstest` entfernen | ⛔ wartet auf Schema (O3) |
+| 4.4 | MCP aktivieren | ✅ Schlüssel gegen Schema 2.1.5 geprüft; `allowed-hosts` ergänzt (Pflicht für Nicht-localhost-Hosts, sonst 403) |
+| 4.5 | Auth `EntraID` per `@env()` | ✅ (Schreibweise `EntraID`, nicht `EntraId`) |
 | 4.6 | Image bauen (GitHub Action) | ⬜ Workflow vorerst nur manuell; push-Trigger nach Entities aktivieren |
 | 4.7 | Container App | 🟡 `infra/03-containerapp.sh` |
 | 4.8 | DB-Zugriff Managed Identity | 🟡 `db/setup/01_user_dab.sql` |

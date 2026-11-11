@@ -21,6 +21,11 @@ az containerapp env create -g "$RG" -n "$CAE" -l "$LOC" \
   --logs-destination none \
   --query "{name:name, id:id}" -o table
 
+# DAB prüft den Host-Header am MCP-Endpunkt (runtime.mcp.allowed-hosts in dab/dab-config.json).
+# Der Standard-Hostname der App ist <app>.<defaultDomain der Umgebung>, also schon vor dem Anlegen bekannt.
+CAE_DOMAIN=$(az containerapp env show -g "$RG" -n "$CAE" --query properties.defaultDomain -o tsv)
+CA_FQDN="${CA}.${CAE_DOMAIN}"
+
 CONNSTR="Server=tcp:${SQL_FQDN},1433;Database=${SQL_DB};Authentication=Active Directory Managed Identity;Encrypt=True;TrustServerCertificate=False;"
 
 echo "== Container App"
@@ -36,6 +41,7 @@ az containerapp create -g "$RG" -n "$CA" --environment "$CAE" \
       "DAB_CONNSTRING=secretref:dab-connstring" \
       "DAB_JWT_ISSUER=https://login.microsoftonline.com/${TENANT_ID}/v2.0" \
       "DAB_JWT_AUDIENCE=${MCP_APP_CLIENT_ID:-PLATZHALTER-NACH-PHASE-5}" \
+      "DAB_CA_FQDN=${CA_FQDN}" \
   --query "{name:name, id:id, fqdn:properties.configuration.ingress.fqdn, principalId:identity.principalId}" -o table
 
 echo

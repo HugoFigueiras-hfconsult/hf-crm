@@ -2,9 +2,9 @@
 # Enthält nur die Config (keine Secrets). Connection String + JWT-Werte kommen als Env-Variablen
 # aus der Container App (DAB_CONNSTRING, DAB_JWT_AUDIENCE, DAB_JWT_ISSUER).
 #
-# VERIFIZIEREN: exakten 2.x-Tag auf https://mcr.microsoft.com/artifact/mar/azure-databases/data-api-builder/tags
-# prüfen und hier fest pinnen (kein "latest").
-ARG DAB_TAG=2.0
+# Tag fest gepinnt (geprüft 2026-11-11: 2.1.5 = neueste stabile Version auf MCR + NuGet, lokal getestet).
+# Update: Tag hier ändern, lokal mit gleicher dab-Version testen (dotnet tool update -g Microsoft.DataApiBuilder --version X).
+ARG DAB_TAG=2.1.5
 FROM mcr.microsoft.com/azure-databases/data-api-builder:${DAB_TAG}
 
 COPY dab-config.json /App/dab-config.json
