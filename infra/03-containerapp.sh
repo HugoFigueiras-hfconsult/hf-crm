@@ -41,7 +41,7 @@ CONNSTR="Server=tcp:${SQL_FQDN},1433;Database=${SQL_DB};Authentication=Active Di
 echo "== Container App"
 az containerapp create -g "$RG" -n "$CA" --environment "$CAE" \
   --image "$DAB_IMAGE" \
-  --ingress external --target-port 5000 \
+  --ingress external --target-port 8000 \
   --min-replicas 0 --max-replicas 1 \
   --cpu 0.25 --memory 0.5Gi \
   --system-assigned \
@@ -51,6 +51,9 @@ az containerapp create -g "$RG" -n "$CA" --environment "$CAE" \
       "DAB_JWT_ISSUER=https://login.microsoftonline.com/${TENANT_ID}/v2.0" \
       "DAB_JWT_AUDIENCE=${MCP_APP_CLIENT_ID:-PLATZHALTER-NACH-PHASE-5}" \
       "DAB_CA_FQDN=${CA_FQDN}" \
+      "TENANT_ID=${TENANT_ID}" \
+      "MCP_PUBLIC_ORIGIN=${MCP_PUBLIC_ORIGIN}" \
+      "MCP_SCOPE=${MCP_SCOPE}" \
   --query "{name:name, id:id, fqdn:properties.configuration.ingress.fqdn, principalId:identity.principalId}" -o table
 
 echo

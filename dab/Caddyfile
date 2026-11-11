@@ -1,0 +1,61 @@
+# Türsteher (Caddy) vor DAB, Port 8000 = Ingress der Container App. DAB lauscht intern auf 127.0.0.1:5000.
+#
+# Warum: DAB 2.1.5 fordert keine Anmeldung an (kein 401, kein Discovery-Dokument, siehe O6/R5).
+# claude.ai startet den OAuth-Ablauf aber nur, wenn der Server das tut. Caddy übernimmt genau das:
+#   1. /.well-known/oauth-protected-resource   (RFC 9728) → "Anmeldung über mcp.hf-consult.de"
+#   2. /.well-known/oauth-authorization-server (RFC 8414) → zeigt auf Entras authorize/token.
+#      Eigenes Dokument auf UNSEREM Host, weil claude.ai Entras Pfad-Issuer (…/<tenant>/v2.0) nicht findet
+#      (anthropics/claude-ai-mcp #82, #214) und Entra kein code_challenge_methods_supported ausweist.
+#   3. /authorize, /token: Rückfallebene, falls claude.ai diese Adressen auf unserem Host rät → an Entra.
+#   4. /mcp ohne "Authorization: Bearer …" → 401 + WWW-Authenticate (Startsignal für claude.ai).
+#   5. Alles andere → DAB. DAB prüft das Token selbst (Provider EntraID, Audience/Issuer per Env).
+#
+# Werte kommen aus Env-Variablen der Container App (Defaults nur für "caddy validate" beim Build).
+# Die JSON-Dokumente erzeugt start.sh beim Containerstart nach /tmp/wellknown.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+:8000 {
+	handle /.well-known/oauth-protected-resource* {
+		root * /tmp/wellknown
+		rewrite * /oauth-protected-resource.json
+		header Content-Type application/json
+		file_server
+	}
+
+	@asmeta path /.well-known/oauth-authorization-server* /.well-known/openid-configuration*
+	handle @asmeta {
+		root * /tmp/wellknown
+		rewrite * /oauth-authorization-server.json
+		header Content-Type application/json
+		file_server
+	}
+
+	handle /authorize {
+		redir https://login.microsoftonline.com/{$TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/authorize?{query} 302
+	}
+
+	handle /token {
+		rewrite * /{$TENANT_ID:00000000-0000-0000-0000-000000000000}/oauth2/v2.0/token
+		reverse_proxy https://login.microsoftonline.com {
+			header_up Host login.microsoftonline.com
+		}
+	}
+
+	@mcpNoToken {
+		path /mcp /mcp/*
+		not header Authorization "Bearer *"
+	}
+	handle @mcpNoToken {
+		header WWW-Authenticate `Bearer resource_metadata="{$MCP_PUBLIC_ORIGIN:https://mcp.example.invalid}/.well-known/oauth-protected-resource", scope="{$MCP_SCOPE:https://mcp.example.invalid/mcp/access_as_user}"`
+		header Content-Type application/json
+		respond `{"error":"unauthorized","error_description":"Anmeldung erforderlich"}` 401
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5000
+	}
+}

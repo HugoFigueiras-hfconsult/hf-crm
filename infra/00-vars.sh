@@ -30,6 +30,8 @@ CA=ca-hf-crm-dab
 DAB_IMAGE=ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest   # GHCR verlangt Kleinbuchstaben
 MCP_HOST=mcp.hf-consult.de
 MCP_URL="https://${MCP_HOST}/mcp"
+MCP_PUBLIC_ORIGIN="https://${MCP_HOST}"          # Caddy: Discovery-Dokumente zeigen hierauf
+MCP_SCOPE="${MCP_URL}/access_as_user"           # Scope der Entra-App hf-crm-mcp (infra/04-entra.sh)
 
 # --- Entra -------------------------------------------------------------------
 ENTRA_APP_MCP=hf-crm-mcp          # App-Registrierung für Claude Custom Connector
