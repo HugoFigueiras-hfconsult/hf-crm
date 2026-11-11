@@ -45,7 +45,9 @@ Begründung: Agent darf Datensätze schreiben, Löschen nur durch Hugo.
 
 ## GHCR-Zugriff für die Container App
 
-Das Package `hf-crm-dab` ist privat. Hugo erstellt auf GitHub einen **Fine-grained/Classic PAT nur mit `read:packages`** und übergibt ihn beim Aufruf als `GHCR_PAT`. Er wird nur als Registry-Secret in der Container App gespeichert. Ablaufdatum ins LOG.
+Das Package `hf-crm-dab` ist **öffentlich** (Entscheidung Hugo 2026-11-11, `00-entscheidungen.md`). Die Container App zieht das Image ohne Credentials. `infra/03-containerapp.sh` prüft vorab, ob das Image anonym abrufbar ist (HTTP 200), sonst Abbruch.
+
+Sichtbarkeit ändern (einmalig, nur im GitHub-Portal möglich, keine API): GitHub → Profil → **Packages** → `hf-crm-dab` → **Package settings** → Danger Zone → **Change visibility** → Public → Paketnamen bestätigen.
 
 ## Kosten
 

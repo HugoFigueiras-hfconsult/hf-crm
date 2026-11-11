@@ -6,8 +6,8 @@ Stand: 2026-11-11 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 Lokale Session auf Hugos Windows-PC läuft: `az login` ok, Tenant geprüft (R1 erledigt), SQL-Server + DB `hfcrm` im Free Offer angelegt (Phase 2 ✅). Budget-Alarm auf Hugos Wunsch verschoben.
 DAB 2.1.5 lokal gegen die echte DB getestet: startet nur mit mindestens einer Entity (O7) → Platzhalter-Entity `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (keine Schemaänderung). Config korrigiert (`EntraID`, `allowed-hosts`), Image-Tag 2.1.5 gepinnt.
-Image gebaut (`ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest`, privat).
-**Jetzt:** Container App (`infra/03-containerapp.sh`, braucht GHCR-Zugriff: Hugo gibt PAT mit `read:packages` ein **oder** entscheidet, das Package öffentlich zu machen; enthält keine Secrets).
+Image gebaut (`ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest`). Entscheidung: Package wird öffentlich (keine Pull-Credentials).
+**Jetzt:** Hugo stellt das Package `hf-crm-dab` auf GitHub auf „Public“ (Klickpfad `docs/03-dab-mcp.md`), dann Container App (`./infra/03-containerapp.sh`).
 Ziel: Azure SQL aufsetzen + MCP-Connector für Claude. Schema folgt am 2026-11-12.
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), daher lokal.
 
@@ -63,5 +63,5 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | ~~R1~~ | ✅ **Erledigt 2026-11-11**: Verzeichnis „HF Consulting“ ist der M365-Tenant `hf-consult.de` (Abo-Tenant = Tenant mit verifizierter Domain, `14cc25a5-…`). Siehe LOG | – | – |
 | R2 | Entra + claude.ai Custom Connector (Issues anthropics/claude-ai-mcp #506, #122) | Phase 5 scheitert | Nach 2 ernsthaften Versuchen → Fallback Supabase |
 | R3 | Log Analytics der Container-App-Umgebung verursacht Kosten | Budget | `--logs-destination none` in `infra/03-containerapp.sh` |
-| R4 | Image in privater GHCR → Container App braucht Pull-Credentials | Deployment | PAT (nur `read:packages`) als Registry-Secret der Container App, siehe `03-dab-mcp.md` |
+| ~~R4~~ | ✅ 2026-11-11: Package öffentlich, keine Pull-Credentials nötig (siehe `00-entscheidungen.md`) | – | – |
 | R5 | DAB 2.1.5 liefert kein `/.well-known/oauth-protected-resource` (O6) und beantwortet MCP `initialize` auch ohne Token (kein 401 mit `WWW-Authenticate`) | claude.ai startet den OAuth-Ablauf evtl. nicht, Connector verbindet anonym → keine Tools (Platzhalter nur für `authenticated`) | In Phase 5 zuerst prüfen. Optionen: Discovery-Dokument vor DAB bereitstellen (z. B. eigener kleiner Endpunkt/Proxy) oder Fallback Supabase (R2) |

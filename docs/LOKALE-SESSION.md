@@ -61,8 +61,8 @@ Reihenfolge, weil die Schritte voneinander abhängen:
 1. **DAB ohne Entities testen:** Startet DAB 2.x mit `"entities": {}`? Lokal prüfen: `dotnet tool install -g Microsoft.DataApiBuilder`, dann `dab validate -c dab/dab-config.json` (Env-Variablen mit Dummy-Werten setzen). Schlüsselnamen unter `runtime.mcp` dabei verifizieren.
    - Startet DAB **nicht** ohne Entity: Hugo fragen. Option: vorläufige technische Test-Tabelle als **Vorschlag** (`db/migrations/000_verbindungstest.sql`, `-- STATUS: VORSCHLAG`). Ohne Freigabe nicht anlegen (Schemaänderungen nur durch Hugo).
 2. **Image bauen:** GitHub → Actions → „DAB-Image bauen und nach GHCR pushen“ → Run workflow. Exakten DAB-Tag vorher in `dab/Dockerfile` pinnen.
-3. **GHCR-PAT:** Hugo erstellt PAT (nur `read:packages`) und gibt ihn selbst als `GHCR_PAT` im Terminal ein. Nie in Chat/Repo.
-4. **Container App:** `GHCR_USER=hugofigueiras-hfconsult GHCR_PAT=… ./infra/03-containerapp.sh`
+3. **Package öffentlich:** Hugo stellt `hf-crm-dab` auf GitHub auf „Public“ (Klickpfad in `docs/03-dab-mcp.md`). Kein PAT nötig.
+4. **Container App:** `./infra/03-containerapp.sh`
 5. **DB-User für Managed Identity:** `./infra/02b-firewall-myip.sh add`, `./db/apply.sh db/setup/01_user_dab.sql`, `./infra/02b-firewall-myip.sh remove`
 6. **Custom Domain:** `./infra/03b-custom-domain.sh records` → Hugo legt CNAME + TXT beim DNS-Anbieter an (O2) → `./infra/03b-custom-domain.sh bind`
 7. **Entra-App:** `./infra/04-entra.sh` → danach `DAB_JWT_AUDIENCE` setzen (Befehl steht in der Ausgabe)

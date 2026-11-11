@@ -5,14 +5,23 @@
 #   - Image ${DAB_IMAGE} wurde per GitHub Action gebaut (.github/workflows/dab-image.yml)
 #   - TENANT_ID in 00-vars.sh eingetragen; MCP_APP_CLIENT_ID nach Phase 5 (vorher Platzhalter ok,
 #     dann später: az containerapp update ... --set-env-vars DAB_JWT_AUDIENCE=...)
-#   - GHCR_USER / GHCR_PAT als Umgebungsvariablen (PAT nur mit read:packages). NIE ins Repo.
+#   - GHCR-Package hf-crm-dab ist ÖFFENTLICH (Entscheidung Hugo 2026-11-11, siehe 00-entscheidungen.md).
+#     Image enthält nur die DAB-Config, keine Secrets → keine Registry-Credentials nötig.
 #
-#   GHCR_USER=hugofigueiras-hfconsult GHCR_PAT=*** ./infra/03-containerapp.sh
+#   ./infra/03-containerapp.sh
 set -euo pipefail
 source "$(dirname "$0")/00-vars.sh"
-: "${GHCR_USER:?GHCR_USER setzen}"
-: "${GHCR_PAT:?GHCR_PAT setzen (read:packages)}"
 : "${TENANT_ID:?TENANT_ID in infra/00-vars.sh eintragen}"
+
+echo "== Image anonym abrufbar? (Package muss öffentlich sein)"
+IMG_REPO="${DAB_IMAGE#ghcr.io/}"; IMG_REPO="${IMG_REPO%%:*}"; IMG_TAG="${DAB_IMAGE##*:}"
+GHCR_TOKEN=$(curl -fsS "https://ghcr.io/token?scope=repository:${IMG_REPO}:pull" | sed -E 's/.*"token":"([^"]+)".*/\1/')
+HTTP=$(curl -s -o /dev/null -w '%{http_code}' -I \
+  -H "Authorization: Bearer ${GHCR_TOKEN}" \
+  -H "Accept: application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json" \
+  "https://ghcr.io/v2/${IMG_REPO}/manifests/${IMG_TAG}")
+[[ "$HTTP" == "200" ]] || { echo "Image ${DAB_IMAGE} nicht anonym abrufbar (HTTP $HTTP). Package auf GitHub öffentlich?"; exit 1; }
+echo "ok (HTTP 200)"
 
 az extension add --name containerapp --upgrade -y >/dev/null
 
@@ -31,7 +40,6 @@ CONNSTR="Server=tcp:${SQL_FQDN},1433;Database=${SQL_DB};Authentication=Active Di
 echo "== Container App"
 az containerapp create -g "$RG" -n "$CA" --environment "$CAE" \
   --image "$DAB_IMAGE" \
-  --registry-server ghcr.io --registry-username "$GHCR_USER" --registry-password "$GHCR_PAT" \
   --ingress external --target-port 5000 \
   --min-replicas 0 --max-replicas 1 \
   --cpu 0.25 --memory 0.5Gi \

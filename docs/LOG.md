@@ -73,3 +73,4 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
 - **Agent**: `dab/Dockerfile` auf `DAB_TAG=2.1.5` gepinnt. Image-Config geprüft: lauscht auf `:5000`, Arbeitsordner `/App` → passt zu Dockerfile + `--target-port 5000`.
 - **Agent**: `infra/03-containerapp.sh`: setzt `DAB_CA_FQDN=<app>.<defaultDomain der Umgebung>`.
 - **Agent**: `gh workflow run dab-image.yml --ref main` → Run `43113418463` (Commit `72533ba`) → **success**. Image `ghcr.io/hugofigueiras-hfconsult/hf-crm-dab:latest` + `:72533baa68287a3fada8103eda0fbb42df428ea6` (DAB 2.1.5). Package ist privat (Standard). Sichtbarkeit nicht per API geprüft: der `gh`-Token hat kein `read:packages`.
+- **Hugo**: Entscheidung: GHCR-Package `hf-crm-dab` wird **öffentlich** (statt PAT). → `infra/03-containerapp.sh` ohne Registry-Login, prüft vorab anonymen Abruf (HTTP 200). Doku + `00-entscheidungen.md` angepasst. R4 erledigt.

@@ -1,8 +1,8 @@
 name: DAB-Image bauen und nach GHCR pushen
 
 # Baut dab/Dockerfile und pusht nach ghcr.io/<owner>/hf-crm-dab.
-# Kein Azure-Zugriff aus GitHub nötig: Die Container App zieht das Image selbst
-# (Registry-Credentials als Container-App-Secret, siehe docs/03-dab-mcp.md).
+# Kein Azure-Zugriff aus GitHub nötig: Die Container App zieht das Image selbst.
+# Das Package ist öffentlich (Entscheidung 2026-11-11, docs/00-entscheidungen.md) → keine Registry-Credentials.
 
 # Vorerst NUR manuell (Actions → Run workflow), solange dab-config.json keine Entities hat.
 # Nach Schema-Freigabe + Entities den push-Trigger wieder aktivieren:

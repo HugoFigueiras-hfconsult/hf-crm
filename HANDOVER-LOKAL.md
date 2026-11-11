@@ -27,7 +27,7 @@ Aus der Claude-Cloud-Session ist `az login` blockiert (AADSTS530035, Security De
 4. Budget: Hugo nach Alarm-E-Mail fragen → `BUDGET_EMAIL=… ./infra/01-budget.sh`
 5. SQL: `CONFIRMED=j ./infra/02-rg-sql.sh` (RG `rg-hf-crm`, Server `sql-hf-crm-106af6`, DB `hfcrm`, Free Offer + AutoPause, nur Entra-Auth)
 6. Prüfen, ob DAB 2.x ohne Entities startet (`dab validate`). Falls nicht: Hugo fragen, ob eine Test-Tabelle angelegt werden darf.
-7. Image bauen (GitHub Actions, manuell) → `./infra/03-containerapp.sh` (Hugo gibt GHCR-PAT mit `read:packages` selbst ein)
+7. Image bauen (GitHub Actions, manuell) → Package öffentlich (Hugo) → `./infra/03-containerapp.sh`
 8. `db/setup/01_user_dab.sql` ausführen (Managed Identity der Container App als DB-User)
 9. Custom Domain `mcp.hf-consult.de`: `./infra/03b-custom-domain.sh records` → Hugo setzt DNS → `… bind`
 10. Entra-App: `./infra/04-entra.sh`, danach `DAB_JWT_AUDIENCE` = Client-ID setzen
