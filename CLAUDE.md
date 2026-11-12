@@ -22,7 +22,7 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 | Kosten | Ziel 0 €, Obergrenze 5 €/Monat. Budget-Alarm bei 5 €. Vor jeder neuen Ressource Kosten prüfen und in der Doku nennen |
 | SQL Free Offer | `free-limit-exhaustion-behavior = AutoPause`, nie „BillOverUsage“ |
 | Datensparsamkeit | ⏸ **Vorerst ausgesetzt (Hugo, 2026-11-12):** Datenschutz/AVV löst Hugo später mit einem Claude-Team-Account; bis dahin keine Datenschutz-Einschränkungen im Konzept. Danach neu bewerten. Ursprünglich: Gesundheitsdaten (BU/PKV) nie in DB-Feldern, die an Claude gehen |
-| Dokumente | Originaldateien (PDFs, Policen, Transkripte) → OneDrive, Ordner je Mandant. DB hält Zusammenfassung + Link. **Ausnahme Transkripte** (Hugo, 2026-11-12): Volltext zusätzlich in der eigenen Tabelle `Transkript`, nie als Spalte in `Termin` (sonst wird er bei jedem Terminlesen mitgeladen) |
+| Dokumente | Originaldateien (PDFs, Policen, **Transkripte**) → OneDrive, Ordner je Mandant. DB hält Zusammenfassung + Link (z. B. `Termin.TranskriptLink`). Volltexte **nicht** über Claude in die DB kopieren (Claude müsste sie abschreiben: Output-Tokens, Zeit, Kopierfehler). Entscheidung 2026-11-12, siehe `docs/02-schema.md` Entscheidung 5 |
 | Schema | Portabel: nur Standardtypen, keine Trigger/Funktionen/Stored Procedures, Logik im Agenten |
 | Schreibrechte Agent | Datensätze frei. **Schemaänderungen nur als Vorschlag** an Hugo (neue Datei `db/migrations/NNN_*.sql` mit Status „Vorschlag“) |
 | Secrets | Nie ins Repo. GitHub Secrets / Container-App-Secrets / Managed Identity |
