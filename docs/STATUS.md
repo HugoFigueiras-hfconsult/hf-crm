@@ -8,7 +8,7 @@ Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Off
 
 ✅ **Claude-Connector `HF-CRM` ist verbunden (2026-11-12)** und liest echte Daten aus Azure SQL. Architektur-Überblick: `docs/ARCHITEKTUR.md`.
 
-**Jetzt:** Schema definieren (O3, Phase 3) in einer **Cloud-Session**: Auftrag + Start-Prompt in `HANDOVER-CLOUD.md`. Ablauf Tabelle → Entity → Image → ausrollen: `docs/BETRIEB.md`. SQL ausführen und Ausrollen braucht Azure-Zugang (Hugo im Portal/Cloud Shell oder lokale Session).
+**Jetzt:** Schema-Konzept v0.1 steht (`docs/02-schema.md`: Mandant mit Profil, Termin, Vertrag, Aufgabe, Depotstand/DepotPosition, Thema; Transkripte bleiben in OneDrive) und der Ablauf der Update-Termine (`docs/08-update-termin.md`). Nächster Schritt: SQL-Vorschlag `db/migrations/001_init.sql` (Status VORSCHLAG) zum Testen mit erfundenen Daten → Hugo gibt frei → ausführen, DAB-Entities, Image, ausrollen. Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
 
 ## Phasen

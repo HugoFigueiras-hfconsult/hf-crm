@@ -48,6 +48,7 @@ hf-crm/
 │  ├─ 05-copilot.md          # Phase 6
 │  ├─ 06-trigger-telegram.md # Phase 7
 │  ├─ 07-dashboard.md        # Phase 8
+│  ├─ 08-update-termin.md    # Ablauf Update-Termine, Vorbereitung, 2 Artefakte je Mandant, Depot, Themen-Radar
 │  └─ HANDOVER-2026-11-11.md # ursprüngliches Übergabedokument
 ├─ infra/                    # alle Azure-Aktionen als Skript
 ├─ db/

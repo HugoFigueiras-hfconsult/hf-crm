@@ -11,7 +11,7 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 4. `docs/BETRIEB.md`: Runbook: Tabellen freigeben, SQL ausführen, Image bauen/ausrollen, Logs, Fehlerbilder, Wartung
 5. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
 6. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
-7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt
+7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt; `docs/08-update-termin.md` = Arbeitsanweisung für Terminvorbereitung/-nachbereitung (Ablauf, Artefakte, Depot, Themen-Radar)
 8. `docs/LOKALE-SESSION.md`: Setup + Stolpersteine für die lokale Session auf Hugos Windows-PC (Azure-Login nur dort möglich)
 9. `HANDOVER-LOKAL.md` (erledigt) und `docs/HANDOVER-2026-11-11.md`: historisch. **Der Schema-Entwurf im Handover vom 2026-11-11 ist ungültig, nicht verwenden.**
 
