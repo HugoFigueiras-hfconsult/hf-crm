@@ -107,3 +107,10 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - Single-Tenant, App-ID-URI `https://mcp.hf-consult.de/mcp`, Scope `access_as_user`, Token-Version 2, Redirect (Web) `https://claude.ai/api/mcp/auth_callback`, Zuweisung erforderlich, zugewiesen: Hugo Figueiras. Noch **kein** Client Secret.
 - **Agent**: `MCP_APP_CLIENT_ID` in `infra/00-vars.sh`; `./infra/03c-update-app.sh` → Revision `ca-hf-crm-dab--0000002`, `DAB_JWT_AUDIENCE = c3f40bf1-…`, `DAB_JWT_ISSUER = https://login.microsoftonline.com/14cc25a5-…/v2.0`.
 - **Agent**: O2 geklärt: DNS von `hf-consult.de` liegt bei **INWX** (`ns.inwx.de`, `ns2.inwx.de`, `ns3.inwx.eu`). Wildcard `*.hf-consult.de` → `185.181.104.242`; ein eigener CNAME für `mcp` hat Vorrang. `./infra/03b-custom-domain.sh records` → CNAME `mcp` → `ca-hf-crm-dab.purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io`, TXT `asuid.mcp` → `A615C0D9CBDA4E9EA542291C80000F32D37C428C08602AC000839AD9010ED01D` (Verifizierungs-ID, kein Secret).
+- **Hugo**: INWX-Konto gefunden (läuft auf Hugos private E-Mail-Adresse, nicht ins Repo). Hinweis INWX: Zwei-Faktor-Anmeldung nicht aktiv → Empfehlung an Hugo, einschalten.
+- **Agent** (mit Hugos Freigabe, im Browser bei INWX): DNS-Einträge für `hf-consult.de` angelegt. Bestehende Einträge (MX, SPF, DKIM, DMARC, Autodiscover, Wildcard) unverändert.
+  - CNAME `mcp` → `ca-hf-crm-dab.purpleflower-b72b09c0.germanywestcentral.azurecontainerapps.io`, TTL 3600
+  - TXT `asuid.mcp` → `A615C0D9CBDA4E9EA542291C80000F32D37C428C08602AC000839AD9010ED01D`, TTL 3600
+  - Prüfung: sofort sichtbar bei `ns.inwx.de` und Google DNS (8.8.8.8). → ok
+- **Agent**: `./infra/03b-custom-domain.sh bind` → ok. Managed Certificate `mc-cae-hf-crm-mcp-hf-consult-d-7121` (DigiCert/GeoTrust, CN `mcp.hf-consult.de`, gültig bis 13.05.2027, erneuert sich automatisch), Binding `SniEnabled`. Kosten: 0 €.
+- **Agent**: Test über `https://mcp.hf-consult.de`: `/mcp` ohne Token → 401 + `WWW-Authenticate` (resource_metadata + scope), PRM → 200, AS-Metadaten → 200, ungültiges Token → 401 `invalid_token` (DAB, also Host-Check über Custom Domain ok). → **Phase 4.10 ✅**

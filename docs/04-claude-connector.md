@@ -1,6 +1,6 @@
 # Phase 5 – Claude Custom Connector (Entra OAuth)
 
-Status: 🟡 Türsteher (Caddy) ✅, Entra-App `hf-crm-mcp` ✅, DAB-Audience ✅ · offen: Custom Domain, Client Secret, Connector, Test. Kritischster Teil des Projekts (R2).
+Status: 🟡 Türsteher ✅, Entra-App `hf-crm-mcp` ✅, DAB-Audience ✅, Custom Domain ✅ · offen: Client Secret, Connector, Test (Hugo). Kritischster Teil des Projekts (R2).
 
 ## So läuft der Login (Soll)
 
@@ -22,8 +22,8 @@ Status: 🟡 Türsteher (Caddy) ✅, Entra-App `hf-crm-mcp` ✅, DAB-Audience �
 | 5.3 | Redirect URI `https://claude.ai/api/mcp/auth_callback` (Web) | Skript | ✅ |
 | 5.5 | „Zuweisung erforderlich“ = Ja, nur Hugo zugewiesen | Skript | ✅ |
 | — | `DAB_JWT_AUDIENCE` = Client-ID | `infra/03c-update-app.sh` | ✅ Revision `--0000002` |
-| 5.6 | Discovery erreichbar | `curl -i https://mcp.hf-consult.de/.well-known/oauth-protected-resource` | ✅ über App-FQDN · ⬜ über Custom Domain |
-| 4.10 | Custom Domain `mcp.hf-consult.de` | DNS bei INWX (Hugo), dann `./infra/03b-custom-domain.sh bind` | ⬜ |
+| 5.6 | Discovery erreichbar | `curl -i https://mcp.hf-consult.de/.well-known/oauth-protected-resource` | ✅ 2026-11-12 (App-FQDN + Custom Domain) |
+| 4.10 | Custom Domain `mcp.hf-consult.de` | DNS bei INWX, `./infra/03b-custom-domain.sh bind` | ✅ 2026-11-12 |
 | 5.4 | Client Secret | **Hugo selbst** (siehe unten). Wert direkt in Claude eingeben, nie in Chat/Repo. Nur Ablaufdatum ins LOG | ⬜ |
 | 5.7 | Connector in claude.ai anlegen | Hugo im Browser (siehe unten) | ⬜ |
 | 5.8 | Test im Chat: „Welche Entities gibt es?“ → `Verbindungstest` lesen | Hugo | ⬜ |

@@ -42,7 +42,7 @@ Begründung: Agent darf Datensätze schreiben, Löschen nur durch Hugo.
 | 4.7 | Container App | ✅ 2026-11-11 `ca-hf-crm-dab` (FQDN siehe STATUS) |
 | 4.8 | DB-Zugriff Managed Identity | ✅ 2026-11-11 `db/setup/01_user_dab.sql` (reader + writer) |
 | 4.9 | Connection String als Secret | ✅ Secret `dab-connstring` |
-| 4.10 | Custom Domain `mcp.hf-consult.de` | 🟡 `infra/03b-custom-domain.sh`, braucht DNS-Zugang (O2) |
+| 4.10 | Custom Domain `mcp.hf-consult.de` | ✅ 2026-11-12 (DNS bei INWX, Managed Certificate bis 13.05.2027, Auto-Erneuerung) |
 | 4.11 | Test REST + MCP | 🟡 ohne Token ok (MCP initialize 200, tools/list, anonym keine Daten, REST 403). Mit Token: nach Phase 5 |
 
 ## GHCR-Zugriff für die Container App
