@@ -54,7 +54,7 @@ Warum nicht immer alles laden: Alle Transkripte eines Mandanten nach 5 Jahren (4
 | `Termin` | Jeder Kontakt mit Vor- und Nachbereitung (auch Telefonat) | `TerminId`, `MandantId`, `Beginn`, `Art` (Erstgespräch, Jahresgespräch, Quartal, Telefonat …), `OutlookEventId`, `Vorbereitung` (Kurztext), `Zusammenfassung`, `Ergebnisse`, `TranskriptLink` (OneDrive), `Status` (geplant/vorbereitet/durchgeführt/nachbereitet) |
 | `Vertrag` | Kurzinfo für Fristen und Konditionen, **nicht** der Bestand | `VertragId`, `MandantId`, `Sparte`, `Gesellschaft`, `Vertragsnummer`, `Beginn`, `Ablauf`, `KuendigungBis` (Datum), `Beitrag`, `Zahlweise`, `KonditionenKurz`, `QuelleLink` (OneDrive/JDC-Export), `StandVom` |
 | `Aufgabe` | Fristen, Wiedervorlagen, To-dos | `AufgabeId`, `MandantId` (optional), `Titel`, `FaelligAm`, `Art` (Frist/Wiedervorlage/To-do), `VertragId`/`TerminId` (optional), `Status` (offen/erledigt), `ErledigtAm` |
-| _optional:_ `Transkript` | Volltext eines Transkripts (Schicht 3), getrennt von `Termin`, damit er nie versehentlich mitgeladen wird | `TranskriptId`, `TerminId`, `Text` (`NVARCHAR(MAX)`), `Quelle` (OneDrive-Link der Originaldatei). Nur bei Entscheidung 5 = Variante B2 (Vorschlag Agent) |
+| `Transkript` | Volltext eines Transkripts (Schicht 3), **eigene Tabelle** (entschieden 2026-11-12, Variante B2), getrennt von `Termin`, damit er nie versehentlich mitgeladen wird | `TranskriptId`, `TerminId` (1:1), `Text` (`NVARCHAR(MAX)`), `Zeichen` (Länge des Originals, zur Kontrolle der Vollständigkeit), `QuelleLink` (OneDrive-Originaldatei), `ErstelltAm` |
 | _später:_ `ProfilVersion` | Alte Profilstände, falls Verlauf über die Termin-Zusammenfassungen hinaus gebraucht wird | erst bei Bedarf |
 | _später:_ `Dokument` | Index wichtiger Dateien mit Kurzbeschreibung | erst, wenn OneDrive-Suche nicht reicht |
 
@@ -63,7 +63,14 @@ Entfallen gegenüber dem ersten Entwurf: Tabelle `Fakt` (einzelne Aussagen) → 
 ### Abläufe (Beispiele)
 
 - **Vorbereitung** (Routine morgens oder auf Zuruf): Outlook-Termine → Mandant über E-Mail/Name zuordnen → aus der DB `Mandant.Profil`, letzte `Termin`e, offene `Aufgabe`n, `Vertrag` mit nahen Fristen (Schichten 1 + 2); aus OneDrive neue Dokumente → Briefing an Hugo, Kurzfassung in `Termin.Vorbereitung`.
-- **Nachbereitung**: Transkript landet in OneDrive → Agent verschiebt es in den Mandantenordner → `Termin.Zusammenfassung`/`Ergebnisse` + Link → **`Mandant.Profil` aktualisieren und verdichten** (Neues einarbeiten, Überholtes ersetzen, Umfang halten) → `Aufgabe`n → Entwurf der Folge-Mail in Outlook.
+- **Nachbereitung** (Reihenfolge):
+  1. Transkript landet in OneDrive (`_Eingang`) → Agent ordnet es Mandant + Termin zu und verschiebt die Originaldatei in `02 Termine/` des Mandanten.
+  2. **Volltext in die Tabelle `Transkript` einpflegen** (`TerminId`, `Text`, `Zeichen`, `QuelleLink`). Danach Kontrolle: gespeicherte Länge ≈ Länge des Originals, sonst erneut.
+  3. `Termin.Zusammenfassung`/`Ergebnisse` + `TranskriptLink`, `Status` = nachbereitet.
+  4. **`Mandant.Profil` aktualisieren und verdichten** (Neues einarbeiten, Überholtes ersetzen, Umfang halten).
+  5. `Aufgabe`n anlegen, Entwurf der Folge-Mail in Outlook.
+
+  Umsetzung Schritt 2: **Stufe 1** (Start): Der Agent schreibt den Text selbst per `create_record`. Kostet je Stunde Gespräch ca. 13k Output-Tokens (einige Minuten Schreibzeit, zählt aufs Nutzungslimit) und birgt bei sehr langen Texten das Risiko, dass nicht wortgetreu kopiert wird (daher die Längenkontrolle). **Stufe 2** (falls zu langsam/teuer): automatischer Import ohne Claude, z. B. kleine Azure Function, die neue Dateien aus dem OneDrive-Eingang liest und in `Transkript` schreibt. Kosten und Rechte dann neu bewerten.
 - **Fristen**: wöchentlich `Vertrag.KuendigungBis`/`Ablauf` und `Aufgabe.FaelligAm` der nächsten 90 Tage → Liste an Hugo.
 - **JDC-Abgleich**: Hugo legt Exporte in den OneDrive-Eingang → Agent legt sie im Mandantenordner ab und trägt Fristen/Konditionen in `Vertrag` ein (mit `StandVom` + Link).
 
@@ -86,7 +93,7 @@ Mandanten/
 2. **Mandant = Person oder Haushalt?** Vorschlag: Mandant = die Einheit mit **einem** OneDrive-Ordner (oft der Haushalt); einzelne Personen bei Bedarf später als eigene Tabelle.
 3. **Woher kommen Transkripte?** (Teams, Diktier-App, Telefon-Aufzeichnung …) → bestimmt die Nachbereitungs-Routine.
 4. **Was kann JDC exportieren?** Eine Bestandsliste (Excel/CSV) je Mandant oder gesamt wäre ideal: Dann kann der Agent `Vertrag` in einem Rutsch füllen.
-5. **Wo liegt der Volltext eines Transkripts?** Drei Varianten (die Originaldatei bleibt in jedem Fall im OneDrive-Mandantenordner):
+5. ~~**Wo liegt der Volltext eines Transkripts?**~~ → **Entschieden (Hugo, 2026-11-12): B2, eigene Tabelle `Transkript`.** Einpflegen ist Teil der Nachbereitung (siehe Abläufe). Die Abwägung zur Nachvollziehbarkeit (die Originaldatei bleibt in jedem Fall im OneDrive-Mandantenordner):
 
    | Variante | Volltext | Folge |
    |---|---|---|
@@ -94,7 +101,7 @@ Mandanten/
    | **B1. DB, Spalte `Termin.TranskriptText`** | in der Termin-Zeile | ⚠️ „letzte 5 Termine lesen“ lädt 5 × ca. 13k Tokens mit, wenn der Agent die Spalte nicht jedes Mal ausdrücklich weglässt → **nicht empfohlen** |
    | **B2. DB, eigene Tabelle `Transkript`** (1:1 zu `Termin`) | eigene Zeile, verknüpft über `TerminId` | Termine bleiben schlank, Volltext nur bei gezielter Abfrage; ein Connector; Suche über **alle** Transkripte per Filter („wer sprach über Pflege?“). Kosten 0 € (siehe unten) |
 
-   „Transkript als Text in der DB“ heißt also konkret **B2**. **Vorschlag Agent: B2** (Datenschutz-Einwand entfällt vorerst, siehe 1). Offen: Hugos Entscheidung A oder B2.
+   „Transkript als Text in der DB“ heißt also konkret **B2** → gewählt.
 
 ### Kosten: Transkripte in der DB (Schätzung 2026-11-12)
 
@@ -118,7 +125,7 @@ Mandanten/
 
 - Portabel: nur Standardtypen, keine Trigger/Funktionen/Stored Procedures, Logik im Agenten (Fallback Supabase/Postgres muss möglich bleiben)
 - ~~Keine Gesundheitsdaten (BU/PKV-Angaben) in Feldern, die an Claude gehen~~ → **vorerst ausgesetzt** (Hugo, 2026-11-12, AVV später mit Team-Account), siehe Entscheidung 1
-- Dokumente/Transkripte nur als Link (OneDrive/SharePoint), DB hält Zusammenfassung + Link
+- Originaldokumente in OneDrive, DB hält Zusammenfassung + Link; **Ausnahme**: Transkript-Volltext zusätzlich in Tabelle `Transkript` (Entscheidung 5)
 - Schemaänderungen durch Agenten nur als Vorschlag
 
 ## Hinweise für den Entwurf (DAB + Claude)
