@@ -6,11 +6,14 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 ## Orientierung (in dieser Reihenfolge lesen)
 
 1. `docs/STATUS.md`: aktueller Stand, nächster Schritt, offene Punkte
-2. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
-3. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
-4. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt
-5. `docs/LOKALE-SESSION.md`: Setup + Ablauf für die lokale Session auf Hugos Windows-PC (Azure-Login nur dort möglich)
-6. `docs/HANDOVER-2026-11-11.md`: ursprüngliches Übergabedokument (historisch). **Dessen Schema-Entwurf (Phase 3) ist ungültig, nicht verwenden.**
+2. `HANDOVER-CLOUD.md`: aktueller Auftrag (Schema, Phase 3) inkl. was die Cloud-Session kann und was nicht
+3. `docs/ARCHITEKTUR.md`: Gesamtbild mit Diagrammen (was läuft wo, Login-Ablauf, Sicherheit)
+4. `docs/BETRIEB.md`: Runbook: Tabellen freigeben, SQL ausführen, Image bauen/ausrollen, Logs, Fehlerbilder, Wartung
+5. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
+6. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
+7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt
+8. `docs/LOKALE-SESSION.md`: Setup + Stolpersteine für die lokale Session auf Hugos Windows-PC (Azure-Login nur dort möglich)
+9. `HANDOVER-LOKAL.md` (erledigt) und `docs/HANDOVER-2026-11-11.md`: historisch. **Der Schema-Entwurf im Handover vom 2026-11-11 ist ungültig, nicht verwenden.**
 
 ## Harte Regeln
 
@@ -34,7 +37,9 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 
 ## Konventionen
 
-- Ausführungsort: Azure-Befehle nur in einer **lokalen** Session auf Hugos PC (Git Bash). Aus Claude-Cloud-Sessions ist `az login` blockiert (AADSTS530035).
+- Ausführungsort: Azure-Befehle nur in einer **lokalen** Session auf Hugos PC (Git Bash) oder durch Hugo selbst (Portal/Cloud Shell). Aus Claude-Cloud-Sessions ist `az login` blockiert (AADSTS530035). Übersicht „was geht von wo“: `docs/BETRIEB.md` Abschnitt 5.
+- DAB-Änderungen (Entities, Rechte, Türsteher) = Repo ändern → Image bauen → ausrollen per Commit-SHA. Umgebungswerte (Tenant, Client-ID, DB) = Einstellungen der Container App. Siehe `docs/BETRIEB.md`.
+- Entities werden **ausdrücklich** in `dab/dab-config.json` freigegeben, keine `autoentities` (Datensparsamkeit).
 - Sprache der Doku: Deutsch. Anrede Mandanten: immer „Du“.
 - Namen/Region stehen zentral in `infra/00-vars.sh`. Skripte sourcen diese Datei.
 - Skripte sind idempotent gedacht und brechen bei Fehlern ab (`set -euo pipefail`).

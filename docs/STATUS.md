@@ -8,7 +8,7 @@ Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Off
 
 ✅ **Claude-Connector `HF-CRM` ist verbunden (2026-11-12)** und liest echte Daten aus Azure SQL. Architektur-Überblick: `docs/ARCHITEKTUR.md`.
 
-**Jetzt:** Schema definieren (O3, Phase 3) → Migration als Vorschlag → Hugo gibt frei → echte DAB-Entities statt Platzhalter `Verbindungstest` (dann Image neu bauen + `infra/03c-update-app.sh`).
+**Jetzt:** Schema definieren (O3, Phase 3) in einer **Cloud-Session**: Auftrag + Start-Prompt in `HANDOVER-CLOUD.md`. Ablauf Tabelle → Entity → Image → ausrollen: `docs/BETRIEB.md`. SQL ausführen und Ausrollen braucht Azure-Zugang (Hugo im Portal/Cloud Shell oder lokale Session).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
 
 ## Phasen
@@ -59,6 +59,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | O5 | AVV-Lage: Max = Consumer Terms, kein AVV mit Anthropic. Team-Plan später | Hugo, bewusst entschieden |
 | ~~O6~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 antwortet auf `/.well-known/oauth-protected-resource` mit 400. Gelöst durch Caddy (R5) | – |
 | ~~O7~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 braucht mind. eine Entity. Gelöst mit Platzhalter `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (nur lesen, keine Schemaänderung). Entfernen, sobald echte Entities da sind | – |
+| O9 | Ausrollen per GitHub Actions mit Azure-OIDC (ohne Secret), damit auch Cloud-Sessions Images ausrollen können. Optional, noch nicht eingerichtet (`docs/BETRIEB.md` Abschnitt 5) | später |
 | O8 | Budget-Alarm einrichten (verschoben am 2026-11-11), dafür E-Mail-Adresse (nicht ins Repo). Spätestens vor Umstellung auf Pay-As-You-Go (O1), Worst Case Container App ≈ 13 €/Monat | Hugo |
 
 ## Risiken

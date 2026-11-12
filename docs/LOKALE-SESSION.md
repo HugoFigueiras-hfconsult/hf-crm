@@ -74,3 +74,17 @@ Reihenfolge, weil die Schritte voneinander abhängen:
 
 - Cloud-Umgebung `hf-crm` (claude.ai) existiert für Cloud-Sessions, wird lokal nicht gebraucht.
 - Zeilenenden: `.gitattributes` erzwingt LF für `.sh`/`.sql`. Falls ein Skript mit `$'\r': command not found` abbricht: `git config core.autocrlf false`, dann `git rm --cached -r . && git reset --hard`.
+
+## 5. Stolpersteine auf Hugos Windows-PC (gelernt 2026-11-11/12)
+
+Setup ist erledigt (siehe `docs/LOG.md`). Installiert: Git 2.56, Azure CLI 2.92 (64 Bit), go-sqlcmd 1.10, .NET SDK 10.0.404, `dab` 2.1.5 (`dotnet tool`), GitHub CLI mit zwei Konten (`ChasingPixel`, `HugoFigueiras-hfconsult`).
+
+| Problem | Ursache | Lösung |
+|---|---|---|
+| `git push` → „Repository not found“, obwohl `gh auth status` im Terminal `HugoFigueiras-hfconsult` zeigt | Die Claude-Desktop-App (MSIX) sieht eine **virtualisierte Kopie** von `%APPDATA%\GitHub CLI\hosts.yml` (nur `ChasingPixel`) | Eigene `hosts.yml` mit `user: HugoFigueiras-hfconsult` außerhalb von AppData anlegen und `GH_CONFIG_DIR` darauf setzen. Token kommt aus dem Windows-Schlüsselbund. Alternativ `git push` im Terminal-Panel |
+| `az`, `sqlcmd`, `dab` „command not found“ in der Agent-Shell | nach der Installation ist der PATH der laufenden App veraltet | Pfade ergänzen: `C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin`, `C:\Program Files\SqlCmd`, `%USERPROFILE%\.dotnet\tools` (dort `dab.cmd`) |
+| `az rest --body @datei` findet die Datei nicht | `MSYS_NO_PATHCONV=1` → Windows-`az` bekommt `/c/Users/…` | `infra/00-vars.sh` wandelt `HFCRM_TMP` per `cygpath -m` in `C:/…` (behoben) |
+| `curl -o /dev/null` → exit 23 in Skripten | gleicher Grund (`MSYS_NO_PATHCONV=1`), natives `curl.exe` | Ausgabe per Pipe auswerten statt `-o /dev/null` (in `03-containerapp.sh` behoben) |
+| Neues Skript im Repo nicht ausführbar (Linux/Cloud) | Windows-Git setzt kein Ausführungsrecht | `git update-index --chmod=+x infra/<skript>.sh` vor dem Commit |
+| `az login` „Select the account…“, kein Browser | Windows nutzt die Kontoauswahl (WAM), Fenster liegt oft **hinter** der App | Alt+Tab, Konto wählen, MFA |
+| Lokaler DAB-Test braucht DB-Zugriff | DB-Firewall lässt nur Azure-Dienste zu | `./infra/02b-firewall-myip.sh add` … `remove`, Connection String mit `Authentication=Active Directory Default` (nutzt `az login`) |

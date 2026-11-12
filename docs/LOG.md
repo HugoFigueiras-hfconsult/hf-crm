@@ -125,3 +125,5 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - `describe_entities` → 1 Entity `Verbindungstest`, Berechtigung `READ` (Rolle `authenticated` → Token wurde von DAB akzeptiert)
   - `read_records Verbindungstest` → 1 Zeile aus der echten DB (`hfcrm`, `sys.database_firewall_rules`, VIEW) → Managed Identity → SQL funktioniert
   - **Phase 5 ✅**: Claude → Entra-Login → Caddy → DAB (JWT-Prüfung) → Azure SQL durchgängig.
+- **Agent**: Dokumentation für Übergabe an Cloud-Sessions: `docs/BETRIEB.md` (Runbook: drei Ebenen DB/Image/App, Tabelle freigeben, SQL-Wege A/B/C, Bauen + Ausrollen, „was geht von wo“, Tests, Logs, Fehlerbilder, Wartung, Kosten), `HANDOVER-CLOUD.md` (Auftrag Schema + Start-Prompt), `docs/02-schema.md` (Ausgangslage, Entwurfshinweise, Weg bis live), `docs/LOKALE-SESSION.md` (Stolpersteine Windows), `CLAUDE.md` (Orientierung, Konventionen), `HANDOVER-LOKAL.md` als erledigt markiert, `00-entscheidungen.md` (keine autoentities, Ebenen-Trennung), STATUS (nächster Schritt Cloud-Session, O9).
+- **Hugo**: Nächster Schritt Schema (Phase 3) in einer Cloud-Session.

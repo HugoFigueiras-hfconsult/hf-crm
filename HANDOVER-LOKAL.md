@@ -1,5 +1,8 @@
 # Handover → lokale Claude-Code-Session (Hugos Windows-PC)
 
+> ✅ **Erledigt am 2026-11-12** (Schritte 1–11 außer Budget, das verschoben ist). Ergebnis und Abweichungen: `docs/LOG.md`. Weiter geht es mit **`HANDOVER-CLOUD.md`** (Schema).
+> Abweichungen vom Plan unten: Caddy als Türsteher vor DAB (R5), Platzhalter-Entity statt Test-Tabelle, GHCR-Package öffentlich statt PAT, DNS bei INWX.
+
 Stand: 2026-11-11 · Repo: `HugoFigueiras-hfconsult/hf-crm` (Branch `main`)
 
 ## Auftrag
