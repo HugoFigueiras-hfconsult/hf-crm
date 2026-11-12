@@ -54,7 +54,7 @@ Warum nicht immer alles laden: Alle Transkripte eines Mandanten nach 5 Jahren (4
 | `Termin` | Jeder Kontakt mit Vor- und Nachbereitung (auch Telefonat) | `TerminId`, `MandantId`, `Beginn`, `Art` (Erstgespräch, Jahresgespräch, Quartal, Telefonat …), `OutlookEventId`, `Vorbereitung` (Kurztext), `Zusammenfassung`, `Ergebnisse`, `TranskriptLink` (OneDrive), `Status` (geplant/vorbereitet/durchgeführt/nachbereitet) |
 | `Vertrag` | Kurzinfo für Fristen und Konditionen, **nicht** der Bestand | `VertragId`, `MandantId`, `Sparte`, `Gesellschaft`, `Vertragsnummer`, `Beginn`, `Ablauf`, `KuendigungBis` (Datum), `Beitrag`, `Zahlweise`, `KonditionenKurz`, `QuelleLink` (OneDrive/JDC-Export), `StandVom` |
 | `Aufgabe` | Fristen, Wiedervorlagen, To-dos | `AufgabeId`, `MandantId` (optional), `Titel`, `FaelligAm`, `Art` (Frist/Wiedervorlage/To-do), `VertragId`/`TerminId` (optional), `Status` (offen/erledigt), `ErledigtAm` |
-| _optional:_ `Transkript` | Volltext eines Transkripts (Schicht 3), getrennt von `Termin`, damit er nie versehentlich mitgeladen wird | `TranskriptId`, `TerminId`, `Text` (`NVARCHAR(MAX)`), `Quelle` (OneDrive-Link der Originaldatei). Nur falls Entscheidung 5 = „auch in der DB“ |
+| _optional:_ `Transkript` | Volltext eines Transkripts (Schicht 3), getrennt von `Termin`, damit er nie versehentlich mitgeladen wird | `TranskriptId`, `TerminId`, `Text` (`NVARCHAR(MAX)`), `Quelle` (OneDrive-Link der Originaldatei). Nur bei Entscheidung 5 = Variante B2 (Vorschlag Agent) |
 | _später:_ `ProfilVersion` | Alte Profilstände, falls Verlauf über die Termin-Zusammenfassungen hinaus gebraucht wird | erst bei Bedarf |
 | _später:_ `Dokument` | Index wichtiger Dateien mit Kurzbeschreibung | erst, wenn OneDrive-Suche nicht reicht |
 
@@ -82,11 +82,19 @@ Mandanten/
 
 ### Offene Entscheidungen (Hugo)
 
-1. **Gesundheitsdaten in Transkripten/Dokumenten**: Wenn der Agent Transkripte und Policen aus OneDrive liest, sieht Claude auch BU/PKV-Gesundheitsangaben (besondere Kategorie, Art. 9 DSGVO). Die bisherige Regel schützt nur DB-Felder. Mit dem Max-Plan (Consumer Terms, kein AVV, O5) ist das ein Risiko. Optionen: Team-Plan mit AVV **vor** echten Mandantendaten, oder Gesundheitsunterlagen außerhalb der vom Agenten gelesenen Ordner halten.
+1. ~~**Gesundheitsdaten in Transkripten/Dokumenten**~~ → **Entschieden (Hugo, 2026-11-12): vorerst ignorieren.** Datenschutz/AVV löst Hugo später mit einem Claude-Team-Account. Bis dahin plant das Konzept ohne Datenschutz-Einschränkungen (Regel „Gesundheitsdaten“ in `CLAUDE.md` ausgesetzt). Hintergrund bleibt gültig: Liest der Agent Transkripte/Policen, sieht Claude auch BU/PKV-Gesundheitsangaben (Art. 9 DSGVO); mit dem Max-Plan gibt es keinen AVV (O5).
 2. **Mandant = Person oder Haushalt?** Vorschlag: Mandant = die Einheit mit **einem** OneDrive-Ordner (oft der Haushalt); einzelne Personen bei Bedarf später als eigene Tabelle.
 3. **Woher kommen Transkripte?** (Teams, Diktier-App, Telefon-Aufzeichnung …) → bestimmt die Nachbereitungs-Routine.
 4. **Was kann JDC exportieren?** Eine Bestandsliste (Excel/CSV) je Mandant oder gesamt wäre ideal: Dann kann der Agent `Vertrag` in einem Rutsch füllen.
-5. **Transkripte auch als Text in der DB?** Kosten sind kein Argument (siehe unten). Für die DB spricht: ein Connector, Suche über alle Transkripte per SQL. Dagegen: doppelte Ablage, Originaldatei bleibt ohnehin in OneDrive, Microsoft-Suche findet Text in OneDrive-Dokumenten auch. Und: Transkripte enthalten Gesundheitsangaben → in der DB wären das Felder, die an Claude gehen (Regel aus `CLAUDE.md`, hängt an Entscheidung 1). Vorschlag Agent: Original in OneDrive, Verdichtung in Profil/Termin; Volltext in der DB (`Transkript`) erst, wenn die OneDrive-Suche nicht reicht.
+5. **Wo liegt der Volltext eines Transkripts?** Drei Varianten (die Originaldatei bleibt in jedem Fall im OneDrive-Mandantenordner):
+
+   | Variante | Volltext | Folge |
+   |---|---|---|
+   | **A. Nur OneDrive** | Datei; DB hat nur `Termin.TranskriptLink` + Zusammenfassung | keine doppelte Ablage; Volltext über den Microsoft-365-Connector bei Bedarf; Suche über alle Transkripte nur per Microsoft-Suche |
+   | **B1. DB, Spalte `Termin.TranskriptText`** | in der Termin-Zeile | ⚠️ „letzte 5 Termine lesen“ lädt 5 × ca. 13k Tokens mit, wenn der Agent die Spalte nicht jedes Mal ausdrücklich weglässt → **nicht empfohlen** |
+   | **B2. DB, eigene Tabelle `Transkript`** (1:1 zu `Termin`) | eigene Zeile, verknüpft über `TerminId` | Termine bleiben schlank, Volltext nur bei gezielter Abfrage; ein Connector; Suche über **alle** Transkripte per Filter („wer sprach über Pflege?“). Kosten 0 € (siehe unten) |
+
+   „Transkript als Text in der DB“ heißt also konkret **B2**. **Vorschlag Agent: B2** (Datenschutz-Einwand entfällt vorerst, siehe 1). Offen: Hugos Entscheidung A oder B2.
 
 ### Kosten: Transkripte in der DB (Schätzung 2026-11-12)
 
@@ -109,7 +117,7 @@ Mandanten/
 ## Rahmenbedingungen (gelten weiter, aus `CLAUDE.md`)
 
 - Portabel: nur Standardtypen, keine Trigger/Funktionen/Stored Procedures, Logik im Agenten (Fallback Supabase/Postgres muss möglich bleiben)
-- Keine Gesundheitsdaten (BU/PKV-Angaben) in Feldern, die an Claude gehen
+- ~~Keine Gesundheitsdaten (BU/PKV-Angaben) in Feldern, die an Claude gehen~~ → **vorerst ausgesetzt** (Hugo, 2026-11-12, AVV später mit Team-Account), siehe Entscheidung 1
 - Dokumente/Transkripte nur als Link (OneDrive/SharePoint), DB hält Zusammenfassung + Link
 - Schemaänderungen durch Agenten nur als Vorschlag
 

@@ -56,7 +56,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | ~~O2~~ | ✅ 2026-11-12: DNS bei **INWX** (Konto auf Hugos privater E-Mail). CNAME + TXT für `mcp` angelegt. Empfehlung: 2FA bei INWX aktivieren | – |
 | O3 | DB-Schema neu definieren (Handover-Entwurf ungültig). Blockiert Phase 3, DAB-Entities (4.3) und alles danach | Hugo + Agent |
 | O4 | JDC-Anbindung (kein API/MCP; Browser-Weg nur mit Always-on-PC) | später |
-| O5 | AVV-Lage: Max = Consumer Terms, kein AVV mit Anthropic. Team-Plan später (Hugo, bewusst entschieden). **Neu 2026-11-12:** Liest der Agent Transkripte/Policen aus OneDrive, sieht Claude auch Gesundheitsdaten → vor echten Mandantendaten neu entscheiden (`docs/02-schema.md`, Offene Entscheidungen 1) | Hugo |
+| O5 | AVV/Datenschutz: Max = Consumer Terms, kein AVV mit Anthropic. **Hugo 2026-11-12: vorerst ignorieren, später Claude-Team-Account mit AVV.** Bis dahin plant das Konzept ohne Datenschutz-Einschränkungen (Regel in `CLAUDE.md` ausgesetzt). Vor dem Team-Wechsel neu bewerten, was an Claude geht | Hugo, später |
 | ~~O6~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 antwortet auf `/.well-known/oauth-protected-resource` mit 400. Gelöst durch Caddy (R5) | – |
 | ~~O7~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 braucht mind. eine Entity. Gelöst mit Platzhalter `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (nur lesen, keine Schemaänderung). Entfernen, sobald echte Entities da sind | – |
 | O9 | Ausrollen per GitHub Actions mit Azure-OIDC (ohne Secret), damit auch Cloud-Sessions Images ausrollen können. Optional, noch nicht eingerichtet (`docs/BETRIEB.md` Abschnitt 5) | später |

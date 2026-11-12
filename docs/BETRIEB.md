@@ -14,7 +14,7 @@ Stand 2026-11-12. Für Hugo und für jede Agent-Session. Gesamtbild: `docs/ARCHI
 
 ## 2. Neue Tabelle für Claude freigeben (Checkliste)
 
-1. **Fachlich klären** (Hugo): Welche Felder? Welche davon darf Claude sehen/ändern? **Keine Gesundheitsdaten** in Feldern, die an Claude gehen.
+1. **Fachlich klären** (Hugo): Welche Felder? Welche davon darf Claude sehen/ändern? (Datenschutz-Regel zu Gesundheitsdaten vorerst ausgesetzt, siehe `CLAUDE.md`.)
 2. **Migration** `db/migrations/NNN_beschreibung.sql`, Kopf `-- STATUS: VORSCHLAG` + `-- ZWECK:`. Nur Standardtypen, Primärschlüssel pro Tabelle, keine Trigger/Prozeduren. Details: `docs/02-schema.md`.
 3. **Hugo gibt frei** → Kopf auf `-- STATUS: FREIGEGEBEN (Datum)` ändern → ausführen (Abschnitt 3).
 4. **Entity in `dab/dab-config.json`** ergänzen. Muster (Syntax vor dem Build mit `dab validate` oder `dab add --help` prüfen):

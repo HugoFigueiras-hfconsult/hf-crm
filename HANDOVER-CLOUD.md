@@ -33,7 +33,7 @@ Mit Hugo das CRM-Schema definieren und so weit bringen, dass Claude über den Co
 ## Harte Regeln (Kurzfassung, vollständig in `CLAUDE.md`)
 
 - Schema portabel: Standardtypen, Primärschlüssel, keine Trigger/Funktionen/Prozeduren, Logik im Agenten.
-- Keine Gesundheitsdaten (BU/PKV) in Feldern, die an Claude gehen. Dokumente nur als Link (OneDrive/SharePoint).
+- Datenschutz-Regel „keine Gesundheitsdaten an Claude“ ist **vorerst ausgesetzt** (Hugo, 2026-11-12, AVV später mit Team-Account). Originaldokumente bleiben in OneDrive.
 - Schemaänderungen nur als Vorschlag, Ausführung erst nach Hugos Freigabe.
 - Keine Secrets ins Repo. Jede Aktion in `docs/LOG.md` + `docs/STATUS.md`, nach jedem Schritt Commit + Push.
 
