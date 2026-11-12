@@ -67,7 +67,7 @@ Entfallen gegenüber dem ersten Entwurf: Tabelle `Fakt` (einzelne Aussagen) → 
   1. Transkript landet in OneDrive (`_Eingang`) → Agent ordnet es Mandant + Termin zu und verschiebt die Originaldatei nach `02 Termine/` des Mandanten (Dateiname `JJJJ-MM-TT Art.docx`).
   2. Agent **liest** das Transkript (Microsoft-365-Connector, nur Eingabe-Tokens) → `Termin.Zusammenfassung`/`Ergebnisse` + **`Termin.TranskriptLink`** (Link auf die Datei im Mandantenordner), `Status` = nachbereitet.
   3. **`Mandant.Profil` aktualisieren und verdichten** (Neues einarbeiten, Überholtes ersetzen, Umfang halten).
-  4. `Aufgabe`n anlegen, Entwurf der Folge-Mail in Outlook.
+  4. `Aufgabe`n anlegen. Entwurf einer Folge-Mail in Outlook **nur, wenn der Mandant noch Infos von Hugo erwartet** (Hugo, 2026-11-12).
 
   Der Volltext wird **nicht** in die DB kopiert: Claude müsste ihn dafür komplett abschreiben (je Gesprächsstunde ca. 13k Output-Tokens, Minuten Schreibzeit, Risiko nicht wortgetreuer Kopie). Rohmaterial bei Bedarf über `TranskriptLink` aus OneDrive lesen.
 - **Fristen**: wöchentlich `Vertrag.KuendigungBis`/`Ablauf` und `Aufgabe.FaelligAm` der nächsten 90 Tage → Liste an Hugo.
