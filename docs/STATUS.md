@@ -6,9 +6,9 @@ Stand: 2026-11-12 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht au
 
 Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Offer), Container App `ca-hf-crm-dab` mit **Caddy (Türsteher) + DAB 2.1.5**, Entra-App `hf-crm-mcp`, DNS bei INWX, Zertifikat bis 13.05.2027. Der Server verlangt einen Login (401 + Discovery) und akzeptiert nur Tokens für `hf-crm-mcp`.
 
-**Jetzt (Hugo):** Client Secret erzeugen und Connector in claude.ai anlegen (`docs/04-claude-connector.md`, 5.4 + 5.7), Test im Chat (5.8). Ergebnis als **Versuch 1** ins LOG (bei Fehler: Meldung, `ofid_…`, Uhrzeit).
+✅ **Claude-Connector `HF-CRM` ist verbunden (2026-11-12)** und liest echte Daten aus Azure SQL. Architektur-Überblick: `docs/ARCHITEKTUR.md`.
 
-Danach: Schema (O3, Phase 3) → echte Entities statt Platzhalter `Verbindungstest`.
+**Jetzt:** Schema definieren (O3, Phase 3) → Migration als Vorschlag → Hugo gibt frei → echte DAB-Entities statt Platzhalter `Verbindungstest` (dann Image neu bauen + `infra/03c-update-app.sh`).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
 
 ## Phasen
@@ -20,7 +20,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | 2 | Azure SQL Free Offer (Entra-only, AutoPause) | ✅ | `01-azure-basis.md` | `infra/02-rg-sql.sh` |
 | 3 | DB-Schema | ⬜ **offen**: Entwurf aus Handover ungültig, wird mit Hugo neu definiert | `02-schema.md` | `db/migrations/` (leer) |
 | 4 | DAB / SQL MCP Server auf Container Apps | ✅ läuft (DAB 2.1.5 + Caddy, Platzhalter-Entity), DB-User ok, Custom Domain ✅ · ⛔ Entities (O3) | `03-dab-mcp.md` | `dab/`, `infra/03-containerapp.sh`, `infra/03c-update-app.sh`, `db/setup/01_user_dab.sql` |
-| 5 | Claude Custom Connector (Entra OAuth) | 🟡 Türsteher ✅, Entra-App ✅, Audience ✅, Domain ✅ · ⬜ Secret, Connector, Test (Hugo) | `04-claude-connector.md` | `infra/04-entra.sh` |
+| 5 | Claude Custom Connector (Entra OAuth) | ✅ verbunden 2026-11-12 (Versuch 2), Lesen getestet | `04-claude-connector.md` | `infra/04-entra.sh` |
 | 6 | Copilot Studio (nur lesen) | ⬜ | `05-copilot.md` | – |
 | 7 | Routine + Telegram-Trigger | ⬜ | `06-trigger-telegram.md` | – |
 | 8 | Dashboard-Artefakt | ⬜ | `07-dashboard.md` | `dashboard/` |
@@ -66,7 +66,7 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | # | Risiko | Auswirkung | Prüfung / Gegenmaßnahme |
 |---|---|---|---|
 | ~~R1~~ | ✅ **Erledigt 2026-11-11**: Verzeichnis „HF Consulting“ ist der M365-Tenant `hf-consult.de` (Abo-Tenant = Tenant mit verifizierter Domain, `14cc25a5-…`). Siehe LOG | – | – |
-| **R2** | Entra + claude.ai Custom Connector: Stand 11/2026 mehrere **offene** Bugs (anthropics/claude-ai-mcp #506, #632, #1080, #1248): Microsoft-Login klappt, claude.ai tauscht den Code nicht ein / schickt kein Token | Phase 5 scheitert trotz korrekter Konfiguration | Versuche nummeriert ins LOG. Nach 2 ernsthaften Versuchen: Entscheidung mit Hugo zwischen (a) eigenem kleinen OAuth-Server vor Entra („Token-Broker“, in #506 als funktionierend berichtet) und (b) Fallback Supabase |
+| R2 | ✅ Verbindung steht seit 2026-11-12 (Code-Tausch + Token funktionieren). Restrisiko: Token-Erneuerung (#228), Neu-Verbinden nach Bearbeiten (#1000). Ursprünglich: Stand 11/2026 mehrere **offene** Bugs (anthropics/claude-ai-mcp #506, #632, #1080, #1248): Microsoft-Login klappt, claude.ai tauscht den Code nicht ein / schickt kein Token | Phase 5 scheitert trotz korrekter Konfiguration | Versuche nummeriert ins LOG. Nach 2 ernsthaften Versuchen: Entscheidung mit Hugo zwischen (a) eigenem kleinen OAuth-Server vor Entra („Token-Broker“, in #506 als funktionierend berichtet) und (b) Fallback Supabase |
 | R3 | Log Analytics der Container-App-Umgebung verursacht Kosten | Budget | `--logs-destination none` in `infra/03-containerapp.sh` |
 | ~~R4~~ | ✅ 2026-11-11: Package öffentlich, keine Pull-Credentials nötig (siehe `00-entscheidungen.md`) | – | – |
 | ~~R5~~ | ✅ 2026-11-12: DAB fordert keinen Login an → **gelöst** mit Caddy als Türsteher (401 + `WWW-Authenticate`, Discovery-Dokumente). Getestet, siehe LOG | – | – |

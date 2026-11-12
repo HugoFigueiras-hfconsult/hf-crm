@@ -34,6 +34,7 @@ hf-crm/
 ├─ README.md
 ├─ docs/
 │  ├─ STATUS.md              # Ist-Stand, nächster Schritt, offene Punkte
+│  ├─ ARCHITEKTUR.md         # Gesamtbild mit Diagrammen (Login-Ablauf, Sicherheit, Deployment)
 │  ├─ LOG.md                 # chronologisches Setup-Log
 │  ├─ LOKALE-SESSION.md      # Setup + Start-Prompt für lokale Session (Windows)
 │  ├─ 00-entscheidungen.md

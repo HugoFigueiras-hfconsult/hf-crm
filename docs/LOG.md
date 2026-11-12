@@ -120,3 +120,8 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - Bewertung Agent: Discovery, Microsoft-Login und Rücksprung funktionieren; claude.ai **hat** den Code bei Entra eingetauscht (dort scheitern die bekannten Bugs #506/#632 sonst). Fehler liegt nur am Secret, typisch: „Geheime ID“ statt „Wert“ kopiert oder Leerzeichen. Kein Fehler in Server/Konfiguration.
   - Container-Log: Kaltstart 21:00:54 UTC, Caddy + DAB gestartet. (Caddy loggt keine Einzelanfragen.)
   - Nächster Schritt: neues Secret, Connector in claude.ai löschen und neu anlegen. Zählt nicht als „ernsthafter Versuch“ im Sinne des Abbruchkriteriums (Bedienfehler, kein Plattformproblem).
+- **Hugo**: Neues Secret (richtiger „Wert“), Connector `HF-CRM` in claude.ai neu angelegt → **Versuch 2: verbunden** ✅ (2026-11-12).
+- **Agent**: Test über den Connector (Claude-Code-Session, gleiche claude.ai-Verbindung):
+  - `describe_entities` → 1 Entity `Verbindungstest`, Berechtigung `READ` (Rolle `authenticated` → Token wurde von DAB akzeptiert)
+  - `read_records Verbindungstest` → 1 Zeile aus der echten DB (`hfcrm`, `sys.database_firewall_rules`, VIEW) → Managed Identity → SQL funktioniert
+  - **Phase 5 ✅**: Claude → Entra-Login → Caddy → DAB (JWT-Prüfung) → Azure SQL durchgängig.

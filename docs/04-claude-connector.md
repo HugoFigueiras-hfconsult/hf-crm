@@ -1,6 +1,6 @@
 # Phase 5 – Claude Custom Connector (Entra OAuth)
 
-Status: 🟡 Türsteher ✅, Entra-App `hf-crm-mcp` ✅, DAB-Audience ✅, Custom Domain ✅ · offen: Client Secret, Connector, Test (Hugo). Kritischster Teil des Projekts (R2).
+Status: ✅ **Verbunden seit 2026-11-12** (Versuch 2). Claude → Entra → Caddy → DAB → Azure SQL getestet. Kritischster Teil des Projekts (R2).
 
 ## So läuft der Login (Soll)
 
@@ -24,9 +24,9 @@ Status: 🟡 Türsteher ✅, Entra-App `hf-crm-mcp` ✅, DAB-Audience ✅, Custo
 | — | `DAB_JWT_AUDIENCE` = Client-ID | `infra/03c-update-app.sh` | ✅ Revision `--0000002` |
 | 5.6 | Discovery erreichbar | `curl -i https://mcp.hf-consult.de/.well-known/oauth-protected-resource` | ✅ 2026-11-12 (App-FQDN + Custom Domain) |
 | 4.10 | Custom Domain `mcp.hf-consult.de` | DNS bei INWX, `./infra/03b-custom-domain.sh bind` | ✅ 2026-11-12 |
-| 5.4 | Client Secret | **Hugo selbst** (siehe unten). Wert direkt in Claude eingeben, nie in Chat/Repo. Nur Ablaufdatum ins LOG | ⬜ |
-| 5.7 | Connector in claude.ai anlegen | Hugo im Browser (siehe unten) | ⬜ |
-| 5.8 | Test im Chat: „Welche Entities gibt es?“ → `Verbindungstest` lesen | Hugo | ⬜ |
+| 5.4 | Client Secret | Hugo selbst im Entra Admin Center. Wert nie in Chat/Repo | ✅ 2026-11-12 (1. Secret falsch kopiert → AADSTS7000215, ersetzt) |
+| 5.7 | Connector in claude.ai anlegen | Hugo im Browser (siehe unten) | ✅ 2026-11-12 |
+| 5.8 | Test: Entities beschreiben, `Verbindungstest` lesen | Agent über Connector | ✅ 2026-11-12 (READ, echte DB-Zeile) |
 
 ## DNS bei INWX (Hugo)
 
