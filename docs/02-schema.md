@@ -26,25 +26,44 @@ Noch **keine** Migration; DAB hat nur den Platzhalter `Verbindungstest`.
 | **GitHub-Repo** | **Arbeitsanweisungen** des Agenten (wie Vorbereitung/Nachbereitung/Ablage gehen) + Bauplan. **Keine Mandantendaten** | Repo-Dateien als Anweisungen für Routinen/Projekte |
 
 **Gedächtnis: Repo oder Datenbank?** Beides, getrennt nach Art:
-- *Was* der Agent über Mandanten weiß → **Datenbank** (abfragbar: „alle Fristen in 90 Tagen“, „was weiß ich über Familie X“; erreichbar aus jedem Claude-Zugang und für Copilot/Dashboard; liegt im eigenen Azure-Tenant in der EU, Zugriff nur mit Hugos Login).
+- *Was* der Agent über Mandanten weiß → **Datenbank** (abfragbar: „alle Fristen in 90 Tagen“, „was weiß ich über Familie X“; erreichbar aus jedem Claude-Zugang und für Copilot/Dashboard; liegt im eigenen Azure-Tenant in der EU, Zugriff nur mit Hugos Login). Das Weiche steht als **Markdown-Profil je Mandant** in der DB (`Mandant.Profil`), das Harte in Tabellen.
 - *Wie* der Agent arbeitet → **Repo** (versioniert, gut lesbar, als Anweisung ladbar).
-- Mandantendaten **nicht** ins Repo (GitHub, schlecht abfragbar, Datenschutz) und **nicht** in Claudes eingebaute Erinnerungsfunktion (nicht strukturiert, nicht teilbar mit Routinen).
+- Mandantendaten **nicht** ins Repo (GitHub, jede Cloud-Session klont eine Kopie, nur in Claude Code erreichbar, übergreifend schlecht abfragbar) und **nicht** in Claudes eingebaute Erinnerungsfunktion (nicht strukturiert, nicht teilbar mit Routinen).
+
+### Voller Kontext: drei Schichten (Entscheidung Hugo 2026-11-12: „immer voller Kontext über den Mandanten“)
+
+| Schicht | Inhalt | Umfang | Wann geladen |
+|---|---|---|---|
+| **1. Profil** `Mandant.Profil` | Lebendes Markdown-Dokument: Familie, Beruf, Ziele, Vorlieben, Absicherungslage in Worten, Gesprächsverlauf in Kurzform, offene Themen. Der Agent **verdichtet** es nach jedem Termin | 1–3 Seiten, ca. 2–4k Tokens | **immer** (jede Vorbereitung, jede Frage zum Mandanten) |
+| **2. Verlauf + harte Daten** | `Termin.Zusammenfassung`/`Ergebnisse` (letzte 3–5), offene `Aufgabe`n, `Vertrag` mit Fristen/Konditionen | ca. 2–3k Tokens | **immer** bei Vorbereitung |
+| **3. Rohmaterial** | Volltranskripte, Policen, Angebote | je Transkript ca. 13k Tokens (1 h) | **nur bei Bedarf**, gezielt (z. B. „was genau hat er zur Rente gesagt?“) |
+
+Warum nicht immer alles laden: Alle Transkripte eines Mandanten nach 5 Jahren (4 Termine/Jahr) wären ca. 255k Tokens. Das passt nicht sinnvoll in den Kontext, ist langsam, verbraucht Nutzungslimits und verschlechtert die Antworten („lost in the middle“). **Voller Kontext entsteht dadurch, dass die Nachbereitung jedes Transkript sofort in Profil und Zusammenfassung verdichtet.** Rohmaterial bleibt jederzeit abrufbar.
+
+### Performance (Abwägung Repo vs. DB, 2026-11-12)
+
+- Anzahl der Connector-Aufrufe hängt vom Design ab, nicht von der Zahl der Notizen: Vorbereitung = 2–3 Aufrufe (Profil, offene Aufgaben/Fristen, letzte Termine), parallel möglich. Nachbereitung = Profil 1× schreiben + Termin + wenige Aufgaben.
+- Warm ca. 0,5–2 s je Aufruf. **Kaltstart** beim ersten Zugriff nach Leerlauf: Container wacht auf (Sekunden) und die Free-DB läuft nach 60 min Pause wieder an (bis ca. 1 min). Gegenmittel: Morgen-Routine (Terminvorbereitung) weckt alles vorab. Noch nicht gemessen.
+- Repo-Dateien wären in Claude-Code-Sessions zwar sofort lesbar, aber nicht im claude.ai-Chat/Handy, nicht für Dashboard/Copilot, übergreifend schlecht abfragbar, und jede Cloud-Session hätte eine Kopie aller Mandantendaten. Token-Kosten sind bei beiden gleich.
 
 ### Tabellen v0 (Skelett, Details folgen „on the way“)
 
 | Tabelle | Zweck | Kernfelder |
 |---|---|---|
-| `Mandant` | Wer, und wo liegt was | `MandantId` (GUID), `Anzeigename`, `Art` (Person/Haushalt/Firma), `Status` (Interessent/aktiv/inaktiv), `OneDriveOrdnerId` + `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail` (Zuordnung von Kalender/Mails), `ErstelltAm`, `GeaendertAm` |
+| `Mandant` | Wer, und wo liegt was | `MandantId` (GUID), `Anzeigename`, `Art` (Person/Haushalt/Firma), `Status` (Interessent/aktiv/inaktiv), `OneDriveOrdnerId` + `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail` (Zuordnung von Kalender/Mails), **`Profil`** (Markdown, `NVARCHAR(MAX)`, Schicht 1), `ProfilStand` (wann zuletzt verdichtet), `ErstelltAm`, `GeaendertAm` |
 | `Termin` | Jeder Kontakt mit Vor- und Nachbereitung (auch Telefonat) | `TerminId`, `MandantId`, `Beginn`, `Art` (Erstgespräch, Jahresgespräch, Quartal, Telefonat …), `OutlookEventId`, `Vorbereitung` (Kurztext), `Zusammenfassung`, `Ergebnisse`, `TranskriptLink` (OneDrive), `Status` (geplant/vorbereitet/durchgeführt/nachbereitet) |
-| `Fakt` | Das eigentliche **Gedächtnis**: einzelne Aussagen über den Mandanten | `FaktId`, `MandantId`, `Kategorie` (Familie, Beruf, Ziele, Präferenzen, Kommunikation, Risiko …), `Inhalt` (kurz), `QuelleTerminId` / `QuelleLink`, `GueltigAb`, `Status` (aktuell/überholt), `ErsetztDurch`, `ErstelltVon` (Agent/Hugo). Neues Wissen **ersetzt** altes (Status „überholt“), statt es zu überschreiben → Verlauf bleibt |
 | `Vertrag` | Kurzinfo für Fristen und Konditionen, **nicht** der Bestand | `VertragId`, `MandantId`, `Sparte`, `Gesellschaft`, `Vertragsnummer`, `Beginn`, `Ablauf`, `KuendigungBis` (Datum), `Beitrag`, `Zahlweise`, `KonditionenKurz`, `QuelleLink` (OneDrive/JDC-Export), `StandVom` |
 | `Aufgabe` | Fristen, Wiedervorlagen, To-dos | `AufgabeId`, `MandantId` (optional), `Titel`, `FaelligAm`, `Art` (Frist/Wiedervorlage/To-do), `VertragId`/`TerminId` (optional), `Status` (offen/erledigt), `ErledigtAm` |
+| _optional:_ `Transkript` | Volltext eines Transkripts (Schicht 3), getrennt von `Termin`, damit er nie versehentlich mitgeladen wird | `TranskriptId`, `TerminId`, `Text` (`NVARCHAR(MAX)`), `Quelle` (OneDrive-Link der Originaldatei). Nur falls Entscheidung 5 = „auch in der DB“ |
+| _später:_ `ProfilVersion` | Alte Profilstände, falls Verlauf über die Termin-Zusammenfassungen hinaus gebraucht wird | erst bei Bedarf |
 | _später:_ `Dokument` | Index wichtiger Dateien mit Kurzbeschreibung | erst, wenn OneDrive-Suche nicht reicht |
+
+Entfallen gegenüber dem ersten Entwurf: Tabelle `Fakt` (einzelne Aussagen) → ersetzt durch `Mandant.Profil` (weniger Aufrufe, liest sich wie eine Akte, Agent verdichtet selbst).
 
 ### Abläufe (Beispiele)
 
-- **Vorbereitung** (Routine morgens oder auf Zuruf): Outlook-Termine → Mandant über E-Mail/Name zuordnen → aus der DB `Fakt` (aktuell), letzte `Termin`e, offene `Aufgabe`n, `Vertrag` mit nahen Fristen; aus OneDrive neue Dokumente → Briefing an Hugo, Kurzfassung in `Termin.Vorbereitung`.
-- **Nachbereitung**: Transkript landet in OneDrive → Agent verschiebt es in den Mandantenordner → `Termin.Zusammenfassung`/`Ergebnisse` + Link, neue `Fakt`en (alte ggf. „überholt“), `Aufgabe`n, Entwurf der Folge-Mail in Outlook.
+- **Vorbereitung** (Routine morgens oder auf Zuruf): Outlook-Termine → Mandant über E-Mail/Name zuordnen → aus der DB `Mandant.Profil`, letzte `Termin`e, offene `Aufgabe`n, `Vertrag` mit nahen Fristen (Schichten 1 + 2); aus OneDrive neue Dokumente → Briefing an Hugo, Kurzfassung in `Termin.Vorbereitung`.
+- **Nachbereitung**: Transkript landet in OneDrive → Agent verschiebt es in den Mandantenordner → `Termin.Zusammenfassung`/`Ergebnisse` + Link → **`Mandant.Profil` aktualisieren und verdichten** (Neues einarbeiten, Überholtes ersetzen, Umfang halten) → `Aufgabe`n → Entwurf der Folge-Mail in Outlook.
 - **Fristen**: wöchentlich `Vertrag.KuendigungBis`/`Ablauf` und `Aufgabe.FaelligAm` der nächsten 90 Tage → Liste an Hugo.
 - **JDC-Abgleich**: Hugo legt Exporte in den OneDrive-Eingang → Agent legt sie im Mandantenordner ab und trägt Fristen/Konditionen in `Vertrag` ein (mit `StandVom` + Link).
 
@@ -67,6 +86,18 @@ Mandanten/
 2. **Mandant = Person oder Haushalt?** Vorschlag: Mandant = die Einheit mit **einem** OneDrive-Ordner (oft der Haushalt); einzelne Personen bei Bedarf später als eigene Tabelle.
 3. **Woher kommen Transkripte?** (Teams, Diktier-App, Telefon-Aufzeichnung …) → bestimmt die Nachbereitungs-Routine.
 4. **Was kann JDC exportieren?** Eine Bestandsliste (Excel/CSV) je Mandant oder gesamt wäre ideal: Dann kann der Agent `Vertrag` in einem Rutsch füllen.
+5. **Transkripte auch als Text in der DB?** Kosten sind kein Argument (siehe unten). Für die DB spricht: ein Connector, Suche über alle Transkripte per SQL. Dagegen: doppelte Ablage, Originaldatei bleibt ohnehin in OneDrive, Microsoft-Suche findet Text in OneDrive-Dokumenten auch. Und: Transkripte enthalten Gesundheitsangaben → in der DB wären das Felder, die an Claude gehen (Regel aus `CLAUDE.md`, hängt an Entscheidung 1). Vorschlag Agent: Original in OneDrive, Verdichtung in Profil/Termin; Volltext in der DB (`Transkript`) erst, wenn die OneDrive-Suche nicht reicht.
+
+### Kosten: Transkripte in der DB (Schätzung 2026-11-12)
+
+| Größe | Wert |
+|---|---|
+| 1 h Gespräch | ca. 8.500 Wörter ≈ 57.000 Zeichen ≈ **110 KB** in `NVARCHAR` (UTF-16) ≈ **13k Tokens** |
+| 100 Mandanten × 4 Termine/Jahr | ca. **43 MB/Jahr**, nach 10 Jahren ca. 0,4 GB |
+| 100 Mandanten × 8 Termine/Jahr | ca. 87 MB/Jahr, nach 10 Jahren ca. 0,8 GB |
+| Free Offer | **32 GB** Daten (geprüft: `maxSizeBytes` = 32 GB) + 32 GB Backup, 100.000 vCore-Sekunden/Monat |
+
+→ Speicher kostet **0 €**, auch nach Jahren (unter 3 % des Freikontingents). Lesen/Schreiben von Text ist für die DB-Rechenzeit vernachlässigbar. Der echte „Preis“ sind Tokens im Kontext (siehe Schichten), nicht der Speicherort.
 
 ## Ausgangslage (2026-11-12)
 
