@@ -114,3 +114,9 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
   - Prüfung: sofort sichtbar bei `ns.inwx.de` und Google DNS (8.8.8.8). → ok
 - **Agent**: `./infra/03b-custom-domain.sh bind` → ok. Managed Certificate `mc-cae-hf-crm-mcp-hf-consult-d-7121` (DigiCert/GeoTrust, CN `mcp.hf-consult.de`, gültig bis 13.05.2027, erneuert sich automatisch), Binding `SniEnabled`. Kosten: 0 €.
 - **Agent**: Test über `https://mcp.hf-consult.de`: `/mcp` ohne Token → 401 + `WWW-Authenticate` (resource_metadata + scope), PRM → 200, AS-Metadaten → 200, ungültiges Token → 401 `invalid_token` (DAB, also Host-Check über Custom Domain ok). → **Phase 4.10 ✅**
+- **Hugo**: Client Secret `claude-connector` für `hf-crm-mcp` im Entra Admin Center erzeugt (Agent hat bis zum Formular navigiert, „Hinzufügen“ + Kopieren durch Hugo). Laut `az ad app credential list`: Start 2026-11-12 20:52 UTC, **Ende 2028-11-11** (24 Monate statt geplanter 12). Wert nicht im Repo.
+- **Hugo**: Connector `HF-CRM` in claude.ai angelegt (URL `https://mcp.hf-consult.de/mcp`, eigener OAuth-Client `c3f40bf1-…`).
+- **Versuch 1** (2026-11-12 ~21:00 UTC): „Authorization with HF-CRM failed … Entra error code: **AADSTS7000215**“ (Invalid client secret), Entra Trace ID `dad431ed-0f1d-4d36-be91-cc5f7c6d1d00`, `ofid_d1c86d38c923c1c4`.
+  - Bewertung Agent: Discovery, Microsoft-Login und Rücksprung funktionieren; claude.ai **hat** den Code bei Entra eingetauscht (dort scheitern die bekannten Bugs #506/#632 sonst). Fehler liegt nur am Secret, typisch: „Geheime ID“ statt „Wert“ kopiert oder Leerzeichen. Kein Fehler in Server/Konfiguration.
+  - Container-Log: Kaltstart 21:00:54 UTC, Caddy + DAB gestartet. (Caddy loggt keine Einzelanfragen.)
+  - Nächster Schritt: neues Secret, Connector in claude.ai löschen und neu anlegen. Zählt nicht als „ernsthafter Versuch“ im Sinne des Abbruchkriteriums (Bedienfehler, kein Plattformproblem).
