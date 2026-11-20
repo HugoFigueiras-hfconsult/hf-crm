@@ -138,3 +138,7 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
 - **Hugo**: Folge-Mail nach dem Termin nur, wenn der Mandant noch Infos erwartet → `docs/02-schema.md` Nachbereitung Schritt 4. Ablauf der Update-Termine (Terminvorbereitung) in Diskussion.
 - **Hugo/Agent**: Ablauf der Update-Termine abgestimmt → `docs/08-update-termin.md` (Ablauf 0–9 mit Dauer und Agent-Vorbereitung, Rhythmus quartalsweise/halbjährlich, zwei dauerhafte Artefakte je Mandant, Depot per FNZ-Screenshot über Kai Stettner, zentrales Themen-Radar, Kandidaten für bessere Konditionen, Hinweis § 201 StGB zur Aufzeichnung). Datenmodell ergänzt: `Mandant.Terminrhythmus`, `ArtefaktMandantUrl`, `ArtefaktBeraterUrl`, Tabellen `Depotstand`, `DepotPosition`, `Thema`. Entscheidungen in `00-entscheidungen.md`.
 - **Hugo**: SQL-Vorschlag noch **nicht** schreiben. Erst am 2026-11-13 den Prozess für neue Mandanten besprechen (Rahmen: Empfehlung → kurzes Telefonat mit „Hint“ → Analyse → Konzept/Beratung → Fragerunde → Unterschriften; meist online). → Agent: `docs/09-neumandant.md` (Rahmen, offene Fragen, vermutliche Felder), STATUS, README, CLAUDE.md.
+
+## 2026-11-20
+
+- **Agent**: Wiedereinstieg nach einigen Tagen. Repo unverändert seit `32d21bd` (kein neuer Commit). Server-Check `POST https://mcp.hf-consult.de/mcp` ohne Token → 401 korrekt, **Kaltstart nach mehreren Tagen Leerlauf: 24,6 s** bis zur Antwort (Container aufwecken; nur Caddy, ohne DB). Erste echte Messung zum Kaltstart (vgl. Performance-Abschnitt in `docs/02-schema.md`).
