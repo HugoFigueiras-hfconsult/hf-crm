@@ -1,5 +1,7 @@
 # Handover → Cloud-Session: Datenbank-Schema (Phase 3)
 
+> ⚠️ **Ersetzt am 2026-11-22 durch `HANDOVER.md`.** Nur noch historisch. Der Auftrag „Schema“ wurde vorher um Gedächtnis-Konzept, Update-Termine und Neumandanten-Prozess erweitert.
+
 Stand: 2026-11-12 · Repo: `HugoFigueiras-hfconsult/hf-crm` (Branch `main`) · vorher: `HANDOVER-LOKAL.md` (erledigt)
 
 ## Was schon läuft (nicht neu bauen)

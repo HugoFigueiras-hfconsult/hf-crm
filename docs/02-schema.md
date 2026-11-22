@@ -1,6 +1,6 @@
 # Phase 3 – DB-Schema
 
-**Status: 🟡 Konzept v0 in Diskussion (2026-11-12).** Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` (Abschnitt 7, Phase 3) ist laut Hugo **ungültig** und wird nicht verwendet.
+**Status: 🟡 Konzept v0.1 in Diskussion (Stand 2026-11-22, Gesamtübersicht der Tabellen unten).** Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` (Abschnitt 7, Phase 3) ist laut Hugo **ungültig** und wird nicht verwendet.
 Noch **keine** Migration; DAB hat nur den Platzhalter `Verbindungstest`.
 
 ## Konzept v0 (Vorschlag Agent, 2026-11-12, noch nicht freigegeben)
@@ -62,6 +62,26 @@ Warum nicht immer alles laden: Alle Transkripte eines Mandanten nach 5 Jahren (4
 | _später:_ `Dokument` | Index wichtiger Dateien mit Kurzbeschreibung | erst, wenn OneDrive-Suche nicht reicht |
 
 Entfallen gegenüber dem ersten Entwurf: Tabelle `Fakt` (einzelne Aussagen) → ersetzt durch `Mandant.Profil` (weniger Aufrufe, liest sich wie eine Akte, Agent verdichtet selbst).
+
+### Gesamtübersicht Tabellen-Kandidaten (Stand 2026-11-22, noch nicht final)
+
+Bündelt die Tabelle oben mit den Ergänzungen aus `docs/08-update-termin.md` und `docs/09-neumandant.md`. Grundlage für `db/migrations/001_init.sql`. Final erst nach dem Gespräch zu Konzept-Termin, Fragerunde und Abschluss.
+
+| Tabelle | Zweck | Felder (Kern + Ergänzungen) | Quelle |
+|---|---|---|---|
+| `Mandant` | wer, wo liegt was, Gedächtnis | `MandantId`, `Anzeigename`, `Art`, `Status` (Interessent → Analyse → Konzept → Fragerunde → Abschluss → Bestand / abgesprungen / inaktiv), `OneDriveOrdnerId`, `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail`, `Profil` (Markdown), `ProfilStand`, `Terminrhythmus`, `ArtefaktMandantUrl`, `ArtefaktBeraterUrl`, `EmpfohlenVon`, `Quelle`, `Erstkontakt` (Hint), `Geburtsjahr`, `Schwerpunkt`, `Risikoprofil`, `RisikoprofilAm`, `RisikoprofilQuelle`, `ErstelltAm`, `GeaendertAm` | 02, 08, 09 |
+| `Termin` | jeder Kontakt | `TerminId`, `MandantId`, `Beginn`, `Art` (Analyse, Konzept, Fragerunde, Unterschrift, Update, Beratung, Telefonat), `Ort` (online/Büro), `OutlookEventId`, `Vorbereitung`, `Zusammenfassung`, `Ergebnisse`, `TranskriptLink`, `WhiteboardLink`, `Status` | 02, 09 |
+| `Ziel` | Hugos Kern-Methode kurz/mittel/lang | `ZielId`, `MandantId`, `Topf`, `Beschreibung`, `Betrag`, `Zeitpunkt` (Jahr/Alter), `Status` (offen/erreicht/verworfen) | 09 |
+| `Finanzstatus` | Drittel-Regel, Verlauf | `FinanzstatusId`, `MandantId`, `Stichtag`, `NettoVon`, `NettoBis`, `Nebeneinkommen`, `Wohnkosten`, `Lebenshaltung`, `Ruecklage`, `SparrateKurz`, `SparrateMittel`, `SparrateLang`, `Notiz` | 09 |
+| `Vertrag` | Fristen + Konditionen (nicht der Bestand) | `VertragId`, `MandantId`, `Sparte`, `Gesellschaft`, `Vertragsnummer`, `Beginn`, `Ablauf`, `KuendigungBis`, `Beitrag`, `Zahlweise`, `KonditionenKurz`, `Status` (aktiv/pausiert/gekündigt/Angebot), `Betreuung` (Hugo/fremd), `Hinweis`, `Quelle` (Analyse/Dokument/JDC), `QuelleLink`, `StandVom` | 02, 09 |
+| `Aufgabe` | Fristen, Wiedervorlagen, To-dos, Unterlagen | `AufgabeId`, `MandantId`, `Titel`, `FaelligAm`, `Art`, `Zustaendig` (Hugo/Mandant/Agent), `VertragId`, `TerminId`, `Status`, `ErledigtAm` | 02, 09 |
+| `Formalie` | Checkliste vor Unterschriften | `FormalieId`, `MandantId`, `Art` (Erstinformation, Datenschutz, Maklervollmacht, Geeignetheit, Beratungsdokumentation, Aufzeichnung), `Status` (offen/übergeben/unterschrieben), `Datum`, `AblageLink` | 09 |
+| `Depotstand` | FNZ-Depot je Stichtag | `DepotstandId`, `MandantId`, `Stichtag`, `Depotnummer`, `Gesamtwert`, `Einzahlungen`, `QuelleLink`, `ErstelltAm` | 08 |
+| `DepotPosition` | Positionen eines Stands | `DepotPositionId`, `DepotstandId`, `Bezeichnung`, `ISIN`, `Anteile`, `Wert`, `Anteil` | 08 |
+| `Thema` | zentrales Themen-Radar | `ThemaId`, `Kategorie`, `Titel`, `Kurzfassung`, `Zeitraum`/`GiltAb`, `BetrifftWen`, `QuelleLink`, `Status`, `ErstelltAm` | 08 |
+| _später_ `Transkript`, `ProfilVersion`, `Dokument` | siehe oben | nur bei Bedarf (`Transkript` nur mit Import ohne Claude) | 02 |
+
+Offene Modellfragen: Mandant = Person oder Haushalt (Entscheidung 2), JDC-Exportformat (Entscheidung 4), Felder aus Konzept/Fragerunde/Abschluss.
 
 ### Abläufe (Beispiele)
 

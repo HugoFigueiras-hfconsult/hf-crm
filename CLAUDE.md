@@ -6,14 +6,15 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 ## Orientierung (in dieser Reihenfolge lesen)
 
 1. `docs/STATUS.md`: aktueller Stand, nächster Schritt, offene Punkte
-2. `HANDOVER-CLOUD.md`: aktueller Auftrag (Schema, Phase 3) inkl. was die Cloud-Session kann und was nicht
+2. `HANDOVER.md`: aktueller Stand für einen neuen Chat, nächste Schritte, Start-Prompt
+2a. `agent/README.md`: Agent-Handbuch (was der Beratungs-Agent tut, Werkzeuge, Eingänge, Abläufe, Regeln, Umsetzungsstand) + Vorlagen in `agent/vorlagen/`
 3. `docs/ARCHITEKTUR.md`: Gesamtbild mit Diagrammen (was läuft wo, Login-Ablauf, Sicherheit)
 4. `docs/BETRIEB.md`: Runbook: Tabellen freigeben, SQL ausführen, Image bauen/ausrollen, Logs, Fehlerbilder, Wartung
 5. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
 6. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
 7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt; `docs/08-update-termin.md` = Arbeitsanweisung für Terminvorbereitung/-nachbereitung (Ablauf, Artefakte, Depot, Themen-Radar); `docs/09-neumandant.md` = Prozess neue Mandanten (in Arbeit)
 8. `docs/LOKALE-SESSION.md`: Setup + Stolpersteine für die lokale Session auf Hugos Windows-PC (Azure-Login nur dort möglich)
-9. `HANDOVER-LOKAL.md` (erledigt) und `docs/HANDOVER-2026-11-11.md`: historisch. **Der Schema-Entwurf im Handover vom 2026-11-11 ist ungültig, nicht verwenden.**
+9. `HANDOVER-CLOUD.md` (ersetzt), `HANDOVER-LOKAL.md` (erledigt) und `docs/HANDOVER-2026-11-11.md`: historisch. **Der Schema-Entwurf im Handover vom 2026-11-11 ist ungültig, nicht verwenden.**
 
 ## Harte Regeln
 
@@ -27,6 +28,14 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 | Schreibrechte Agent | Datensätze frei. **Schemaänderungen nur als Vorschlag** an Hugo (neue Datei `db/migrations/NNN_*.sql` mit Status „Vorschlag“) |
 | Secrets | Nie ins Repo. GitHub Secrets / Container-App-Secrets / Managed Identity |
 | Login/Zahlungsdaten | Gibt Hugo selbst ein, nie der Agent |
+
+## Zusammenarbeit mit Hugo
+
+- Deutsch, **einfache Sprache**: Hugo ist kein Entwickler. Erst erklären, was passiert und warum, Fachbegriffe übersetzen, Komplexes visualisieren.
+- **Fachliche Korrekturen erwünscht** (2026-11-22): Aussagen aus Hugos Gesprächen oder Texten (Recht, Steuern, Produkte) an Primärquellen prüfen und mit Link nennen, schon im ersten Durchgang, kurz und ohne Belehrung.
+- Bewusst getragene Risiken (`docs/00-entscheidungen.md`, z. B. Datenschutz/AVV, O10/O11) respektieren, nicht neu diskutieren, nur an Wiedervorlagen erinnern.
+- **Keine Mandantendaten ins Repo**, auch nicht in Commit-Nachrichten oder als Beispiel. Hochgeladene Transkripte/Unterlagen nur im Chat bzw. in OneDrive verwenden, temporäre Kopien löschen.
+- Vor Aktionen nach außen (Mails senden, Kündigungen, Freigaben, Konten) fragen. Mails an Mandanten nur als Entwurf.
 
 ## Dokumentationspflicht (bei jeder Aktion)
 

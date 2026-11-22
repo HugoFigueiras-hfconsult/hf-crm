@@ -8,7 +8,7 @@ Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Off
 
 ✅ **Claude-Connector `HF-CRM` ist verbunden (2026-11-12)** und liest echte Daten aus Azure SQL. Architektur-Überblick: `docs/ARCHITEKTUR.md`.
 
-**Jetzt:** Schema-Konzept v0.1 (`docs/02-schema.md`), Ablauf Update-Termine (`docs/08-update-termin.md`) und **Analyse-Termin für Neumandanten** (`docs/09-neumandant.md`, inkl. Agent-Aufgaben und vorgeschlagener Felder `Ziel`, `Finanzstatus`, Vertrag-Status/Betreuung, Aufgabe-Zuständigkeit) stehen, Analyse-Checkliste am 22.11. geklärt. **O10, O11 von Hugo zurückgestellt (nicht blockierend, Wiedervorlage 07.12.). Nächstes Gespräch mit Hugo: Konzept-Termin, Fragerunde, Abschluss.** Danach Datenmodell final und SQL-Vorschlag `db/migrations/001_init.sql`. Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
+**Jetzt:** Neuer Chat → **`HANDOVER.md`** (Stand, nächste Schritte, Start-Prompt). Agent-Handbuch: `agent/README.md`. Konzept: `docs/02-schema.md` (inkl. Gesamtübersicht Tabellen), `docs/08-update-termin.md`, `docs/09-neumandant.md` (Analyse geklärt). **Nächstes Gespräch mit Hugo: Konzept-Termin, Fragerunde, Abschluss**, danach Datenmodell final und SQL-Vorschlag `db/migrations/001_init.sql`. O10/O11 von Hugo zurückgestellt (nicht blockierend, Wiedervorlage 07.12.). Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
 
 ## Phasen

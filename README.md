@@ -32,7 +32,8 @@ Telegram ─► Cloudflare Worker (Allowlist Hugo+Frau) ─► POST /fire ─►
 hf-crm/
 ├─ CLAUDE.md                 # Regeln für Agenten (zuerst lesen)
 ├─ README.md
-├─ HANDOVER-CLOUD.md         # aktueller Auftrag: Schema (Cloud-Session), Start-Prompt
+├─ HANDOVER.md               # aktueller Stand für einen neuen Chat, nächste Schritte, Start-Prompt
+├─ HANDOVER-CLOUD.md         # ersetzt durch HANDOVER.md (historisch)
 ├─ HANDOVER-LOKAL.md         # erledigt (Azure-Setup + Connector, 2026-11-12)
 ├─ docs/
 │  ├─ STATUS.md              # Ist-Stand, nächster Schritt, offene Punkte
@@ -42,7 +43,7 @@ hf-crm/
 │  ├─ LOKALE-SESSION.md      # Setup + Start-Prompt für lokale Session (Windows)
 │  ├─ 00-entscheidungen.md
 │  ├─ 01-azure-basis.md      # Phase 1+2: Abo, Budget, SQL
-│  ├─ 02-schema.md           # Phase 3 (Schema offen)
+│  ├─ 02-schema.md           # Phase 3: Gedächtnis-Konzept, Tabellen-Kandidaten (Schema noch nicht final)
 │  ├─ 03-dab-mcp.md          # Phase 4
 │  ├─ 04-claude-connector.md # Phase 5
 │  ├─ 05-copilot.md          # Phase 6
@@ -56,6 +57,7 @@ hf-crm/
 │  ├─ apply.sh               # SQL-Datei als Entra-Admin ausführen
 │  ├─ migrations/            # Schema, nummeriert (leer, Schema offen)
 │  └─ setup/                 # DB-User/Rechte (kein Schema)
+├─ agent/                    # Agent-Handbuch (README.md) + Vorlagen (vorlagen/), keine Mandantendaten
 ├─ dab/                      # dab-config.json, Caddyfile, start.sh, Dockerfile (DAB + Türsteher)
 ├─ dashboard/                # HTML des Claude-Artefakts (Phase 8)
 └─ .github/workflows/        # Image-Build nach ghcr.io
@@ -71,4 +73,4 @@ git clone https://github.com/HugoFigueiras-hfconsult/hf-crm.git
 cd hf-crm && git pull
 ```
 
-Voraussetzungen und Stolpersteine für eine lokale Claude-Code-Session: `docs/LOKALE-SESSION.md`. Cloud-Session: `HANDOVER-CLOUD.md`.
+Voraussetzungen und Stolpersteine für eine lokale Claude-Code-Session: `docs/LOKALE-SESSION.md`. Neuer Chat (lokal oder Cloud): `HANDOVER.md`.
