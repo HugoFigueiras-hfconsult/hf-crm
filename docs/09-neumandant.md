@@ -67,7 +67,7 @@ Aus Hugos Beschreibung und dem Transkript abgeleitet:
 
 **Hugos Praxis (2026-11-22):** Datenschutz, Geeignetheit, Beratungsdokumentation, Erstinformation und Maklervollmacht kommen, wenn der Mandant dem Konzept zugestimmt hat und es um Unterschriften geht. Nach dem ersten Termin nur auf Wunsch des Mandanten.
 
-**Abgleich mit dem Gesetzestext (Agent, 2026-11-22, keine Rechtsberatung, von Hugo noch nicht entschieden):**
+**Abgleich mit dem Gesetzestext (Agent, 2026-11-22, keine Rechtsberatung. Von Hugo am 22.11. zurückgestellt, Risiko vorerst akzeptiert, Wiedervorlage 07.12.2026):**
 
 | Formalie | Gesetzlicher Zeitpunkt | Passt zur Praxis? |
 |---|---|---|

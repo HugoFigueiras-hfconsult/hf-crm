@@ -40,6 +40,7 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 - Ausführungsort: Azure-Befehle nur in einer **lokalen** Session auf Hugos PC (Git Bash) oder durch Hugo selbst (Portal/Cloud Shell). Aus Claude-Cloud-Sessions ist `az login` blockiert (AADSTS530035). Übersicht „was geht von wo“: `docs/BETRIEB.md` Abschnitt 5.
 - DAB-Änderungen (Entities, Rechte, Türsteher) = Repo ändern → Image bauen → ausrollen per Commit-SHA. Umgebungswerte (Tenant, Client-ID, DB) = Einstellungen der Container App. Siehe `docs/BETRIEB.md`.
 - Entities werden **ausdrücklich** in `dab/dab-config.json` freigegeben, keine `autoentities` (Datensparsamkeit).
+- Wiedervorlagen: Ist in `docs/STATUS.md` (Fristen) eine Wiedervorlage fällig oder trifft ihr Auslöser zu, Hugo zu Beginn kurz daran erinnern. Zurückgestellte Punkte nicht neu diskutieren und nicht als Blocker behandeln.
 - Sprache der Doku: Deutsch. Anrede Mandanten: immer „Du“.
 - Namen/Region stehen zentral in `infra/00-vars.sh`. Skripte sourcen diese Datei.
 - Skripte sind idempotent gedacht und brechen bei Fehlern ab (`set -euo pipefail`).
