@@ -1,8 +1,8 @@
 # Neue Mandanten: Prozess
 
-Stand 2026-11-20 · Rahmen + **Analyse-Termin** besprochen. Konzept-Termin und Fragerunde folgen. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
+Stand 2026-11-22 · Rahmen + **Analyse-Termin** inkl. Checkliste besprochen. Konzept-Termin und Fragerunde folgen. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
 
-Grundlagen für den Analyse-Teil (2026-11-20): Hugos Beschreibung, der VVO-Leitfaden „Analysegespräch“ (V1, 2024) und **ein** Transkript einer echten Analyse (Fokus Versicherungen, kaum Investment). Beide Dokumente liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Hier stehen nur allgemeine Erkenntnisse, keine Daten der Mandantin.
+Grundlagen für den Analyse-Teil (2026-11-20): Hugos Beschreibung, der VVO-Leitfaden „Analysegespräch“ (V1, 2024) und **ein** Transkript einer echten Analyse (Fokus Versicherungen, kaum Investment). Beide Dokumente liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Hier stehen nur allgemeine Erkenntnisse, keine Daten der beratenen Person.
 
 ## Rahmen (Hugo, 2026-11-12)
 
@@ -22,7 +22,7 @@ Aus Hugos Beschreibung und dem Transkript abgeleitet:
 - Denkt in **drei Töpfen: kurz (12–18 Monate) / mittel (2–15/20 Jahre) / lang (Rente)**, bei Zielen wie bei Geldanlagen. Psychologische Trennung: Rente als eigener „Eimer“, damit kurz- und mittelfristiges Geld frei nutzbar ist.
 - **Goldene Regel: Einkommen dritteln** in Wohnen / Leben / „Leben später“ (sparen in kurz/mittel/lang).
 - Erste Priorität ist oft der **Notgroschen** (Tagesgeld, 2–3 Nettogehälter), dann Altersvorsorge, dann ETF/mittelfristig.
-- Ehrlich statt verkäuferisch: benennt schwache Produkte (z. B. Kombi-BU mit Rentenversicherung, Riester ohne Kinder), respektiert bewusste „unvernünftige“ Entscheidungen, solange sie nicht ignorant sind.
+- Ehrlich statt verkäuferisch: benennt schwache oder unpassende Produkte, respektiert bewusste „unvernünftige“ Entscheidungen, solange sie nicht ignorant sind.
 - Die VVO-Verkaufsrhetorik (Werbekosten-Argumentation, Immobilien-Stories, Empfehlungsliste mit 10–15 Namen) nutzt Hugo **nicht**. Der Agent übernimmt sie auch nicht.
 
 ## Analyse-Termin
@@ -38,36 +38,63 @@ Aus Hugos Beschreibung und dem Transkript abgeleitet:
 | 5 | **Persönliche Ziele** | Geschwister, Eltern (Alter, Absicherung, evtl. Unterstützung nötig?), Partner, Heirat, Kinder, Wohnsituation, Hobbys (auch risikorelevant) | Familie/Umfeld, Pflege-/Unterstützungsrisiko Eltern, Hobbys |
 | 6 | **Wirtschaftliche Ziele** kurz / mittel / lang | Wünsche mit Betrag und Zeitpunkt; lang: Wunsch-Rentenalter, Lebensstil im Alter | **Ziele** (Topf, Beschreibung, Betrag, Zeitpunkt) |
 | 7 | **Goldene Regel** | Einkommen dritteln: Wohnkosten (warm), Lebenshaltung, „Leben später“ | Wohnkosten, Lebenshaltung, Soll je Drittel |
-| 8 | **Ist-Aufstellung „Leben später“** kurz / mittel / lang | kurz: Giro/Tagesgeld/Rücklage; mittel: ETF, Fonds, Bausparer, Aktien; lang: Rentenversicherungen, Riester, bAV, Immobilien | Rücklage, **Sparraten je Topf**, bestehende Anlagen |
+| 8 | **Ist-Aufstellung „Leben später“** kurz / mittel / lang | kurz: Giro/Tagesgeld/Rücklage; mittel: ETF, Fonds, Bausparer, Aktien; lang: Rentenversicherungen, Riester, bAV, Immobilien | Rücklage, **Sparraten je Topf**, bestehende Anlagen, **Risikoprofil 1–10** |
 | 9 | **Versicherungen aufnehmen** | KV (GKV/PKV + Zusatz), Privathaftpflicht, Hausrat, BU, Unfall, Kfz, Tier, Rechtsschutz, bAV, … mit Gesellschaft und Beitrag | Vertragsliste (fremd verwaltet), Auffälligkeiten |
 | 10 | **Erklären (Freestyle)** | z. B. 3-Schichten-Modell der Altersvorsorge, Riester/bAV/private Rente, Altersvorsorgedepot 2027 | was erklärt wurde (nicht doppelt erklären) |
 | 11 | **Feedback** | Wie war es, zu technisch, Druck? | Stimmung, Haltung zu Finanzen |
-| 12 | **Abschluss** | Nächste Schritte, Unterlagen per Mail, Dank an Empfehlungsgeber weitergeben | Aufgaben, Unterlagenliste |
+| 12 | **Abschluss** | Nächste Schritte, **Folgetermin vereinbaren**, Unterlagen per Mail (immer inkl. Renteninformation), Dank an Empfehlungsgeber weitergeben | Aufgaben, Unterlagenliste |
 
-### Beobachtungen aus dem Beispiel (für den Leitfaden)
+### Checkliste: mit Hugo geklärt (2026-11-22)
 
-- **Stark:** Vertrauensaufbau über den Empfehlungsgeber, ehrliche Einordnung bestehender Verträge, klare Prioritäten (erst Rücklage), gute Feedback-Frage, Respekt vor bewussten Entscheidungen.
-- **Lücken, die eine Checkliste schließen kann:**
-  - **Sparraten** je Topf kamen erst ganz am Ende und blieben offen. Ohne sie fehlt die wichtigste Zahl fürs Konzept → fester Punkt in Baustein 8.
-  - **Gesetzliche Rentenansprüche** (Renteninformation) nicht abgefragt → Unterlage anfordern.
-  - **Risikoprofil / Anlegertyp** (VVO-Skala 1–10) nicht erhoben → spätestens vor einer Investmentberatung nötig (Geeignetheit).
-  - **Kranken-Tagegeld** und **Pflegezusatz** nicht angesprochen.
-  - **Konzept-Termin nicht im Gespräch vereinbart** („ich ruf dich an“) → im VVO-Leitfaden fester Schlusspunkt. Empfehlung: Termin direkt im Gespräch festmachen.
-  - DSGVO-Einwilligung / Auskunftsvollmacht: im Leitfaden am Ende, im Beispiel nicht erwähnt → klären, wo das bei Hugo passiert.
-- **Transkript-Qualität:** Teams-Transkription mit Sprecher und Zeitstempel, aber Spracherkennungsfehler (Orte, Fachbegriffe, „warm“ als „Baum“) und viele „Mhm“-Fragmente. Der Agent muss Zahlen und Namen plausibilisieren und Unsicheres als „unklar“ markieren statt raten.
+| # | Punkt | Regel | Agent |
+|---|---|---|---|
+| 1 | **Sparraten** je Topf | Standard in Baustein 8. Wenn unklar: Hausaufgabe an den Mandanten | rechnet Vertragsbeiträge aus den Unterlagen zusammen, hakt beim Betrag „bleibt übrig“ nach |
+| 2 | **Renteninformation** | steht immer auf der Unterlagenliste | nimmt sie in jede Unterlagen-Mail auf |
+| 3 | **Risikoprofil** (Skala 1–10) | Standard in der Analyse, Hugo zeichnet die Skala aufs geteilte Microsoft Whiteboard | übernimmt Wert, Datum und Quelle, meldet sich, wenn es fehlt |
+| 4 | **Krankentagegeld, Pflegezusatz** | nicht automatisch ansprechen | prüft im Hintergrund, zeigt es nur bei Relevanz in der Berater-Ansicht (selbstständig, PKV, Alter, Pflegerisiko der Eltern) |
+| 5 | **Folgetermin** | Standard: direkt im Gespräch vereinbaren | verfolgt Unterlagen, erinnert vor dem Termin |
+| 6 | **Eilfälle** (Fristen vor dem Konzept-Termin) | dürfen vorgezogen werden, der Folgetermin kann dann abweichen | legt sofort eine Aufgabe mit Fälligkeit an und zieht die Formalia-Checkliste mit vor |
+
+### Zwei Quellen: Transkript und Whiteboard
+
+- Hugo schreibt in jeder Beratung auf dem geteilten Whiteboard mit. Dort steht auch, was nicht ausgesprochen wird (z. B. die markierte Risiko-Skala). Das Transkript allein reicht also nicht.
+- Whiteboards von Geschäftskonten liegen in OneDrive im Ordner `Whiteboards`. Vorgesehener Weg: Hugo exportiert als Bild, der Agent legt es neben das Transkript und liest es. **Noch nicht getestet** (Lesbarkeit der Handschrift, ob es ohne Export geht).
+- Widersprechen sich die Quellen oder ist etwas unleserlich: nachfragen, nicht raten.
+- Fachaussagen aus dem Gespräch sind **keine geprüften Fakten**. Bevor der Agent sie in Mails, Artefakte oder Konzepte übernimmt, prüft er sie an der aktuellen Rechtslage und meldet Hugo Abweichungen.
+- **Transkript-Qualität:** Teams-Transkription mit Sprecher und Zeitstempel, aber Spracherkennungsfehler (Namen, Orte, Zahlen, Fachbegriffe). Plausibilisieren und Unsicheres als „unklar“ markieren.
+
+### Formalia
+
+**Hugos Praxis (2026-11-22):** Datenschutz, Geeignetheit, Beratungsdokumentation, Erstinformation und Maklervollmacht kommen, wenn der Mandant dem Konzept zugestimmt hat und es um Unterschriften geht. Nach dem ersten Termin nur auf Wunsch des Mandanten.
+
+**Abgleich mit dem Gesetzestext (Agent, 2026-11-22, keine Rechtsberatung, von Hugo noch nicht entschieden):**
+
+| Formalie | Gesetzlicher Zeitpunkt | Passt zur Praxis? |
+|---|---|---|
+| Beratungsdokumentation | vor Vertragsschluss in Textform (§ 62 VVG) | ja, wenn vor der Unterschrift übergeben |
+| Geeignetheitserklärung | vor Vertragsschluss (§ 18 FinVermV) | ja, wenn vor der Unterschrift übergeben |
+| Maklervollmacht | keine feste Frist, nötig vor dem Handeln für den Mandanten | ja |
+| Erstinformation Versicherung | **beim ersten Geschäftskontakt**, bei Telefonkontakt unmittelbar danach (§§ 15, 16 VersVermV) | **nein** (O10) |
+| Erstinformation Investment | **vor der ersten Anlageberatung**. Mündlich nur auf Wunsch des Anlegers, dann Textform nach Vertragsschluss (§ 12 FinVermV) | **nur eingeschränkt** (O10) |
+| Datenschutzhinweise | bei der Erhebung (Art. 13 DSGVO), ohne Unterschrift. Gesundheitsdaten brauchen zusätzlich eine Grundlage nach Art. 9 | **nein** (O10) |
+| Aufzeichnung | Zustimmung vorab (§ 201 StGB). Online-/Telefon-Anlageberatung nach § 34f: **Pflicht** mit Vorab-Information und **Zweckbindung** (§ 18a FinVermV) | **offen** (O11) |
+
+Vorschlag zu O10: Erstinformation und Datenschutzhinweise als PDF an die Terminbestätigung nach dem Telefonat hängen, ohne Unterschrift. Für den Versand per Mail statt Papier im Telefonat kurz die Wahl lassen (§ 16 Abs. 2 VersVermV). Alle Unterschriften bleiben beim Abschluss.
+
+Noch unbeantwortet: Soll der Agent die Beratungsdokumentation aus dem Transkript vorentwerfen? (hängt an O11)
 
 ### Was der Agent für die Analyse tut
 
 **Vorher** (nach dem Telefonat):
 - Mandant als **Interessent** anlegen: Name, empfohlen von, „Hint“ aus dem Telefonat, Termin (Art Analyse, online/Büro).
-- **Berater-Spickzettel**: Empfehlungsgeber und was über ihn bekannt ist (Gesprächsöffner), Hint, Analyse-Checkliste (Bausteine oben, mit den Lücken-Punkten).
+- **Berater-Spickzettel**: Empfehlungsgeber und was über ihn bekannt ist (Gesprächsöffner), Hint, Analyse-Checkliste (Bausteine + Checkliste oben).
 
-**Nachher** (Teams-Transkript liegt vor):
-1. Transkript im neuen OneDrive-Ordner des Mandanten ablegen (`02 Termine/`), Ordner dabei anlegen.
+**Nachher** (Teams-Transkript + Whiteboard-Bild liegen vor, O11 beachten):
+1. Transkript und Whiteboard-Bild im neuen OneDrive-Ordner des Mandanten ablegen (`02 Termine/`), Ordner dabei anlegen.
 2. **Profil** (Markdown) erstmals schreiben: Beruf und Entwicklung, Familie/Umfeld, Hobbys, Haltung zu Finanzen, Lebensstil-Wünsche, was erklärt wurde.
 3. **Ziele** kurz / mittel / lang mit Betrag und Zeitpunkt.
 4. **Finanzstatus**: Netto (Spanne), Nebeneinkünfte, Wohnkosten, Lebenshaltung, Rücklage, Sparraten je Topf, Drittel-Rechnung (Soll vs. Ist).
-5. **Bestehende Verträge** (fremd verwaltet) mit Gesellschaft, Beitrag, Status (aktiv/pausiert), Hinweis (z. B. „nicht kündigen“, „Angebot liegt vor“).
+5. **Bestehende Verträge** (fremd verwaltet) mit Gesellschaft, Beitrag, Status (aktiv/pausiert), Hinweis.
 6. **Aufgaben** nach Zuständigkeit: Unterlagen vom Mandanten, Prüfungen/Vergleiche für Hugo, offene Fragen.
 7. **Mail-Entwurf „Unterlagen“** an den Mandanten: konkrete Liste der genannten Verträge und Schreiben, in Hugos Stil.
 8. **Mandantenansicht v1** (dauerhaftes Artefakt, siehe `docs/08-update-termin.md`): Lebens-Zeitstrahl mit Zielen (statt Tablet-Skizze), Drittel-Regel, Ist-Aufstellung kurz/mittel/lang. **Berater-Ansicht v1**: Konzept-Ideen nach Priorität, Lücken, Vergleichskandidaten.
@@ -78,7 +105,7 @@ Aus Hugos Beschreibung und dem Transkript abgeleitet:
 - Unterlagen im Mandantenordner ablegen, Vertragsdaten (Beitrag, Fristen, Konditionen) übernehmen, angeforderte Unterlagen als erledigt markieren, fehlende nachhaken.
 - Vergleichskandidaten für Hugo auflisten. Rechnen tut Hugo (Vergleichsrechner kann der Agent nicht bedienen).
 
-Wichtig: Gesundheitsangaben aus dem Gespräch nur als **Konsequenz** ins Profil (z. B. „BU unbedingt halten, Neuabschluss praktisch ausgeschlossen“), keine Diagnosen. Das gilt unabhängig von der ausgesetzten AVV-Regel, als gute Praxis.
+Wichtig: Gesundheitsangaben aus dem Gespräch nur als **Konsequenz** ins Profil (nur die Handlungsfolge für den Vertrag), keine Diagnosen. Das gilt unabhängig von der ausgesetzten AVV-Regel, als gute Praxis.
 
 ## Konzept-Termin, Fragerunde, Abschluss
 
@@ -93,10 +120,12 @@ _Offen, nächstes Gespräch._ Fragen dazu:
 
 | Wo | Neu | Warum |
 |---|---|---|
-| `Mandant` | `EmpfohlenVon` (Verweis auf Mandant oder Freitext), `Quelle`, `Erstkontakt` (Hint), `Geburtsjahr`, `Schwerpunkt` (Versicherung/Investment/beides), `Risikoprofil` (1–10, sobald erhoben) | Empfehlungen nachverfolgen und danken, Alter für Zeitstrahl/Rentenrechnung, Geeignetheit |
+| `Mandant` | `EmpfohlenVon` (Verweis auf Mandant oder Freitext), `Quelle`, `Erstkontakt` (Hint), `Geburtsjahr`, `Schwerpunkt` (Versicherung/Investment/beides), `Risikoprofil` (1–10) + `RisikoprofilAm` + `RisikoprofilQuelle` | Empfehlungen nachverfolgen und danken, Alter für Zeitstrahl/Rentenrechnung, Geeignetheit |
 | `Mandant.Status` | Interessent → Analyse → Konzept → Fragerunde → Abschluss → Bestand (oder abgesprungen) | Pipeline neuer Mandanten |
 | `Termin` | `Art` + Analyse / Konzept / Fragerunde / Unterschrift; `Ort` (online/Büro) | – |
 | **neu** `Ziel` | `MandantId`, `Topf` (kurz/mittel/lang), `Beschreibung`, `Betrag`, `Zeitpunkt` (Jahr/Alter), `Status` (offen/erreicht/verworfen) | Kern von Hugos Methode; Zeitstrahl im Artefakt; in Update-Terminen nachhalten |
 | **neu** `Finanzstatus` | `MandantId`, `Stichtag`, `NettoVon`/`NettoBis`, `Nebeneinkommen`, `Wohnkosten`, `Lebenshaltung`, `Ruecklage`, `SparrateKurz`/`Mittel`/`Lang`, `Notiz` | Drittel-Regel, Grafik im Artefakt, Entwicklung über die Jahre |
 | `Vertrag` | `Status` (aktiv/pausiert/gekündigt/Angebot), `Betreuung` (Hugo/fremd), `Hinweis`, `Quelle` (Analyse/Dokument/JDC) | In der Analyse werden v. a. **fremde** Verträge erfasst; JDC kennt nur Hugos Bestand |
 | `Aufgabe` | `Zustaendig` (Hugo/Mandant/Agent) | Unterlagen vom Mandanten vs. Prüfungen von Hugo; Rückblick „beide Seiten“ im Update-Termin |
+| `Termin` | `WhiteboardLink` | zweite Quelle neben `TranskriptLink` |
+| **neu** `Formalie` | `MandantId`, `Art`, `Status` (offen/übergeben/unterschrieben), `Datum`, `AblageLink` | Checkliste: meldet Fehlendes, sobald eine Unterschrift ansteht (auch bei Eilfällen) |

@@ -34,7 +34,7 @@ Steht in `Mandant.Terminrhythmus`. Der Agent schlägt nach der Nachbereitung ein
 | 8 | **Deine Fragen und Wünsche / Beratung** | 10–15 min | Fragen aus der Einladung und aus dem Profil, vorbereitete Antworten/Optionen |
 | 9 | **Abschluss** | 3 min | Zusammenfassung, wer macht was bis wann, **nächsten Termin gleich vereinbaren**. Einmal im Jahr: Ziele noch aktuell? Zufrieden? Empfehlung? |
 
-**Aufzeichnung:** Entstehen Transkripte aus Aufnahmen, braucht es die Zustimmung des Mandanten (§ 201 StGB, unabhängig von DSGVO/AVV). Fester Satz beim Ankommen, z. B.: „Ist es okay, wenn ich mitschreiben lasse, damit ich mich voll auf dich konzentrieren kann?“
+**Aufzeichnung:** Entstehen Transkripte aus Aufnahmen, braucht es die Zustimmung des Mandanten (§ 201 StGB, unabhängig von DSGVO/AVV). Fester Satz beim Ankommen, z. B.: „Ist es okay, wenn ich mitschreiben lasse, damit ich mich voll auf dich konzentrieren kann?“ Bei Anlageberatung zusätzlich O11 in `docs/STATUS.md` beachten (§ 18a FinVermV: Aufzeichnungspflicht + Zweckbindung).
 
 ## Zwei Artefakte pro Mandant (dauerhaft, werden fortgeschrieben)
 

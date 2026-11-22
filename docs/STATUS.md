@@ -1,6 +1,6 @@
 # Status
 
-Stand: 2026-11-12 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht ausgeführt) · ✅ erledigt · ⛔ blockiert
+Stand: 2026-11-22 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht ausgeführt) · ✅ erledigt · ⛔ blockiert
 
 ## Nächster Schritt
 
@@ -8,7 +8,7 @@ Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Off
 
 ✅ **Claude-Connector `HF-CRM` ist verbunden (2026-11-12)** und liest echte Daten aus Azure SQL. Architektur-Überblick: `docs/ARCHITEKTUR.md`.
 
-**Jetzt:** Schema-Konzept v0.1 (`docs/02-schema.md`), Ablauf Update-Termine (`docs/08-update-termin.md`) und **Analyse-Termin für Neumandanten** (`docs/09-neumandant.md`, inkl. Agent-Aufgaben und vorgeschlagener Felder `Ziel`, `Finanzstatus`, Vertrag-Status/Betreuung, Aufgabe-Zuständigkeit) stehen. **Nächstes Gespräch mit Hugo: Konzept-Termin, Fragerunde, Abschluss.** Danach Datenmodell final und SQL-Vorschlag `db/migrations/001_init.sql`. Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
+**Jetzt:** Schema-Konzept v0.1 (`docs/02-schema.md`), Ablauf Update-Termine (`docs/08-update-termin.md`) und **Analyse-Termin für Neumandanten** (`docs/09-neumandant.md`, inkl. Agent-Aufgaben und vorgeschlagener Felder `Ziel`, `Finanzstatus`, Vertrag-Status/Betreuung, Aufgabe-Zuständigkeit) stehen, Analyse-Checkliste am 22.11. geklärt. **Offen aus dem Formalia-Abgleich: O10, O11 (O11 vor der ersten Transkript-Routine klären). Nächstes Gespräch mit Hugo: Konzept-Termin, Fragerunde, Abschluss.** Danach Datenmodell final und SQL-Vorschlag `db/migrations/001_init.sql`. Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
 
 ## Phasen
@@ -59,6 +59,8 @@ Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AAD
 | O5 | AVV/Datenschutz: Max = Consumer Terms, kein AVV mit Anthropic. **Hugo 2026-11-12: vorerst ignorieren, später Claude-Team-Account mit AVV.** Bis dahin plant das Konzept ohne Datenschutz-Einschränkungen (Regel in `CLAUDE.md` ausgesetzt). Vor dem Team-Wechsel neu bewerten, was an Claude geht | Hugo, später |
 | ~~O6~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 antwortet auf `/.well-known/oauth-protected-resource` mit 400. Gelöst durch Caddy (R5) | – |
 | ~~O7~~ | ✅ 2026-11-11: **Nein**, DAB 2.1.5 braucht mind. eine Entity. Gelöst mit Platzhalter `Verbindungstest` auf `INFORMATION_SCHEMA.TABLES` (nur lesen, keine Schemaänderung). Entfernen, sobald echte Entities da sind | – |
+| O10 | **Zeitpunkt Erstinformation + Datenschutzhinweise**: Hugos Praxis = bei Unterschrift bzw. auf Wunsch, Gesetz = erster Kontakt/Erhebung (§§ 15, 16 VersVermV, § 12 FinVermV, Art. 13 DSGVO). Vorschlag: PDF an die Terminbestätigung, ohne Unterschrift (`docs/09-neumandant.md`, Formalia) | Hugo |
+| O11 | **Aufzeichnungen + Agent**: Zustimmung noch unbeantwortet. Falls § 34f GewO gilt: Online-Anlageberatung ist aufzeichnungspflichtig, die Aufzeichnung darf nur zur Beweissicherung genutzt und nur eng begrenzt ausgewertet werden (§ 18a Abs. 1, 3, 5 FinVermV). Mit VVO-Compliance klären, ob der Agent Transkripte mit Anlageberatung auswerten darf bzw. ob es eine getrennte Mitschrift mit eigener Einwilligung braucht. Bei Haftungsdach gilt das WpHG, dann dort prüfen | Hugo + VVO |
 | O9 | Ausrollen per GitHub Actions mit Azure-OIDC (ohne Secret), damit auch Cloud-Sessions Images ausrollen können. Optional, noch nicht eingerichtet (`docs/BETRIEB.md` Abschnitt 5) | später |
 | O8 | Budget-Alarm einrichten (verschoben am 2026-11-11), dafür E-Mail-Adresse (nicht ins Repo). Spätestens vor Umstellung auf Pay-As-You-Go (O1), Worst Case Container App ≈ 13 €/Monat | Hugo |
 
