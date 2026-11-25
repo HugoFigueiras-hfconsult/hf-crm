@@ -115,5 +115,6 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 ## 9. Hybridphase (bis der Agent steht)
 
 - Hugo arbeitet seine Mandanten weiter. Claude entwirft auf Zuruf im Chat (z. B. Unterlagen-Mail, Vergleichslisten, Konzeptteile).
+- **Profil vorläufig als Datei** (seit 2026-11-25): Solange es kein DB-Schema gibt, schreibt Claude das Mandantenprofil als Markdown `Profil <Vorname Nachname>.md` direkt in den OneDrive-Mandantenordner. Aufbau wie das spätere `Mandant.Profil`: Kurzprofil, Beruf/Einkommen, Familie, Hobbys/Risiken, Haltung zu Finanzen, Ziele, Finanzstatus, Verträge, **Was erklärt wurde** (mit Datum), Fachhinweise, offene Aufgaben. Gesundheit nur als Handlungsfolge. Der Agent liest diese Datei **zuerst**, bevor er zu einem Mandanten arbeitet, und übernimmt sie später in die DB.
 - **Rohmaterial jetzt schon ablegen:** Transkript und Whiteboard-Bild jedes Termins in den OneDrive-Ordner des Mandanten. So kann der Agent später rückwirkend Profile aufbauen.
 - **Erster Testfall:** die erste echte Analyse (Transkript liegt bei Hugo). Sobald Schema und Nachbereitung stehen, wird sie als Erstes eingelesen.
