@@ -181,7 +181,7 @@ Richtige Sachverhalte, Zahlen 2026, Rechenregeln (Rentenlücke, Steuern) und die
 2. **Nur der empfohlene Tarif** je Bereich kommt in die DB. Die drei verglichenen stehen im verlinkten Leistungsvergleich.
 3. Die **Fragerunde** wird im Konzept-Termin fest vereinbart. Der Agent prüft danach, ob der Termin im Kalender steht.
 4. Die **Konzept-Mail** wird etwas ausführlicher: Vorlage `agent/vorlagen/konzept-mail.md`. Kurzfassung nur, wenn Hugo den Mandanten schon außerhalb des Termins gebrieft hat.
-5. Die **Rentenlücke** rechnet Hugo bisher in der VVO-Präsentation. **Ziel:** weg von der VVO-Präsentation, hin zu **einem eigenen Artefakt je Mandant** für Analyse und Konzept, das der Agent erstellt (`docs/10-mandanten-artefakt.md`). Bis dahin liefert der Agent die Zahlen als Spickzettel.
+5. Die **Rentenlücke** rechnet Hugo bisher in der VVO-Präsentation. **Ziel:** weg von der VVO-Präsentation, hin zu **einem eigenen Artefakt je Mandant** für Analyse und Konzept, das der Agent erstellt (`docs/10-mandanten-artefakt.md`). Gezeigt nur per Bildschirmfreigabe, der Mandant bekommt am Ende die Mail mit den PDFs. Bis dahin liefert der Agent die Zahlen als Spickzettel.
 
 ## Abschluss (noch offen)
 

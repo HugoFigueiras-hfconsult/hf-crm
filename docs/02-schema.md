@@ -50,7 +50,7 @@ Warum nicht immer alles laden: Alle Transkripte eines Mandanten nach 5 Jahren (4
 
 | Tabelle | Zweck | Kernfelder |
 |---|---|---|
-| `Mandant` | Wer, und wo liegt was | `MandantId` (GUID), `Anzeigename`, `Art` (Person/Haushalt/Firma), `Status` (Interessent/aktiv/inaktiv), `OneDriveOrdnerId` + `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail` (Zuordnung von Kalender/Mails), **`Profil`** (Markdown, `NVARCHAR(MAX)`, Schicht 1), `ProfilStand` (wann zuletzt verdichtet), **`Terminrhythmus`** (Quartal/Halbjahr), **`ArtefaktMandantUrl`**, **`ArtefaktBeraterUrl`** (die zwei dauerhaften Artefakte, `docs/08-update-termin.md`), `ErstelltAm`, `GeaendertAm` |
+| `Mandant` | Wer, und wo liegt was | `MandantId` (GUID), `Anzeigename`, `Art` (Person/Haushalt/Firma), `Status` (Interessent/aktiv/inaktiv), `OneDriveOrdnerId` + `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail` (Zuordnung von Kalender/Mails), **`Profil`** (Markdown, `NVARCHAR(MAX)`, Schicht 1), `ProfilStand` (wann zuletzt verdichtet), **`Terminrhythmus`** (Quartal/Halbjahr), **`ArtefaktUrl`** (das eine dauerhafte Artefakt, `docs/10-mandanten-artefakt.md`; bis 25.11. zwei Felder), `ErstelltAm`, `GeaendertAm` |
 | `Termin` | Jeder Kontakt mit Vor- und Nachbereitung (auch Telefonat) | `TerminId`, `MandantId`, `Beginn`, `Art` (Update, Erstgespräch, Beratung, Telefonat …), `OutlookEventId`, `Vorbereitung` (Kurztext, inkl. welche Themen aus dem Radar gezeigt werden), `Zusammenfassung`, `Ergebnisse`, `TranskriptLink` (OneDrive), `Status` (geplant/vorbereitet/durchgeführt/nachbereitet) |
 | `Depotstand` | Depot-Stand je Stichtag (FNZ, heute per Screenshot von Kai Stettner) | `DepotstandId`, `MandantId`, `Stichtag`, `Depotnummer` (optional), `Gesamtwert`, `Einzahlungen` (optional), `QuelleLink` (Screenshot im OneDrive), `ErstelltAm` |
 | `DepotPosition` | Positionen eines Depotstands (für Zusammensetzung + Verlauf) | `DepotPositionId`, `DepotstandId`, `Bezeichnung`, `ISIN` (optional), `Anteile` (optional), `Wert`, `Anteil` (%) |
@@ -69,7 +69,7 @@ Bündelt die Tabelle oben mit den Ergänzungen aus `docs/08-update-termin.md` un
 
 | Tabelle | Zweck | Felder (Kern + Ergänzungen) | Quelle |
 |---|---|---|---|
-| `Mandant` | wer, wo liegt was, Gedächtnis | `MandantId`, `Anzeigename`, `Art`, `Status` (Interessent → Analyse → Konzept → Fragerunde → Abschluss → Bestand / abgesprungen / inaktiv), `OneDriveOrdnerId`, `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail`, `Profil` (Markdown), `ProfilStand`, `Terminrhythmus`, `ArtefaktMandantUrl`, `ArtefaktBeraterUrl`, `EmpfohlenVon`, `Quelle`, `Erstkontakt` (Hint), `Geburtsjahr`, `Schwerpunkt`, `Risikoprofil`, `RisikoprofilAm`, `RisikoprofilQuelle`, `ErstelltAm`, `GeaendertAm` | 02, 08, 09 |
+| `Mandant` | wer, wo liegt was, Gedächtnis | `MandantId`, `Anzeigename`, `Art`, `Status` (Interessent → Analyse → Konzept → Fragerunde → Abschluss → Bestand / abgesprungen / inaktiv), `OneDriveOrdnerId`, `OneDriveOrdnerPfad`, `JdcKundennummer`, `VvoKundennummer`, `EMail`, `Profil` (Markdown), `ProfilStand`, `Terminrhythmus`, `ArtefaktUrl`, `EmpfohlenVon`, `Quelle`, `Erstkontakt` (Hint), `Geburtsjahr`, `Schwerpunkt`, `Risikoprofil`, `RisikoprofilAm`, `RisikoprofilQuelle`, `ErstelltAm`, `GeaendertAm` | 02, 08, 09 |
 | `Termin` | jeder Kontakt | `TerminId`, `MandantId`, `Beginn`, `Art` (Analyse, Konzept, Fragerunde, Unterschrift, Update, Beratung, Telefonat), `Ort` (online/Büro), `OutlookEventId`, `Vorbereitung`, `Zusammenfassung`, `Ergebnisse`, `TranskriptLink`, `WhiteboardLink`, `Status` | 02, 09 |
 | `Ziel` | Hugos Kern-Methode kurz/mittel/lang | `ZielId`, `MandantId`, `Topf`, `Beschreibung`, `Betrag`, `Zeitpunkt` (Jahr/Alter), `Status` (offen/erreicht/verworfen) | 09 |
 | `Finanzstatus` | Drittel-Regel, Verlauf | `FinanzstatusId`, `MandantId`, `Stichtag`, `NettoVon`, `NettoBis`, `Nebeneinkommen`, `Wohnkosten`, `Lebenshaltung`, `Ruecklage`, `SparrateKurz`, `SparrateMittel`, `SparrateLang`, `Notiz`; **Konzept:** `Brutto`, `Steuer`, `AbgabenAV`, `AbgabenKVPV`, `AbgabenRV`, `Verbindlichkeiten`, `RenteLautInfo`, `RenteninfoStand`, `Rentenbeginn`, `BedarfImAlter`, `Rentenluecke`, `Annahmen` | 09 |
@@ -81,7 +81,7 @@ Bündelt die Tabelle oben mit den Ergänzungen aus `docs/08-update-termin.md` un
 | `Thema` | zentrales Themen-Radar | `ThemaId`, `Kategorie`, `Titel`, `Kurzfassung`, `Zeitraum`/`GiltAb`, `BetrifftWen`, `QuelleLink`, `Status`, `ErstelltAm` | 08 |
 | _später_ `Transkript`, `ProfilVersion`, `Dokument` | siehe oben | nur bei Bedarf (`Transkript` nur mit Import ohne Claude) | 02 |
 
-Offene Modellfragen: Mandant = Person oder Haushalt (Entscheidung 2), JDC-Exportformat (Entscheidung 4), Felder aus dem Abschluss. **Entschieden 2026-11-25:** Vorschläge als `Vertrag` mit Status „Vorschlag“, nur der empfohlene Tarif. **Vorschlag:** `Mandant.ArtefaktUrl` statt `ArtefaktMandantUrl` + `ArtefaktBeraterUrl` (1 Mandant = 1 Artefakt, `docs/10-mandanten-artefakt.md`), wartet auf Hugos Bestätigung.
+Offene Modellfragen: Mandant = Person oder Haushalt (Entscheidung 2), JDC-Exportformat (Entscheidung 4), Felder aus dem Abschluss. **Entschieden 2026-11-25:** Vorschläge als `Vertrag` mit Status „Vorschlag“, nur der empfohlene Tarif. **Entschieden 2026-11-25:** `Mandant.ArtefaktUrl` (1 Mandant = 1 Artefakt, `docs/10-mandanten-artefakt.md`).
 
 ### Abläufe (Beispiele)
 

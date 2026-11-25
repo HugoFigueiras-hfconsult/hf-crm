@@ -21,7 +21,7 @@ Kein klassisches CRM, sondern eine Datenbank, die verknüpft und sich merkt.
 | Connector **HF-CRM** (`https://mcp.hf-consult.de/mcp`) | Datenbank: `describe_entities`, `read_records`, `create_record`, `update_record`, `aggregate_records`. **Kein Löschen, keine Tabellen anlegen** | ✅ verbunden (nur Platzhalter-Entity, Schema fehlt) |
 | Connector **Microsoft 365** | OneDrive/SharePoint: lesen, suchen, Ordner anlegen, verschieben, umbenennen, hochladen. Outlook: Kalender, Mail-**Entwürfe**. Teams | in claude.ai verbunden. ✅ 2026-11-25 mit echten Daten genutzt (Mails/Anhänge lesen, Ordner anlegen). Upload nur bis 1 MB |
 | Websuche | Themen-Radar (Markt, Gesetzesänderungen) | verfügbar |
-| Artefakte (claude.ai) | Ziel: **ein** dauerhaftes Artefakt je Mandant, ersetzt die VVO-Präsentation | Konzept (`docs/10-mandanten-artefakt.md`) |
+| Artefakte (claude.ai) | **ein** dauerhaftes Artefakt je Mandant, Hugo präsentiert es per Bildschirmfreigabe, ersetzt die VVO-Präsentation | Konzept (`docs/10-mandanten-artefakt.md`), Vorlage noch nicht gebaut |
 | **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen) und **NAFI-KFZ-Rechner** bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitung: `agent/portale/jdc-nafi-kfz.md` | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich) |
 
 **Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt), die **VVO-Präsentation** im Konzept-Termin (der Agent liefert Hugo die Zahlen, Hugo trägt sie ein). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
@@ -95,7 +95,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 
 ## 7. Artefakte
 
-**Ziel (Hugo, 2026-11-25): 1 Mandant = 1 Artefakt**, vom Agenten erstellt, ersetzt langfristig die VVO-Präsentation in Analyse und Konzept, Details `docs/10-mandanten-artefakt.md`. Vorschlag: Berater-Infos als Briefing im Chat statt als zweites Artefakt (wartet auf Bestätigung). Bisheriger Stand: zwei dauerhafte Artefakte, **Mandantenansicht** (zum Zeigen/Teilen, keine internen Notizen) und **Berater-Ansicht** (nur Hugo). Die erste Version entsteht nach der Analyse (Lebens-Zeitstrahl, Drittel-Regel, Ist-Aufstellung kurz/mittel/lang). Details: `docs/08-update-termin.md`, `docs/09-neumandant.md`.
+**1 Mandant = 1 Artefakt** (Hugo, 2026-11-25): vom Agenten erstellt und fortgeschrieben, Hugo präsentiert es **nur per Bildschirmfreigabe** in Analyse, Konzept und Update-Terminen. Es ersetzt langfristig die VVO-Präsentation, muss visuell hochwertig und animiert sein und enthält **nie interne Notizen** (der Mandant sieht mit). Hugos interne Infos kommen als **Briefing im Chat**. Der Mandant bekommt keinen Link, sondern am Ende die Mail mit den PDFs. Details: `docs/10-mandanten-artefakt.md`.
 
 ## 8. Umsetzungsstand
 

@@ -26,7 +26,7 @@ Stand: 2026-11-25 · Repo `HugoFigueiras-hfconsult/hf-crm`, Branch `main` · ers
 0. **Wiedervorlagen prüfen** (`docs/STATUS.md`, Fristen):
    - ab **07.12.2026** an O10/O11 erinnern
    - vor dem **11.12.2026** Testversion → Pay-As-You-Go (O1) und Budget-Alarm (O8)
-1. ✅ 25.11.: Konzept-Termin + Fragerunde beschrieben (`docs/09-neumandant.md`, inkl. Fachhinweise Altersvorsorgedepot/Riester 2027 und veraltete Aussagen im VVO-Leitfaden 2018). Hugos Entscheidungen dazu stehen in `docs/00-entscheidungen.md` (25.11.). Fachwissen statt VVO-Leitfaden: `agent/fachwissen.md`. Ziel 1 Mandant = 1 Artefakt: `docs/10-mandanten-artefakt.md`. **Offen:** Bestätigung Berater-Ansicht, dann **Gespräch zum Abschluss** (Unterschrift, danach, Absprung, Empfehlungen). Vorgehen wie bei der Analyse:
+1. ✅ 25.11.: Konzept-Termin + Fragerunde beschrieben (`docs/09-neumandant.md`, inkl. Fachhinweise Altersvorsorgedepot/Riester 2027 und veraltete Aussagen im VVO-Leitfaden 2018). Hugos Entscheidungen dazu stehen in `docs/00-entscheidungen.md` (25.11.). Fachwissen statt VVO-Leitfaden: `agent/fachwissen.md`. Ziel 1 Mandant = 1 Artefakt: `docs/10-mandanten-artefakt.md`. Artefakt entschieden: nur per Bildschirmfreigabe als Präsentation/Navigation, visuell hochwertig mit Animationen, Berater-Infos als Chat-Briefing. **Offen:** **Gespräch zum Abschluss** (Unterschrift, danach, Absprung, Empfehlungen). Parallel möglich: Artefakt-Vorlage mit Testdaten (`docs/10-mandanten-artefakt.md`, Umsetzung Schritt 1). Vorgehen wie bei der Analyse:
    - Hugo beschreibt den Ablauf, gern mit einem Transkript als Beispiel.
    - Claude leitet Ablauf, Agent-Aufgaben und Felder ab.
    - Fachaussagen im Transkript mit Quelle prüfen.

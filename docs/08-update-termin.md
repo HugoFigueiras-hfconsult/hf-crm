@@ -36,19 +36,19 @@ Steht in `Mandant.Terminrhythmus`. Der Agent schlägt nach der Nachbereitung ein
 
 **Aufzeichnung:** Entstehen Transkripte aus Aufnahmen, braucht es die Zustimmung des Mandanten (§ 201 StGB, unabhängig von DSGVO/AVV). Fester Satz beim Ankommen, z. B.: „Ist es okay, wenn ich mitschreiben lasse, damit ich mich voll auf dich konzentrieren kann?“ Bei Anlageberatung zusätzlich O11 in `docs/STATUS.md` beachten (§ 18a FinVermV: Aufzeichnungspflicht + Zweckbindung).
 
-## Zwei Artefakte pro Mandant (dauerhaft, werden fortgeschrieben)
+## Ein Artefakt pro Mandant + Briefing für Hugo (entschieden 2026-11-25)
 
-> **Hinweis 2026-11-25:** Hugos Ziel ist jetzt **1 Mandant = 1 Artefakt**, das auch die VVO-Präsentation in Analyse und Konzept ersetzt (`docs/10-mandanten-artefakt.md`). Vorschlag: Berater-Infos als Briefing im Chat statt als zweites Artefakt. Bis Hugo das bestätigt, gilt der Abschnitt unten.
+Bis 25.11. galten zwei Artefakte (Mandantenansicht + Berater-Ansicht). Jetzt: **1 Mandant = 1 Artefakt** (`docs/10-mandanten-artefakt.md`).
 
-| Artefakt | Für wen | Inhalt | Regel |
+| Was | Für wen | Inhalt im Update-Termin | Regel |
 |---|---|---|---|
-| **Mandantenansicht** | zum Zeigen/Teilen | Marktgrafik seit letztem Termin, Depotentwicklung (wächst über die Termine), 1–2 relevante Neuerungen, Fristen als Zeitleiste, „Deine Fragen“, vereinbarte nächste Schritte | **keine internen Notizen** |
-| **Berater-Ansicht** | nur Hugo | alles aus der Mandantenansicht + Anknüpfungspunkte, Leitfragen, Vertrags-Hinweise, Chancen, Dinge, die man nicht ansprechen sollte, Rückblick offene Punkte | nie teilen |
+| **Mandanten-Artefakt** | Hugo präsentiert es per **Bildschirmfreigabe** | Marktgrafik seit letztem Termin, Depotentwicklung (wächst über die Termine), 1–2 relevante Neuerungen, Fristen als Zeitleiste, „Deine Fragen“, vereinbarte nächste Schritte | **keine internen Notizen**, der Mandant sieht alles mit |
+| **Briefing** | nur Hugo, im Chat | Anknüpfungspunkte, Leitfragen, Vertrags-Hinweise, Chancen, Dinge, die man nicht ansprechen sollte, Rückblick offene Punkte | erzeugt der Agent vor jedem Termin aus der DB, kein Artefakt |
 
-- **Pro Mandant genau zwei Artefakte, keine neuen pro Termin.** Der Agent aktualisiert die bestehenden (gleiche Adresse, neue Version). Verläufe (Depot, Termine) wachsen darin mit.
-- Adressen stehen in `Mandant.ArtefaktMandantUrl` und `Mandant.ArtefaktBeraterUrl`. Vor dem Aktualisieren liest der Agent die bestehende Version und baut darauf auf.
-- Teilen mit dem Mandanten: im Termin per Bildschirm zeigen oder als PDF schicken. Ob und wie ein Link für Mandanten ohne Claude-Konto funktioniert, ist noch zu prüfen. Wegen Depotwerten keinen offenen Link ohne Schutz.
-- Später möglich (Phase 8): Berater-Ansicht als Live-Ansicht, die Daten direkt aus der DB lädt. Die Mandantenansicht bleibt ein fester Stand.
+- **Pro Mandant genau ein Artefakt, kein neues pro Termin.** Der Agent aktualisiert es (gleiche Adresse, neue Version). Verläufe (Depot, Termine) wachsen darin mit.
+- Adresse in `Mandant.ArtefaktUrl`. Vor dem Aktualisieren liest der Agent die bestehende Version und baut darauf auf.
+- **Kein Link an den Mandanten**, kein PDF des Artefakts. Der Mandant bekommt nach dem Termin die Mail mit den Unterlagen (Vergleiche, Angebote).
+- Später möglich (Phase 8): ein Berater-Dashboard über alle Mandanten, das live aus der DB lädt. Das ist etwas anderes als das Mandanten-Artefakt.
 
 ## Depot (FNZ Bank)
 
@@ -73,5 +73,5 @@ Der Agent kann die meisten Vergleichsrechner (Morgen & Morgen, Franke und Bornbe
 |---|---|
 | Wöchentlich | Themen-Radar aktualisieren; fällige Update-Termine (Rhythmus) als Liste an Hugo |
 | 2–3 Tage vor dem Termin | Einladungs-Entwurf mit Mini-Agenda (Baustein 0) |
-| 1 Tag vor dem Termin | Vorbereitung: Profil, letzte Termine, offene Aufgaben, Verträge/Fristen, Depotstand, passende Themen → **beide Artefakte aktualisieren**, Kurzfassung in `Termin.Vorbereitung` |
+| 1 Tag vor dem Termin | Vorbereitung: Profil, letzte Termine, offene Aufgaben, Verträge/Fristen, Depotstand, passende Themen → **Artefakt aktualisieren + Briefing für Hugo**, Kurzfassung in `Termin.Vorbereitung` |
 | Nach dem Termin | Nachbereitung (siehe `docs/02-schema.md`): Transkript ablegen + lesen, Zusammenfassung, Profil verdichten, Aufgaben, Rhythmus prüfen, Artefakte um Ergebnisse/nächste Schritte ergänzen, Folge-Mail nur wenn der Mandant Infos erwartet |

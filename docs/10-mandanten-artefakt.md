@@ -1,22 +1,19 @@
 # Mandanten-Artefakt: ein Artefakt je Mandant
 
-Stand 2026-11-25 · **Ziel, noch nicht gebaut**
+Stand 2026-11-25 · **Entschieden, noch nicht gebaut**
 
 ## Ziel (Hugo, 2026-11-25)
 
 - **1 Mandant = 1 Artefakt.** Der Agent erstellt und pflegt es.
-- Es ersetzt **auf lange Sicht die VVO-Präsentation**, sowohl in der **Analyse** als auch im **Konzept-Termin** (Beratungsgespräch). Danach wird es in den Update-Terminen fortgeschrieben.
-- Bis es steht, arbeitet Hugo weiter mit der VVO-Präsentation. Der Agent liefert ihm dafür die Zahlen (Spickzettel, `docs/09-neumandant.md`).
+- Es ist **Hugos Präsentation und Navigationsbasis** im Termin: Analyse, Konzept, später Update-Termine. Es ersetzt auf lange Sicht die VVO-Präsentation.
+- Gezeigt wird es **nur per Bildschirmfreigabe** (Teams). Der Mandant bekommt **keinen Link und kein PDF** des Artefakts, sondern am Ende die Mail mit den Unterlagen (Vergleiche, Angebote; `agent/vorlagen/konzept-mail.md`).
+- Es muss **visuell schön sein, mit vielen Animationen**.
+- Hugos interne Infos (Kandidaten, Lücken, Leitfragen, „nicht ansprechen“) kommen **nicht** ins Artefakt, sondern als **Briefing im Chat** vor dem Termin. Der Mandant sieht das Artefakt ja mit.
+- Bis das Artefakt steht, arbeitet Hugo mit der VVO-Präsentation weiter. Der Agent liefert die Zahlen als Spickzettel (`docs/09-neumandant.md`).
 
-## Verhältnis zur Entscheidung vom 2026-11-12 („zwei Artefakte je Mandant“)
+## Kapitel (Reihenfolge wie im Termin)
 
-Damals: Mandantenansicht zum Teilen + Berater-Ansicht nur für Hugo, getrennt, damit beim Teilen nie interne Notizen sichtbar werden.
-
-**Vorschlag des Agenten (wartet auf Hugos Bestätigung):** Das eine Artefakt ist die Mandantenansicht. Die Berater-Infos (Kandidaten, Lücken, Notizen, Spickzettel) werden **kein** zweites Artefakt, sondern ein Briefing im Chat, das der Agent vor jedem Termin aus der DB erzeugt. So gibt es ein Artefakt je Mandant, und es enthält trotzdem nie interne Notizen.
-
-## Ansichten (Reiter, in der Reihenfolge der Termine)
-
-| # | Reiter | Inhalt | Termin |
+| # | Kapitel | Inhalt | Termin |
 |---|---|---|---|
 | 1 | Lebens-Zeitstrahl und Ziele | Ziele kurz/mittel/lang mit Betrag und Zeitpunkt | Analyse |
 | 2 | Drittel-Regel | Wohnen / Leben / Leben später: Soll und Ist | Analyse |
@@ -27,31 +24,42 @@ Damals: Mandantenansicht zum Teilen + Berater-Ansicht nur für Hugo, getrennt, d
 | 7 | Drei Töpfe | kurz / mittel / lang, Vermögensaufbau-Kurve, kurz vs. mittel bei gleicher Sparrate | Konzept |
 | 8 | Rentenlücke | vorher / nachher, Annahmen sichtbar | Konzept |
 | 9 | Nächste Schritte | Fragerunde, Unterlagen, Aufgaben beider Seiten | alle |
-| 10 | Verlauf | Depotstand, Ziele erreicht, Termine | Update |
+| 10 | Verlauf | Depotstand, erreichte Ziele, Termine, Neuerungen | Update |
 
-**Interaktiv:** Regler für Sparrate, Rendite-Annahme, Inflation, Rentenbeginn. Die Ergebnisse rechnen sofort neu, die Annahmen stehen immer daneben. Rechenregeln: `agent/fachwissen.md` Abschnitt 6.
+## Präsentation und Navigation
 
-## Regeln
+- **Startseite als Übersicht** (wie die VVO-„Übersicht“): Kacheln für alle Kapitel und Bereiche. Ein Klick springt hinein, ein Klick führt zurück. So kann Hugo frei springen, wenn der Mandant eine Frage hat.
+- **Vor/Zurück** mit Pfeiltasten und gut sichtbaren Schaltflächen, Fortschrittsanzeige (wo im Termin sind wir).
+- **Präsentationsmodus:** Vollbild, nur Inhalte, keine Bedienelemente außer der Navigation.
+- **Rechner direkt in der Präsentation:** Regler für Sparrate, Rendite-Annahme, Inflation und Rentenbeginn. Die Ergebnisse rechnen sofort neu, die Annahmen stehen immer daneben. Rechenregeln: `agent/fachwissen.md` Abschnitt 6.
 
-- **Eigenes Design**, keine VVO-Folien, kein VVO-Branding nachbauen. Die Logik (Einkommen heute → Zukunft, Übersicht, drei Töpfe) übernimmt Hugo aus seiner Beratung.
-- Taugt zur **Bildschirmfreigabe in Teams** (große Schrift, klare Zahlen) und ist auf dem Handy lesbar.
+## Gestaltung und Animationen
+
+- **Hochwertig und ruhig:** eigenes Design (kein VVO-Branding), klare Farben je Topf (kurz/mittel/lang) und je Bereich, große Zahlen, viel Weißraum.
+- **Viele Animationen, die die Geschichte erzählen**, zum Beispiel:
+  - Zahlen zählen beim Einblenden hoch.
+  - Balken wachsen; „heute → Vorschlag“ verwandelt sich sichtbar (Balken schrumpft oder wächst auf den neuen Wert).
+  - Einkommen heute „fließt“ in seine Bestandteile (Steuer, Abgaben, Netto, Verwendung).
+  - Die Vermögensaufbau-Kurve zeichnet sich von links nach rechts; die Rentenlücke schließt sich animiert, wenn der Vorschlag eingeblendet wird.
+  - Weiche Übergänge zwischen Kapiteln, Kacheln zoomen beim Hineinspringen auf.
+- **Teams-tauglich:** Teams überträgt Bildschirme mit wenigen Bildern pro Sekunde und komprimiert. Deshalb Animationen mit klarem Start und Ende (0,5–1,2 s), keine dauerhaften Hintergrundbewegungen, kein Flackern, große Schrift.
+- Zusätzlich ein **Schalter „Animationen aus“** und Rücksicht auf die Systemeinstellung „Bewegung reduzieren“.
 - **Sachliche Sprache** (`agent/fachwissen.md` Abschnitt 1): „heute / Vorschlag“ statt „vor / nach Optimierung“, keine Superlative, Hochrechnungen mit Bandbreite.
-- **Daten im Artefakt eingebettet** (der Agent schreibt sie aus der DB und veröffentlicht neu), die Rechner laufen im Browser. **Kein Live-Zugriff auf die DB**: Der Mandant kann es dann ohne Login öffnen, und es sind nie Daten anderer Mandanten erreichbar.
+
+## Daten
+
+- **Im Artefakt eingebettet.** Der Agent schreibt sie aus der DB und veröffentlicht das Artefakt neu (gleiche Adresse, neue Version). Die Rechner laufen im Browser.
+- **Kein Live-Laden aus der DB** während des Termins: Der MCP-Server braucht nach Leerlauf bis ca. 25 s zum Aufwachen (LOG 20.11.), das passt nicht in eine Präsentation. Außerdem sind so nie Daten anderer Mandanten erreichbar.
+- Adresse in `Mandant.ArtefaktUrl`. Vor jeder Aktualisierung liest der Agent die bestehende Version und baut darauf auf.
 - Keine internen Notizen, keine Kandidatenlisten, nichts zu Provisionen.
-- Adresse in `Mandant.ArtefaktUrl` (ersetzt die zwei Felder `ArtefaktMandantUrl`/`ArtefaktBeraterUrl`, sobald Hugo den Vorschlag oben bestätigt). Vor jeder Aktualisierung liest der Agent die bestehende Version und baut darauf auf (gleiche Adresse, neue Version).
 
 ## Umsetzung (Reihenfolge)
 
-1. Vorlage als HTML im Repo (`dashboard/mandant-vorlage.html`) mit **erfundenen Testdaten**.
-2. Hugo prüft Aufbau und Sprache, Korrekturen.
-3. Erster echter Fall (neben der VVO-Präsentation).
-4. Danach: Analyse und Konzept nur noch mit dem Artefakt.
+1. Vorlage als HTML im Repo (`dashboard/mandant-vorlage.html`) mit **erfundenen Testdaten**. Beim Bauen die Design-Anleitung für Artefakte laden.
+2. Hugo prüft Aufbau, Optik, Animationen und Sprache in einer Probe-Bildschirmfreigabe.
+3. Erster echter Fall, zunächst neben der VVO-Präsentation.
+4. Danach Analyse und Konzept nur noch mit dem Artefakt.
 
 ## Abgrenzung
 
-Phase 8 (`docs/07-dashboard.md`) ist ein **Berater-Dashboard** über alle Mandanten (nur Hugo). Das Mandanten-Artefakt hier ist etwas anderes.
-
-## Offen
-
-- Hugo bestätigt den Vorschlag zur Berater-Ansicht (oben).
-- Bekommt der Mandant den Link zum Artefakt (zum Nachlesen) oder sieht er es nur in der Bildschirmfreigabe bzw. als PDF? Bisherige Regel (`docs/08-update-termin.md`): wegen Depotwerten kein offener Link ohne Schutz.
+Phase 8 (`docs/07-dashboard.md`) ist ein **Berater-Dashboard** über alle Mandanten (nur Hugo, live aus der DB). Das Mandanten-Artefakt hier ist etwas anderes.
