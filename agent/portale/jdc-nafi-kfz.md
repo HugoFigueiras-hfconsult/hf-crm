@@ -20,7 +20,7 @@ Wie der Agent im JDC-Maklerportal einen Interessenten anlegt und im Kfz-Vergleic
 
 Aus **Versicherungsschein / Beitragsrechnung**: Versicherer, Vertragsablauf, SF-Klasse **zum neuen Versicherungsbeginn** (steht auf der Beitragsrechnung fürs Folgejahr), Kasko-Art und Selbstbeteiligung, Bausteine (Schutzbrief, Fahrerschutz, Auslandsschadenschutz, Kfz-Unfall), Fahrleistung, Abstellort, Nutzung, jüngster Fahrer, Typ-/Regionalklassen, Beitrag.
 
-Aus dem **Fahrzeugschein** (Teil I): HSN (Feld 2.1), TSN (Feld 2.2, erste 3 Zeichen), Erstzulassung (Feld B), Kennzeichen. Ein Schein vom Vorbesitzer reicht für HSN/TSN/EZ.
+Aus dem **Fahrzeugschein** (Teil I): HSN (Feld 2.1), TSN (Feld 2.2, erste 3 Zeichen), Erstzulassung (Feld B), Kennzeichen. Ein Schein vom Vorbesitzer reicht für HSN/TSN/EZ. Nebenbei **nächste HU** (Feld unten links) prüfen und Hugo melden, wenn überfällig. Der **Kaufpreis** steht in der Regel weder im Versicherungsschein noch im Fahrzeugschein, immer erfragen.
 
 **Beim Mandanten erfragen** (fehlt meist, NAFI verlangt es):
 
@@ -67,7 +67,7 @@ Linke Leiste: Start → Fahrzeug → Merkmale → Versicherungsnehmer → Fahrer
 
 ## 6. Ergebnis aufbereiten (für Hugo)
 
-1. **Bestand fair machen**: Beitrag Altvertrag fürs neue Jahr laut Beitragsrechnung, getrennt nach KH, Kasko und Bausteinen. Überflüssige Bausteine herausrechnen (Kfz-Unfall laut Verbraucherzentrale „fast immer überflüssig“, wenn Fahrerschutz oder private Unfall/BU besteht).
+1. **Bestand fair machen**: Beitrag Altvertrag fürs neue Jahr laut Beitragsrechnung, getrennt nach KH, Kasko und Bausteinen. **Werkstattbindung des Altvertrags prüfen** (steht als Baustein im Versicherungsschein, z. B. WGV „Kasko SELECT“). Fair ist nur: ohne Werkstattbindung gegen ohne. Tarife mit Werkstattbindung als eigene Option zeigen, auch beim Altversicherer selbst (Baustein nachträglich vereinbaren statt wechseln). Überflüssige Bausteine herausrechnen (Kfz-Unfall laut Verbraucherzentrale „fast immer überflüssig“, wenn Fahrerschutz oder private Unfall/BU besteht).
 2. **Zwei Listen**: günstigste Tarife **mit** und **ohne** Werkstattbindung, jeweils die besten 3 bis 5 Tarife, die alle Anforderungen erfüllen.
 3. **Hinweise je Tarif** übernehmen (z. B. Allianz: Angebot 14 Tage gültig, Annahme nach Bonitätsprüfung).
 4. **Annahmen** sichtbar auflisten: Was geschätzt ist und wie stark es den Preis bewegen kann.
@@ -84,6 +84,6 @@ Linke Leiste: Start → Fahrzeug → Merkmale → Versicherungsnehmer → Fahrer
 
 ## 8. Ablage
 
-- OneDrive (Geschäftskonto `hf-consult.de`): `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit Unterordnern `Dokumente` und `Konzept` (Hugos bestehende Struktur).
+- OneDrive (Geschäftskonto `hf-consult.de`): `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit Unterordnern `Unterlagen Analyse` und `Unterlagen Konzept` (Hugos Schema seit 2026-11-25, ältere Mandanten werden umsortiert). Transkript des Analyse-Termins direkt in den Mandantenordner.
 - Der Microsoft-365-Connector lädt nur Dateien **bis 1 MB** hoch. Größere Dateien (Teams-Transkripte als .docx haben schnell 2 MB, fast nur durch hunderte identische Profilbilder) zieht **Hugo** per Drag-and-drop in den geöffneten OneDrive-Ordner. Über OneDrive im Browser kann der Agent nicht hochladen: „Dateien hochladen“ öffnet den Windows-Dateidialog, den Claude in Chrome nicht bedienen kann. Große Dateien als Base64 durch den Connector zu schicken, ist zu fehleranfällig.
 - Teams-Transkripte liegen im **VVO-Tenant**, nicht im `hf-consult.de`-Tenant. Der Agent kommt nicht dran, Hugo exportiert sie als .docx.

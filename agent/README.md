@@ -107,7 +107,7 @@ Zwei **dauerhafte** Artefakte je Mandant, die fortgeschrieben werden: **Mandante
 | DAB-Entities | ⬜ nach dem Schema |
 | Routinen (Vor-/Nachbereitung, wöchentlich) | ⬜ |
 | Artefakt-Vorlagen | ⬜ |
-| OneDrive-Struktur `Mandanten/` | 🟡 Hugo nutzt bereits `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit `Dokumente/` und `Konzept/`. Abgleich mit Vorschlag in `docs/02-schema.md` offen |
+| OneDrive-Struktur `Mandanten/` | 🟡 Hugo nutzt `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit `Unterlagen Analyse/` und `Unterlagen Konzept/` (seit 2026-11-25, Altbestand wird per Copilot-Agent umsortiert). Abgleich mit Vorschlag in `docs/02-schema.md` offen |
 | Whiteboard auslesen | ⬜ ungetestet (.whiteboard-Datei kann der M365-Connector nicht lesen, Export als Bild nötig) |
 | M365-Connector mit echten Daten | ✅ 2026-11-25: Mails + Anhänge (PDF, Bild) lesen, OneDrive-Ordner anlegen. Upload nur bis 1 MB |
 | JDC iCRM + NAFI-KFZ per Claude in Chrome | ✅ 2026-11-25 erprobt (`agent/portale/jdc-nafi-kfz.md`) |
