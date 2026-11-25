@@ -19,11 +19,12 @@ Kein klassisches CRM, sondern eine Datenbank, die verknüpft und sich merkt.
 | Werkzeug | Wofür | Stand |
 |---|---|---|
 | Connector **HF-CRM** (`https://mcp.hf-consult.de/mcp`) | Datenbank: `describe_entities`, `read_records`, `create_record`, `update_record`, `aggregate_records`. **Kein Löschen, keine Tabellen anlegen** | ✅ verbunden (nur Platzhalter-Entity, Schema fehlt) |
-| Connector **Microsoft 365** | OneDrive/SharePoint: lesen, suchen, Ordner anlegen, verschieben, umbenennen, hochladen. Outlook: Kalender, Mail-**Entwürfe**. Teams | in claude.ai verbunden. Mit Hugos Daten **noch nicht getestet** |
+| Connector **Microsoft 365** | OneDrive/SharePoint: lesen, suchen, Ordner anlegen, verschieben, umbenennen, hochladen. Outlook: Kalender, Mail-**Entwürfe**. Teams | in claude.ai verbunden. ✅ 2026-11-25 mit echten Daten genutzt (Mails/Anhänge lesen, Ordner anlegen). Upload nur bis 1 MB |
 | Websuche | Themen-Radar (Markt, Gesetzesänderungen) | verfügbar |
 | Artefakte (claude.ai) | zwei dauerhafte Artefakte je Mandant | Konzept (`docs/08-update-termin.md`) |
+| **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen) und **NAFI-KFZ-Rechner** bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitung: `agent/portale/jdc-nafi-kfz.md` | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich) |
 
-**Nicht erreichbar:** JDC (keine API, nur Exporte über Hugo), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner (Morgen & Morgen, Franke und Bornberg, JDC-Rechner). Der Agent **markiert Kandidaten**, Hugo rechnet.
+**Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
 
 ## 3. Gedächtnis: wo was liegt
 
@@ -68,6 +69,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | Themen-Radar, fällige Termine, Fristen 90 Tage | wöchentlich | `docs/08-update-termin.md`, `docs/02-schema.md` |
 | Eilfälle (Frist vor dem nächsten Termin) | sofort | Aufgabe mit Fälligkeit, Formalia-Checkliste vorziehen |
 | Formalia prüfen | sobald eine Unterschrift ansteht | `docs/09-neumandant.md`, „Formalia“ |
+| **Kfz-Vergleich** (Interessent in JDC anlegen, NAFI rechnen, Vergleich speichern, Ergebnis für Hugo aufbereiten) | Unterlagen da, Frist 30.11. bzw. Beitragserhöhung | `agent/portale/jdc-nafi-kfz.md` |
 
 ## 6. Regeln für den Agenten
 
@@ -102,8 +104,10 @@ Zwei **dauerhafte** Artefakte je Mandant, die fortgeschrieben werden: **Mandante
 | DAB-Entities | ⬜ nach dem Schema |
 | Routinen (Vor-/Nachbereitung, wöchentlich) | ⬜ |
 | Artefakt-Vorlagen | ⬜ |
-| OneDrive-Struktur `Mandanten/` | ⬜ (Vorschlag in `docs/02-schema.md`) |
-| Whiteboard auslesen, M365-Connector mit echten Daten | ⬜ ungetestet |
+| OneDrive-Struktur `Mandanten/` | 🟡 Hugo nutzt bereits `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit `Dokumente/` und `Konzept/`. Abgleich mit Vorschlag in `docs/02-schema.md` offen |
+| Whiteboard auslesen | ⬜ ungetestet (.whiteboard-Datei kann der M365-Connector nicht lesen, Export als Bild nötig) |
+| M365-Connector mit echten Daten | ✅ 2026-11-25: Mails + Anhänge (PDF, Bild) lesen, OneDrive-Ordner anlegen. Upload nur bis 1 MB |
+| JDC iCRM + NAFI-KFZ per Claude in Chrome | ✅ 2026-11-25 erprobt (`agent/portale/jdc-nafi-kfz.md`) |
 
 ## 9. Hybridphase (bis der Agent steht)
 

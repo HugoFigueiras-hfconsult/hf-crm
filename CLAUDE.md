@@ -7,7 +7,7 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 
 1. `docs/STATUS.md`: aktueller Stand, nächster Schritt, offene Punkte
 2. `HANDOVER.md`: aktueller Stand für einen neuen Chat, nächste Schritte, Start-Prompt
-2a. `agent/README.md`: Agent-Handbuch (was der Beratungs-Agent tut, Werkzeuge, Eingänge, Abläufe, Regeln, Umsetzungsstand) + Vorlagen in `agent/vorlagen/`
+2a. `agent/README.md`: Agent-Handbuch (was der Beratungs-Agent tut, Werkzeuge, Eingänge, Abläufe, Regeln, Umsetzungsstand) + Vorlagen in `agent/vorlagen/` + Portal-Anleitungen in `agent/portale/` (JDC iCRM, NAFI-KFZ)
 3. `docs/ARCHITEKTUR.md`: Gesamtbild mit Diagrammen (was läuft wo, Login-Ablauf, Sicherheit)
 4. `docs/BETRIEB.md`: Runbook: Tabellen freigeben, SQL ausführen, Image bauen/ausrollen, Logs, Fehlerbilder, Wartung
 5. `docs/LOG.md`: chronologisches Protokoll aller Aktionen

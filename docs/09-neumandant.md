@@ -103,7 +103,7 @@ Noch unbeantwortet: Soll der Agent die Beratungsdokumentation aus dem Transkript
 
 **Zwischen Analyse und Konzept** (Unterlagen kommen per Mail):
 - Unterlagen im Mandantenordner ablegen, Vertragsdaten (Beitrag, Fristen, Konditionen) übernehmen, angeforderte Unterlagen als erledigt markieren, fehlende nachhaken.
-- Vergleichskandidaten für Hugo auflisten. Rechnen tut Hugo (Vergleichsrechner kann der Agent nicht bedienen).
+- Vergleichskandidaten für Hugo auflisten. Rechnen tut Hugo, Ausnahme **Kfz**: den NAFI-KFZ-Rechner bedient der Agent selbst (`agent/portale/jdc-nafi-kfz.md`), Antrag und Kündigung bleiben bei Hugo.
 
 Wichtig: Gesundheitsangaben aus dem Gespräch nur als **Konsequenz** ins Profil (nur die Handlungsfolge für den Vertrag), keine Diagnosen. Das gilt unabhängig von der ausgesetzten AVV-Regel, als gute Praxis.
 

@@ -1,6 +1,6 @@
 # Status
 
-Stand: 2026-11-22 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht ausgeführt) · ✅ erledigt · ⛔ blockiert
+Stand: 2026-11-25 · Legende: ⬜ offen · 🟡 vorbereitet (Skript da, nicht ausgeführt) · ✅ erledigt · ⛔ blockiert
 
 ## Nächster Schritt
 
@@ -10,6 +10,8 @@ Azure läuft unter **`https://mcp.hf-consult.de/mcp`**: SQL-DB `hfcrm` (Free Off
 
 **Jetzt:** Neuer Chat → **`HANDOVER.md`** (Stand, nächste Schritte, Start-Prompt). Agent-Handbuch: `agent/README.md`. Konzept: `docs/02-schema.md` (inkl. Gesamtübersicht Tabellen), `docs/08-update-termin.md`, `docs/09-neumandant.md` (Analyse geklärt). **Nächstes Gespräch mit Hugo: Konzept-Termin, Fragerunde, Abschluss**, danach Datenmodell final und SQL-Vorschlag `db/migrations/001_init.sql`. O10/O11 von Hugo zurückgestellt (nicht blockierend, Wiedervorlage 07.12.). Azure-Schritte lokal oder durch Hugo (`docs/BETRIEB.md`).
 Azure-Login aus Claude-Cloud-Sessions ist durch Security Defaults blockiert (AADSTS530035), Azure-Befehle daher lokal.
+
+✅ **Neu 2026-11-25:** Der Agent bedient über **Claude in Chrome** (Hugos Edge) JDC iCRM und den **NAFI-KFZ-Rechner**: Interessent anlegen, Wechselvergleich rechnen, Vergleich speichern. Am ersten echten Fall erprobt, Anleitung `agent/portale/jdc-nafi-kfz.md`. Login, Antrag, eVB und Kündigung bleiben bei Hugo. M365-Connector mit echten Daten getestet (Mails, Anhänge, OneDrive-Ordner; Upload nur bis 1 MB).
 
 ## Phasen
 

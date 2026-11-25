@@ -63,7 +63,7 @@ Steht in `Mandant.Terminrhythmus`. Der Agent schlägt nach der Nachbereitung ein
 
 ## „Bessere Konditionen“
 
-Der Agent kann Vergleichsrechner (Morgen & Morgen, Franke und Bornberg, JDC-Rechner) nicht bedienen. Er **markiert Kandidaten** (alter Tarif, starke Beitragserhöhung, Ablauf/Kündigungsfrist naht, Lebensereignis verändert Bedarf) und Hugo rechnet gezielt nur diese.
+Der Agent kann die meisten Vergleichsrechner (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner) nicht bedienen. Ausnahme seit 2026-11-25: **NAFI-KFZ** über Claude in Chrome (`agent/portale/jdc-nafi-kfz.md`). Sonst **markiert er Kandidaten** (alter Tarif, starke Beitragserhöhung, Ablauf/Kündigungsfrist naht, Lebensereignis verändert Bedarf) und Hugo rechnet gezielt nur diese.
 
 ## Was der Agent wann tut
 
