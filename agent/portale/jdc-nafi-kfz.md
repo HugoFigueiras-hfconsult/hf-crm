@@ -65,6 +65,21 @@ Linke Leiste: Start → Fahrzeug → Merkmale → Versicherungsnehmer → Fahrer
 
 **Vergleich speichern** (Ergebnisseite oben) → Beschreibung eintragen, z. B. „Wechsel zum 01.01.JJJJ (Claude, vorläufig): Kaufpreis und Führerschein geschätzt, Fahrerkreis nur VN – vor Antrag prüfen“ → **Speichern**. Das Häkchen für die Stammdaten bleibt leer.
 
+## 5a. Motorrad (Wagnis 003) – Abweichungen zum Pkw
+
+Erprobt 2026-11-25 (Naked Bike, Tarifwechsel zum 01.01.).
+
+| Schritt | Abweichung |
+|---|---|
+| **Einstieg** | NAFI-Startseite → **Alle Fahrzeugarten** → Kategorie „Krafträder/Roller“ aufklappen → „003 / Krafträder und -roller mit mehr als 125 ccm oder mehr als 11 kW“ → Weiter → Rückfrage „neue Berechnung?“ **Ja** → „Eingabedaten übernehmen?“ **Ja** |
+| **Versicherungsnehmer** | Die Übernahme klappt nur teilweise: Anrede, Familienstand, Führerscheindatum und Branche **neu eintragen**. Führerscheindatum = **Klasse A** |
+| **Fahrzeug** | „Hersteller des Krades“ mit HSN wählen (z. B. „TRIUMPH (HSN 2014)“), TSN in „Typschlüsselcode“ + Lupe → kW und ccm werden gefüllt, das Modell erscheint unter dem Feld. Den Dialog „Fahrzeugsuche (Krad)“ einfach **schließen**. Dazu: Krad-Typ, Kraftstoff (Auswahlfeld: Escape, Pfeil runter = Benzin), Leergewicht (Feld G), Höchstgeschwindigkeit (Feld T), ABS, **ursprünglicher Neuwert** und **Kaufpreis** (beide Pflicht) |
+| **Anforderungen** | Eigene Liste für Krad (Auslandsschadenschutz, Schutzbrief, Pannenhilfe, Rabattschutz, Verkehrs-Rechtsschutz, Wertminderung, Bekleidungsschutz). Keine Fahrerschutz-Anforderung |
+
+**Erfahrung:** Bei Motorrädern mit hoher SF-Klasse liegen die günstigen Tarife oft nur wenige Euro auseinander. Erst rechnen, wenn der Bestand deutlich teurer ist als ca. 150 € im Jahr oder Leistungen fehlen.
+
+**Tab-Gruppe weg?** Wenn Hugo die Tabs schließt, ist die Gruppe des Agenten weg. Neue Gruppe anlegen und die JDC-Kundenseite direkt per URL öffnen, der JDC-Login gilt weiter. Im Menü „Rechner & Beratung“ stehen außerdem Mr. Money (SHU), Morgen & Morgen (Leben, Kranken, SHU) und KassenKompass (GKV). Noch nicht erprobt.
+
 ## 6. Ergebnis aufbereiten (für Hugo)
 
 1. **Bestand fair machen**: Beitrag Altvertrag fürs neue Jahr laut Beitragsrechnung, getrennt nach KH, Kasko und Bausteinen. **Werkstattbindung des Altvertrags prüfen** (steht als Baustein im Versicherungsschein, z. B. WGV „Kasko SELECT“). Fair ist nur: ohne Werkstattbindung gegen ohne. Tarife mit Werkstattbindung als eigene Option zeigen, auch beim Altversicherer selbst (Baustein nachträglich vereinbaren statt wechseln). Überflüssige Bausteine herausrechnen (Kfz-Unfall laut Verbraucherzentrale „fast immer überflüssig“, wenn Fahrerschutz oder private Unfall/BU besteht).
