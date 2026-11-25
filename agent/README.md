@@ -21,7 +21,7 @@ Kein klassisches CRM, sondern eine Datenbank, die verknüpft und sich merkt.
 | Connector **HF-CRM** (`https://mcp.hf-consult.de/mcp`) | Datenbank: `describe_entities`, `read_records`, `create_record`, `update_record`, `aggregate_records`. **Kein Löschen, keine Tabellen anlegen** | ✅ verbunden (nur Platzhalter-Entity, Schema fehlt) |
 | Connector **Microsoft 365** | OneDrive/SharePoint: lesen, suchen, Ordner anlegen, verschieben, umbenennen, hochladen. Outlook: Kalender, Mail-**Entwürfe**. Teams | in claude.ai verbunden. ✅ 2026-11-25 mit echten Daten genutzt (Mails/Anhänge lesen, Ordner anlegen). Upload nur bis 1 MB |
 | Websuche | Themen-Radar (Markt, Gesetzesänderungen) | verfügbar |
-| Artefakte (claude.ai) | zwei dauerhafte Artefakte je Mandant | Konzept (`docs/08-update-termin.md`) |
+| Artefakte (claude.ai) | Ziel: **ein** dauerhaftes Artefakt je Mandant, ersetzt die VVO-Präsentation | Konzept (`docs/10-mandanten-artefakt.md`) |
 | **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen) und **NAFI-KFZ-Rechner** bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitung: `agent/portale/jdc-nafi-kfz.md` | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich) |
 
 **Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt), die **VVO-Präsentation** im Konzept-Termin (der Agent liefert Hugo die Zahlen, Hugo trägt sie ein). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
@@ -65,7 +65,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | **Unterlagen-Mail** entwerfen | direkt nach der Analyse | `agent/vorlagen/unterlagen-mail.md` |
 | Unterlagen-Eingang | bis zum Konzept-Termin | `docs/09-neumandant.md` |
 | Konzept vorbereiten (Zahlen-Spickzettel, „vor Optimierung“, Vergleichsvorgaben, Rentenlücke) | wenn die Unterlagen da sind | `docs/09-neumandant.md`, „Was der Agent für Konzept und Fragerunde tut“ |
-| Konzept nachbereiten (Stand je Vorschlag, Mail-Entwurf mit PDFs, Fragerunde) | nach dem Konzept-Termin | ebd. |
+| Konzept nachbereiten (Stand je Vorschlag, Mail-Entwurf mit PDFs, Fragerunde) | nach dem Konzept-Termin | ebd. + `agent/vorlagen/konzept-mail.md` |
 | Abschluss / Unterschrift | – | **noch nicht besprochen** |
 | Update-Termin vorbereiten und nachbereiten | Rhythmus quartals- oder halbjährlich | `docs/08-update-termin.md` |
 | Themen-Radar, fällige Termine, Fristen 90 Tage | wöchentlich | `docs/08-update-termin.md`, `docs/02-schema.md` |
@@ -78,7 +78,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 **Kommunikation**
 - Hugos Stil: locker, direkt, per **Du**, ehrlich statt verkäuferisch, Minimalist bei Versicherungen, Denken in kurz/mittel/lang. Details: `docs/09-neumandant.md`, „Hugos Beratungsstil“.
 - **Keine VVO-Verkaufsrhetorik** (Werbekosten-Story, Immobilien-Stories, Empfehlungslisten, Zustimmungsfragen, „Abschluss heute“).
-- **VVO-Leitfäden sind veraltet** (Beratungsgespräch Stand 2018): Aussagen daraus nicht übernehmen, ohne sie zu prüfen. Bekannte Fehler: `docs/09-neumandant.md`, „Veraltetes im Leitfaden“.
+- **VVO-Leitfäden sind verkaufsgetrieben und teils falsch** (Beratungsgespräch Stand 2018): weder Aussagen noch Formulierungen übernehmen. Richtige Sachverhalte, Zahlen 2026, Rechenregeln und Sprachregeln: **`agent/fachwissen.md`**.
 - Mails an Mandanten nur als **Entwurf**. Hugo prüft und verschickt.
 - Folge-Mail nach einem Termin nur, wenn der Mandant noch Infos erwartet.
 
@@ -95,7 +95,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 
 ## 7. Artefakte
 
-Zwei **dauerhafte** Artefakte je Mandant, die fortgeschrieben werden: **Mandantenansicht** (zum Zeigen/Teilen, keine internen Notizen) und **Berater-Ansicht** (nur Hugo). Die erste Version entsteht nach der Analyse (Lebens-Zeitstrahl, Drittel-Regel, Ist-Aufstellung kurz/mittel/lang). Details: `docs/08-update-termin.md`, `docs/09-neumandant.md`.
+**Ziel (Hugo, 2026-11-25): 1 Mandant = 1 Artefakt**, vom Agenten erstellt, ersetzt langfristig die VVO-Präsentation in Analyse und Konzept, Details `docs/10-mandanten-artefakt.md`. Vorschlag: Berater-Infos als Briefing im Chat statt als zweites Artefakt (wartet auf Bestätigung). Bisheriger Stand: zwei dauerhafte Artefakte, **Mandantenansicht** (zum Zeigen/Teilen, keine internen Notizen) und **Berater-Ansicht** (nur Hugo). Die erste Version entsteht nach der Analyse (Lebens-Zeitstrahl, Drittel-Regel, Ist-Aufstellung kurz/mittel/lang). Details: `docs/08-update-termin.md`, `docs/09-neumandant.md`.
 
 ## 8. Umsetzungsstand
 

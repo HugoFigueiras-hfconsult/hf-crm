@@ -81,7 +81,7 @@ Bündelt die Tabelle oben mit den Ergänzungen aus `docs/08-update-termin.md` un
 | `Thema` | zentrales Themen-Radar | `ThemaId`, `Kategorie`, `Titel`, `Kurzfassung`, `Zeitraum`/`GiltAb`, `BetrifftWen`, `QuelleLink`, `Status`, `ErstelltAm` | 08 |
 | _später_ `Transkript`, `ProfilVersion`, `Dokument` | siehe oben | nur bei Bedarf (`Transkript` nur mit Import ohne Claude) | 02 |
 
-Offene Modellfragen: Mandant = Person oder Haushalt (Entscheidung 2), JDC-Exportformat (Entscheidung 4), Vorschläge als `Vertrag` mit Status „Vorschlag“ oder eigene Tabelle, nur empfohlener Tarif oder alle drei aus dem Detailvergleich (`docs/09-neumandant.md`), Felder aus dem Abschluss.
+Offene Modellfragen: Mandant = Person oder Haushalt (Entscheidung 2), JDC-Exportformat (Entscheidung 4), Felder aus dem Abschluss. **Entschieden 2026-11-25:** Vorschläge als `Vertrag` mit Status „Vorschlag“, nur der empfohlene Tarif. **Vorschlag:** `Mandant.ArtefaktUrl` statt `ArtefaktMandantUrl` + `ArtefaktBeraterUrl` (1 Mandant = 1 Artefakt, `docs/10-mandanten-artefakt.md`), wartet auf Hugos Bestätigung.
 
 ### Abläufe (Beispiele)
 

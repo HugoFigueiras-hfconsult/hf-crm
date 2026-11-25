@@ -7,12 +7,12 @@ Dieses Repo dokumentiert Aufbau und Betrieb des HF-CRM (Azure SQL + SQL MCP Serv
 
 1. `docs/STATUS.md`: aktueller Stand, nächster Schritt, offene Punkte
 2. `HANDOVER.md`: aktueller Stand für einen neuen Chat, nächste Schritte, Start-Prompt
-2a. `agent/README.md`: Agent-Handbuch (was der Beratungs-Agent tut, Werkzeuge, Eingänge, Abläufe, Regeln, Umsetzungsstand) + Vorlagen in `agent/vorlagen/` + Portal-Anleitungen in `agent/portale/` (JDC iCRM, NAFI-KFZ)
+2a. `agent/README.md`: Agent-Handbuch (was der Beratungs-Agent tut, Werkzeuge, Eingänge, Abläufe, Regeln, Umsetzungsstand) + **Fachwissen** `agent/fachwissen.md` (richtige Sachverhalte, Zahlen 2026, Sprachregeln statt VVO-Leitfaden) + Vorlagen in `agent/vorlagen/` + Portal-Anleitungen in `agent/portale/` (JDC iCRM, NAFI-KFZ)
 3. `docs/ARCHITEKTUR.md`: Gesamtbild mit Diagrammen (was läuft wo, Login-Ablauf, Sicherheit)
 4. `docs/BETRIEB.md`: Runbook: Tabellen freigeben, SQL ausführen, Image bauen/ausrollen, Logs, Fehlerbilder, Wartung
 5. `docs/LOG.md`: chronologisches Protokoll aller Aktionen
 6. `docs/00-entscheidungen.md`: warum etwas so ist (nicht neu diskutieren ohne neuen Grund)
-7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt; `docs/08-update-termin.md` = Arbeitsanweisung für Terminvorbereitung/-nachbereitung (Ablauf, Artefakte, Depot, Themen-Radar); `docs/09-neumandant.md` = Prozess neue Mandanten (in Arbeit)
+7. Die Phasen-Doku `docs/01-…` bis `docs/07-…` für den jeweiligen Schritt; `docs/08-update-termin.md` = Arbeitsanweisung für Terminvorbereitung/-nachbereitung (Ablauf, Artefakte, Depot, Themen-Radar); `docs/09-neumandant.md` = Prozess neue Mandanten (Analyse, Konzept, Fragerunde; Abschluss offen); `docs/10-mandanten-artefakt.md` = Ziel 1 Mandant = 1 Artefakt
 8. `docs/LOKALE-SESSION.md`: Setup + Stolpersteine für die lokale Session auf Hugos Windows-PC (Azure-Login nur dort möglich)
 9. `HANDOVER-CLOUD.md` (ersetzt), `HANDOVER-LOKAL.md` (erledigt) und `docs/HANDOVER-2026-11-11.md`: historisch. **Der Schema-Entwurf im Handover vom 2026-11-11 ist ungültig, nicht verwenden.**
 

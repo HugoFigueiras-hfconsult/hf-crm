@@ -38,6 +38,8 @@ Steht in `Mandant.Terminrhythmus`. Der Agent schlägt nach der Nachbereitung ein
 
 ## Zwei Artefakte pro Mandant (dauerhaft, werden fortgeschrieben)
 
+> **Hinweis 2026-11-25:** Hugos Ziel ist jetzt **1 Mandant = 1 Artefakt**, das auch die VVO-Präsentation in Analyse und Konzept ersetzt (`docs/10-mandanten-artefakt.md`). Vorschlag: Berater-Infos als Briefing im Chat statt als zweites Artefakt. Bis Hugo das bestätigt, gilt der Abschnitt unten.
+
 | Artefakt | Für wen | Inhalt | Regel |
 |---|---|---|---|
 | **Mandantenansicht** | zum Zeigen/Teilen | Marktgrafik seit letztem Termin, Depotentwicklung (wächst über die Termine), 1–2 relevante Neuerungen, Fristen als Zeitleiste, „Deine Fragen“, vereinbarte nächste Schritte | **keine internen Notizen** |

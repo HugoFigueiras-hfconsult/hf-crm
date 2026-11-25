@@ -50,7 +50,8 @@ hf-crm/
 │  ├─ 06-trigger-telegram.md # Phase 7
 │  ├─ 07-dashboard.md        # Phase 8
 │  ├─ 08-update-termin.md    # Ablauf Update-Termine, Vorbereitung, 2 Artefakte je Mandant, Depot, Themen-Radar
-│  ├─ 09-neumandant.md       # Prozess neue Mandanten: Analyse-Termin, Beratungsstil, Agent-Aufgaben (Konzept/Fragerunde offen)
+│  ├─ 09-neumandant.md       # Prozess neue Mandanten: Analyse, Konzept, Fragerunde, Agent-Aufgaben (Abschluss offen)
+│  ├─ 10-mandanten-artefakt.md # Ziel: 1 Mandant = 1 Artefakt statt VVO-Präsentation
 │  └─ HANDOVER-2026-11-11.md # ursprüngliches Übergabedokument
 ├─ infra/                    # alle Azure-Aktionen als Skript
 ├─ db/
