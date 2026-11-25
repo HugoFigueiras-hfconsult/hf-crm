@@ -85,5 +85,5 @@ Linke Leiste: Start → Fahrzeug → Merkmale → Versicherungsnehmer → Fahrer
 ## 8. Ablage
 
 - OneDrive (Geschäftskonto `hf-consult.de`): `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit Unterordnern `Dokumente` und `Konzept` (Hugos bestehende Struktur).
-- Der Microsoft-365-Connector lädt nur Dateien **bis 1 MB** hoch. Größere Dateien (Teams-Transkripte als .docx haben schnell 2 MB) über OneDrive im Browser hochladen oder Hugo bitten.
+- Der Microsoft-365-Connector lädt nur Dateien **bis 1 MB** hoch. Größere Dateien (Teams-Transkripte als .docx haben schnell 2 MB, fast nur durch hunderte identische Profilbilder) zieht **Hugo** per Drag-and-drop in den geöffneten OneDrive-Ordner. Über OneDrive im Browser kann der Agent nicht hochladen: „Dateien hochladen“ öffnet den Windows-Dateidialog, den Claude in Chrome nicht bedienen kann. Große Dateien als Base64 durch den Connector zu schicken, ist zu fehleranfällig.
 - Teams-Transkripte liegen im **VVO-Tenant**, nicht im `hf-consult.de`-Tenant. Der Agent kommt nicht dran, Hugo exportiert sie als .docx.
