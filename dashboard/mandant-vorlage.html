@@ -1,0 +1,1750 @@
+<meta charset="utf-8">
+<title>Mandanten-Artefakt Vorlage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  Mandanten-Artefakt (Vorlage mit erfundenen Testdaten). Beschreibung: dashboard/README.md, Spezifikation: docs/10-mandanten-artefakt.md
+  Aufbau dieser Datei: 1. Gestaltung (CSS)  2. Gerüst (HTML)  3. Skript: DATEN, RECHT, RECHENKERN, HELFER, FOLIEN, BÜHNE
+  Je Mandant tauscht der Agent nur das Objekt DATEN (und den Titel oben). Kein Netzwerkzugriff, keine fremden Bibliotheken.
+-->
+<style>
+:root{
+  /* Layout: Bühne im Querformat. Oben der Kopf, in der Mitte die Folie, unten der Fortschritt.
+     Farbe trägt nur Bedeutung (drei Töpfe, vier Bereiche). Die Bedienung bleibt einfarbig in Tinte. */
+  --bg:#EEF1F4; --flaeche:#FFFFFF; --flaeche-2:#F4F6F8; --tinte:#101A24; --tinte-2:#44525F; --tinte-3:#5E6B77; --umkehr:#FFFFFF;
+  --linie:#DCE2E8; --linie-2:#C2CBD4;
+  --kurz:#E3A008; --mittel:#0FA68E; --lang:#2B6FD6;                              /* Töpfe */
+  --gesundheit:#D8508C; --basisrisiken:#2E9442; --einkommen:#6D56D8; --wohnen:#C8553D;   /* Bereiche */
+  --leben:#8494A6; --abzug:#56636F; --abzug-2:#A4AFBA; --erledigt:#1F8A3D; --auf-leben:#101A24;
+  --schatten:0 1px 2px rgba(16,26,36,.05),0 12px 32px rgba(16,26,36,.08);
+  --f-titel:"Inter Display","Segoe UI Variable Display","SF Pro Display","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --f-text:Inter,"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --r:.8rem; --r-s:.5rem; --kurve:cubic-bezier(.22,.7,.2,1);
+  --rand-l:max(16px,env(safe-area-inset-left,0px),3vw); --rand-r:max(16px,env(safe-area-inset-right,0px),3vw);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1217; --flaeche:#161D24; --flaeche-2:#1C2630; --tinte:#EAF0F4; --tinte-2:#B3BEC8; --tinte-3:#8F9BA7; --umkehr:#0D1217;
+  --linie:#27323C; --linie-2:#3A4855;
+  --kurz:#C98F0A; --mittel:#12A890; --lang:#4A8DF0; --gesundheit:#E0619A; --basisrisiken:#3DAE55; --einkommen:#9585F0; --wohnen:#D4504A;
+  --leben:#7C8EA3; --abzug:#9AA6B2; --abzug-2:#566370; --erledigt:#4CC26B; --auf-leben:#0D1217;
+  --schatten:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1217; --flaeche:#161D24; --flaeche-2:#1C2630; --tinte:#EAF0F4; --tinte-2:#B3BEC8; --tinte-3:#8F9BA7; --umkehr:#0D1217;
+  --linie:#27323C; --linie-2:#3A4855;
+  --kurz:#C98F0A; --mittel:#12A890; --lang:#4A8DF0; --gesundheit:#E0619A; --basisrisiken:#3DAE55; --einkommen:#9585F0; --wohnen:#D4504A;
+  --leben:#7C8EA3; --abzug:#9AA6B2; --abzug-2:#566370; --erledigt:#4CC26B; --auf-leben:#0D1217;
+  --schatten:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.4); color-scheme:dark}
+
+/* ---------- Grundlagen ---------- */
+html{height:100%;font-size:clamp(12.5px,min(1.04vw,1.86vh),22px)}
+body{height:100%;margin:0;background:var(--bg);color:var(--tinte);font:400 1rem/1.45 var(--f-text);-webkit-font-smoothing:antialiased;overflow:hidden}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+h1,h2,p,ul,ol,figure{margin:0} ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--lang);outline-offset:2px}
+i,em,u,cite{font-style:normal;text-decoration:none}
+small{font-size:.8rem;color:var(--tinte-2);font-weight:400}
+.etikett{font-size:.72rem;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--tinte-3)}
+.klein{font-size:.82rem;color:var(--tinte-2)}
+.leer{color:var(--tinte-3);font-size:.9rem}
+.zahl{font-variant-numeric:tabular-nums}
+.zahl-gross{font:600 2.3rem/1.05 var(--f-titel);letter-spacing:-.02em}
+.zahl-gross small{font:400 .82rem/1.3 var(--f-text);letter-spacing:0}
+.punkt{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--f);margin-right:.5rem;flex:none}
+.dreifarb{display:inline-flex;width:1.5rem;height:.7rem;gap:1px;margin-right:.5rem;vertical-align:baseline;flex:none}
+.dreifarb i{flex:1 1 0;background:var(--f);border-radius:1px 1px 3px 3px}
+.topfmarke{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.topfmarke::before{content:"";width:.75rem;height:.8rem;background:var(--tf);border-radius:1px 1px 4px 4px}
+.fazit{font-size:1.05rem;max-width:100ch;text-wrap:pretty}
+.annahmen{font-size:.8rem;color:var(--tinte-2);line-height:1.4} .annahmen b{color:var(--tinte)}
+.annahmen ul{padding-left:1rem;list-style:disc;margin-top:.3rem;columns:2;column-gap:2.4rem} .annahmen li{break-inside:avoid;margin-bottom:.25rem}
+@keyframes ein{from{opacity:0;transform:translateY(.6rem)}}
+@keyframes wachs{from{transform:scaleX(0)}}
+@keyframes zieh{to{stroke-dashoffset:0}}
+@keyframes blend{from{opacity:0}}
+@keyframes aufdecken{from{clip-path:inset(-1rem 100% -1rem -1rem)}to{clip-path:inset(-1rem -1rem -1rem -1rem)}}
+.ein{animation:ein .55s var(--kurve) backwards;animation-delay:calc(var(--i,0)*70ms)}
+.ruhig *,.ruhig *::before,.ruhig *::after{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important;transition-delay:0s!important}
+
+/* ---------- Gerüst: Kopf, Bühne, Fuß ---------- */
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)}
+.kopf{display:flex;align-items:center;gap:.9rem;padding-block:.5rem;padding-left:var(--rand-l);padding-right:var(--rand-r);border-bottom:1px solid var(--linie)}
+.marke{display:inline-flex;align-items:center;gap:.6rem;background:none;border:0;padding:.3rem .2rem;font:650 1.05rem var(--f-titel);border-radius:var(--r-s);min-width:0}
+#kopf-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zeichen{display:inline-flex;align-items:flex-end;gap:2px;height:1.15rem}
+.zeichen i{width:.34rem;border-radius:1px 1px 3px 3px}
+.zeichen i:nth-child(1){height:55%;background:var(--kurz)} .zeichen i:nth-child(2){height:100%;background:var(--mittel)} .zeichen i:nth-child(3){height:78%;background:var(--lang)}
+.pille{font-size:.68rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border:1px solid var(--linie-2);border-radius:99px;color:var(--tinte-3);white-space:nowrap}
+.kopf-kapitel{color:var(--tinte-3);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.werkzeug{margin-left:auto;display:flex;align-items:center;gap:.4rem}
+.wz{display:inline-flex;align-items:center;gap:.45rem;height:2.2rem;padding:0 .8rem;border:1px solid transparent;border-radius:99px;background:none;font-size:.85rem;font-weight:550;white-space:nowrap}
+.wz:hover{border-color:var(--linie-2);background:var(--flaeche)} .wz svg{width:1.05rem;height:1.05rem;flex:none}
+.schalter{cursor:pointer;position:relative} .schalter input{position:absolute;opacity:0;width:0;height:0}
+.schalter i{width:2rem;height:1.15rem;border-radius:99px;background:var(--linie-2);position:relative;transition:background .25s;flex:none}
+.schalter i::after{content:"";position:absolute;top:2px;left:2px;width:calc(1.15rem - 4px);height:calc(1.15rem - 4px);border-radius:50%;background:var(--flaeche);transition:transform .25s}
+.schalter input:checked+i{background:var(--tinte)} .schalter input:checked+i::after{transform:translateX(.85rem)}
+.schalter input:focus-visible+i{outline:3px solid var(--lang);outline-offset:2px}
+.buehne{overflow:hidden auto;position:relative} #folien{height:100%}
+.folie{min-height:100%;max-width:104rem;margin-inline:auto;display:flex;flex-direction:column;gap:1.1rem;padding-block:1.3rem 1.1rem;padding-left:var(--rand-l);padding-right:var(--rand-r);animation:ein .45s var(--kurve) backwards}
+.folie-kopf{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem 2rem;flex-wrap:wrap}
+.folie-kopf h1{font:600 2.3rem/1.1 var(--f-titel);letter-spacing:-.022em;text-wrap:balance;margin-top:.25rem}
+.lead{font-size:1.05rem;color:var(--tinte-2);max-width:88ch;margin-top:.4rem;text-wrap:pretty}
+.stufen,.wahl{display:inline-flex;padding:.2rem;border:1px solid var(--linie-2);border-radius:99px;background:var(--flaeche);flex:none}
+.stufen button,.wahl button{border:0;background:none;padding:.5rem 1.1rem;border-radius:99px;font-weight:600;font-size:.95rem;transition:background .25s,color .25s;white-space:nowrap}
+.stufen button[aria-pressed="true"],.wahl button[aria-pressed="true"]{background:var(--tinte);color:var(--umkehr)}
+.wahl{align-self:flex-start} .wahl button{padding:.35rem .8rem;font-size:.78rem}
+.leise{background:none;border:0;padding:.2rem 0;font-size:.8rem;color:var(--tinte-2);text-decoration:underline;text-underline-offset:.2em;align-self:flex-start}
+.fuss{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:.9rem;align-items:center;padding-block:.5rem;padding-left:var(--rand-l);padding-right:var(--rand-r);border-top:1px solid var(--linie)}
+.nav{height:2.5rem;min-width:2.5rem;padding:0 1.1rem;border-radius:99px;border:1px solid var(--linie-2);background:var(--flaeche);font-weight:650;white-space:nowrap}
+.nav:disabled{opacity:.35;cursor:default} .nav.weiter{background:var(--tinte);color:var(--umkehr);border-color:var(--tinte)}
+.fortschritt{display:flex;gap:3px}
+.fp{flex:1 1 0;height:1.2rem;padding:0;border:0;background:none;display:flex;align-items:center;min-width:0}
+.fp i{width:100%;height:.28rem;border-radius:99px;background:var(--linie-2);transition:background .3s,height .3s}
+.fp.neu{margin-left:.4rem} .fp.war i{background:var(--tinte-3)} .fp.jetzt i{background:var(--tinte);height:.55rem}
+.fuss-text{display:flex;justify-content:space-between;gap:1rem;font-size:.72rem;color:var(--tinte-3)}
+#btn-praes-aus,#fuss-test{display:none}
+.praes .kopf{display:none} .praes .fuss{border-top-color:transparent} .praes #btn-praes-aus{display:inline-flex} .praes #fuss-test:not([hidden]){display:inline-block}
+#zoom{position:fixed;z-index:40;background:var(--flaeche);border:1px solid var(--linie-2);border-radius:var(--r);pointer-events:none;box-shadow:var(--schatten);overflow:hidden}
+.zoom-inhalt{display:flex;flex-direction:column;gap:.2rem;padding:.9rem 1.05rem 1rem;width:100%;height:100%;min-width:15rem}
+#tipp{position:fixed;z-index:50;background:var(--tinte);color:var(--umkehr);padding:.5rem .7rem;border-radius:var(--r-s);font-size:.8rem;pointer-events:none;box-shadow:var(--schatten);max-width:18rem}
+.tipp-titel{opacity:.7;margin-bottom:.2rem} .tipp-zeile{display:flex;align-items:center;gap:.45rem} .tipp-zeile i{width:.9rem;height:3px;border-radius:2px;flex:none} .tipp-zeile span{opacity:.75}
+
+/* ---------- Diagramme, Regler, wiederkehrende Teile ---------- */
+.chart{display:block;overflow:visible}
+.gitter{stroke:var(--linie);stroke-width:1} .grundlinie{stroke:var(--linie-2);stroke-width:1} .faden{stroke:var(--tinte-3);stroke-width:1} .fuehrung{stroke:var(--tinte-3);stroke-width:1}
+.achse{font-size:.72rem;fill:var(--tinte-3);font-variant-numeric:tabular-nums}
+.linie{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round} .linie.strich{stroke-width:2;stroke-dasharray:1 6}
+.band{opacity:.15} .flaeche{opacity:.1}
+.zieh{stroke-dasharray:1;stroke-dashoffset:1;animation:zieh 1.1s var(--kurve) forwards}
+.blend{animation:blend .5s ease backwards;animation-delay:.85s}
+.marke-text{font-size:.72rem;font-weight:700;fill:var(--tinte)} .ende-wert{font-size:.95rem;font-weight:700;fill:var(--tinte)} .ende-name{font-size:.72rem;fill:var(--tinte-2)}
+.legende{display:flex;flex-wrap:wrap;gap:.3rem 1.3rem;font-size:.8rem;color:var(--tinte-2)}
+.legende li{display:flex;align-items:center;gap:.45rem}
+.legende i,.rl-leg i{flex:none;width:1.1rem;height:3px;border-radius:2px;background:var(--f)}
+.legende i.punkte{background:none;border-top:3px dotted var(--f);height:0} .legende i.feld{height:.7rem;opacity:.25;border-radius:2px}
+.regler{display:flex;flex-direction:column;gap:.1rem;min-width:0;--rf:var(--tinte)} .regler.f-kurz{--rf:var(--kurz)} .regler.f-mittel{--rf:var(--mittel)} .regler.f-lang{--rf:var(--lang)}
+.regler label{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;font-size:.88rem;font-weight:550}
+.regler output{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:1.6rem;margin:0;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:.36rem;border-radius:99px;background:var(--linie-2)}
+input[type=range]::-moz-range-track{height:.36rem;border-radius:99px;background:var(--linie-2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1.3rem;height:1.3rem;margin-top:-.47rem;border-radius:50%;background:var(--rf);border:3px solid var(--flaeche);box-shadow:0 0 0 1px var(--linie-2)}
+input[type=range]::-moz-range-thumb{width:1.3rem;height:1.3rem;border-radius:50%;background:var(--rf);border:3px solid var(--flaeche);box-shadow:0 0 0 1px var(--linie-2)}
+.reglerstapel{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.8rem 1rem .6rem;display:flex;flex-direction:column;gap:.45rem}
+.seite{display:flex;flex-direction:column;gap:.75rem;min-width:0}
+.kz{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.8rem 1rem;min-width:0}
+.kz-name{font-size:.88rem;font-weight:600;display:flex;align-items:center;margin-bottom:.35rem}
+.fakten{background:var(--flaeche-2);border-radius:var(--r);padding:.75rem 1rem;font-size:.84rem;color:var(--tinte-2)}
+.fakten ul{display:flex;flex-direction:column;gap:.4rem;margin-top:.35rem}
+.fakten cite{font-style:normal;font-size:.7rem;color:var(--tinte-3);border:1px solid var(--linie-2);border-radius:99px;padding:0 .4rem;white-space:nowrap}
+
+/* ---------- Startseite ---------- */
+.start-titel{font:600 3.4rem/1.02 var(--f-titel);letter-spacing:-.03em;margin-top:.3rem}
+.kacheln{display:grid;grid-template-columns:repeat(auto-fill,minmax(15.5rem,1fr));grid-auto-rows:1fr;gap:.85rem;margin-top:.4rem;flex:1;max-height:38rem}
+.kachel{display:flex;flex-direction:column;gap:.2rem;text-align:left;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.9rem 1.05rem 1rem;min-height:8.3rem;transition:border-color .2s,transform .2s,box-shadow .2s}
+.kachel:hover{border-color:var(--tinte-3);transform:translateY(-2px);box-shadow:var(--schatten)}
+.kachel-oben{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:auto;padding-bottom:.6rem}
+.kachel-nr{display:grid;place-items:center;min-width:1.7rem;height:1.7rem;border:1px solid var(--linie-2);border-radius:99px;font-size:.8rem;font-weight:700;color:var(--tinte-2)} .kachel-nr:empty{visibility:hidden}
+.kachel-bild svg{width:5.6rem;height:3.4rem;display:block}
+.kachel-titel{font:650 1.25rem/1.2 var(--f-titel)} .kachel-text{font-size:.86rem;color:var(--tinte-2);line-height:1.35}
+.still .ein{animation:none}
+
+/* ---------- 1 Ziele: Zeitstrahl ---------- */
+.zs{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:1.4rem}
+.zs-bahn{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);align-items:end;animation:aufdecken 1.2s cubic-bezier(.4,.1,.3,1) backwards}
+.zs-halt{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.zs-karte{display:flex;flex-direction:column;gap:.25rem;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.75rem .85rem;margin-right:.7rem;min-width:0;max-width:100%}
+.zs-karte strong{font-size:1rem;line-height:1.25} .zs-betrag{font:600 1.5rem/1.1 var(--f-titel);letter-spacing:-.01em} .zs-notiz{font-size:.8rem;color:var(--tinte-2)}
+.haken{font-size:.72rem;font-weight:650;color:var(--erledigt)} .haken::before{content:"✓ "}
+.zs-halt.erreicht .zs-karte{background:var(--flaeche-2)} .zs-halt.erreicht .zs-betrag{color:var(--tinte-2)}
+.zs-stiel{width:2px;height:calc(1.1rem + var(--h)*2.7rem);background:var(--tf);margin-left:.55rem}
+.zs-achse{position:relative;width:100%;height:1.2rem;display:flex;align-items:center}
+.zs-achse::before{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:var(--tf);opacity:.45}
+.zs-halt:first-child .zs-achse::before{border-radius:2px 0 0 2px} .zs-halt:last-child .zs-achse::before{border-radius:0 2px 2px 0}
+.zs-punkt{position:relative;width:1.2rem;height:1.2rem;border-radius:50%;background:var(--tf);border:3px solid var(--bg)}
+.zs-jahr{display:flex;flex-direction:column;padding-top:.3rem;font-size:.8rem;color:var(--tinte-2);line-height:1.25} .zs-jahr b{font:650 1.15rem var(--f-titel);color:var(--tinte)}
+.zs-summen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.zs-summe{display:flex;flex-direction:column;gap:.3rem;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.8rem 1rem}
+.zs-summe p{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.82rem;color:var(--tinte-2)} .zs-summe b{font:600 1.6rem/1.15 var(--f-titel)} .zs-summe b.text{font:500 1.05rem/1.3 var(--f-text)}
+
+/* ---------- 2 Drittel-Regel ---------- */
+.db{display:grid;grid-template-columns:14rem minmax(0,1fr);gap:1.5rem 2.5rem;align-items:center;flex:1;align-content:space-evenly}
+.db-zeilen{display:flex;flex-direction:column;gap:1.2rem}
+.db-zeile{display:grid;grid-template-columns:8.5rem minmax(0,1fr);align-items:center;gap:1rem} .db-name{font-weight:600;font-size:.95rem}
+.db-balken{display:flex;gap:2px;height:3.2rem}
+.db-teil{flex:0 1 auto;min-width:0;background:var(--f);border-radius:3px;display:flex;align-items:center;padding-left:.6rem;overflow:hidden;transition:flex-basis .95s var(--kurve)}
+.db-teil b{font-size:.9rem;color:#fff;white-space:nowrap} .db-teil[data-teil="leben"] b{color:var(--auf-leben)} .db-teil.klein{padding:0}
+.db-spaeter{flex:0 0 3.6rem;text-align:right;font-size:.9rem;align-self:center}
+.db-balken.regel{padding-right:calc(3.6rem + 2px)}
+.db-balken.regel i{flex:1 1 0;border:1.5px dashed var(--linie-2);border-radius:3px;display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.92rem;color:var(--tinte-2)} .db-balken.regel b{color:var(--tinte)}
+.db-v{opacity:0;transition:opacity .5s} [data-schritt="1"] .db-v{opacity:1}
+.db-karten{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.db-karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.25rem}
+.db-kname{font-weight:650;display:flex;align-items:center} .db-kzahl{font:600 1.9rem/1.1 var(--f-titel);letter-spacing:-.015em} .db-kzahl small{font:400 .82rem var(--f-text);letter-spacing:0} .db-ktext{font-size:.92rem}
+
+/* ---------- 3 Heute aufgestellt ---------- */
+.ha{display:flex;flex-direction:column;gap:.9rem;flex:1}
+.ha-toepfe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.ha-topf{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.6rem;min-height:24rem}
+.ha-topf header{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.4rem}
+.ha-mass-spur{position:relative;height:.5rem;border-radius:99px;background:color-mix(in srgb,var(--tf) 22%,var(--flaeche));margin:.2rem 0 .35rem}
+.ha-mass-spur i{position:absolute;inset:0 auto 0 0;background:var(--tf);border-radius:99px;animation:wachs .9s var(--kurve) backwards;transform-origin:left}
+.ha-mass-spur em{position:absolute;top:-.25rem;bottom:-.25rem;width:2px;background:var(--tinte)}
+.ha-rente{font-size:.92rem;color:var(--tinte-2)} .ha-rente b{color:var(--tinte);font-size:1.1rem}
+.ha-rate{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--linie);padding-top:.6rem;margin-top:auto;font-size:.92rem} .ha-rate b{font:600 1.35rem var(--f-titel)}
+.ha-liste{display:flex;flex-direction:column;gap:.3rem;font-size:.88rem} .ha-liste li{display:flex;flex-direction:column} .ha-liste span{color:var(--tinte-2);font-size:.82rem}
+.ha-risiko{display:grid;grid-template-columns:13rem minmax(0,1fr);gap:1rem 2rem;align-items:center;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.9rem 1.15rem}
+.ha-rp{font-size:.95rem;color:var(--tinte-2)} .ha-rp b{font:600 2.1rem/1 var(--f-titel);color:var(--tinte)}
+.ha-skala-spur{position:relative;display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.ha-skala-spur i{height:2rem;display:grid;place-items:center;background:var(--flaeche-2);border-radius:3px;font-style:normal;font-size:.8rem;color:var(--tinte-3)} .ha-skala-spur i.an{color:var(--tinte);font-weight:700}
+#ha-zeiger{position:absolute;top:-.3rem;width:calc(10% + .3rem);height:2.6rem;margin-left:calc(-5% - .15rem);border:3px solid var(--tinte);border-radius:.45rem;transition:left 1s var(--kurve)}
+.ha-skala-text{display:flex;justify-content:space-between;font-size:.8rem;color:var(--tinte-2);margin-top:.5rem}
+
+/* ---------- 4 Einkommen ---------- */
+.fl{flex:1;display:flex;flex-direction:column;gap:.7rem;min-height:0}
+.fl-bild{flex:1;min-height:21rem;overflow:hidden}
+.fl-fazit{font-size:1.05rem;min-height:3.05rem;max-width:none}
+.fl-t{font-size:.86rem;fill:var(--tinte-2)} .fl-w{font-weight:700;fill:var(--tinte)}
+.fl-kopf{font-size:.74rem;font-weight:650;letter-spacing:.09em;text-transform:uppercase;fill:var(--tinte-3)} .fl-kopf .fl-w{font-size:.95rem;letter-spacing:0}
+.fl-gross{font:600 1.55rem var(--f-titel);fill:var(--tinte);letter-spacing:-.015em}
+.fl-liste{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.fl-lkopf{display:flex;justify-content:space-between;align-items:baseline;font-weight:650;margin:.9rem 0 .4rem} .fl-lkopf b{font:600 1.5rem var(--f-titel)}
+.fl-liste li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.15rem .8rem;padding:.4rem 0;border-top:1px solid var(--linie);font-size:.92rem}
+.fl-liste li i{grid-column:1/-1;grid-row:2;height:.4rem;border-radius:99px;background:var(--flaeche-2)} .fl-liste li u{display:block;height:100%;border-radius:99px;transition:width .8s var(--kurve)}
+.fl-liste li b{font-variant-numeric:tabular-nums} .fl-liste li.weg span{text-decoration:line-through;color:var(--tinte-3)}
+
+/* ---------- 5 Übersicht ---------- */
+.ub{display:flex;flex-direction:column;gap:.4rem;flex:1;justify-content:center}
+.ub-kopf,.ub-zeile{display:grid;grid-template-columns:minmax(11rem,16rem) minmax(0,1fr) 7rem 10rem 1rem;gap:1.2rem;align-items:center;padding:.65rem 1.1rem}
+.ub-kopf{padding-block:0;font-size:.72rem;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--tinte-3)} .ub-kopf span{text-align:right}
+.ub-gruppe{font-size:.72rem;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--tinte-3);margin:.5rem 0 .1rem 1.1rem}
+.ub-zeile{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r-s);text-align:left;width:100%;transition:border-color .2s}
+button.ub-zeile:hover{border-color:var(--tinte-3)} .ub-zeile.leer{background:none;border-style:dashed}
+.ub-name{display:grid;grid-template-columns:auto 1fr;align-items:baseline} .ub-name b{font:650 1.12rem var(--f-titel)} .ub-name small{grid-column:2} .ub-summe .ub-name{display:block}
+.ub-spur{position:relative;height:1.15rem}
+.ub-geist{position:absolute;inset:-.3rem auto -.3rem 0;border-right:2px solid var(--tinte);z-index:1;opacity:0;transition:opacity .4s .5s}
+.ub-balken{position:absolute;inset:0 auto 0 0;display:flex;gap:2px;background:var(--f);border-radius:0 4px 4px 0;overflow:hidden;transition:width .95s var(--kurve);animation:wachs .9s var(--kurve) backwards;animation-delay:calc(var(--i,0)*70ms + .1s);transform-origin:left}
+.ub-balken.kap{background:none} .ub-seg{flex:1 1 0;background:var(--f);transition:flex-grow .95s var(--kurve)}
+.ub-wert{text-align:right;font:600 1.3rem var(--f-titel);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ub-v{opacity:0;transition:opacity .45s} .ub-v .delta{display:block;font:500 .8rem var(--f-text);color:var(--tinte-2);font-style:normal}
+[data-schritt="1"] .ub-v,[data-schritt="1"] .ub-geist{opacity:1} [data-schritt="0"] .ub-h{color:var(--tinte)} [data-schritt="1"] .ub-wert.ub-h{color:var(--tinte-3)}
+.ub-pfeil{font-size:1.4rem;color:var(--tinte-3);line-height:1}
+.ub-summe{background:none;border-color:transparent;border-top:2px solid var(--tinte);border-radius:0;margin-top:.4rem} .ub-hinweis{margin-left:1.1rem}
+.ub-strich{opacity:0;transition:opacity .4s} [data-schritt="1"] .ub-strich{opacity:1} .ub-strich i{display:inline-block;width:2px;height:.9rem;background:var(--tinte);vertical-align:-.15rem;margin-right:.4rem}
+
+/* ---------- 6 Bereiche im Detail ---------- */
+.bd{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:1.3rem;align-items:start;flex:1}
+.bd-liste,.bd-seite{display:flex;flex-direction:column;gap:.7rem;min-width:0}
+.bd-zeile{display:grid;grid-template-columns:minmax(0,1fr) 1.4rem minmax(0,1fr);gap:.35rem .7rem;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.75rem 1rem;transition:border-color .25s,box-shadow .25s}
+.bd-zeile header{grid-column:1/-1;display:flex;align-items:center;gap:.6rem} .bd-zeile strong{font:650 1.12rem var(--f-titel)}
+.bd-zeile strong::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--f);margin-right:.5rem}
+.person,.bd-art{font-size:.72rem;font-weight:650;padding:.1rem .5rem;border-radius:99px;background:var(--flaeche-2);color:var(--tinte-2)}
+.bd-art{margin-left:auto;border:1px solid var(--linie-2);background:none}
+.bd-oben{display:flex;justify-content:space-between;align-items:flex-start;gap:.2rem 1rem;flex-wrap:wrap}
+.bd-wer{display:flex;flex-direction:column;font-size:.95rem} .bd-wer span{font-size:.82rem;color:var(--tinte-2)}
+.bd-beitrag{font-size:.82rem;color:var(--tinte-2);text-align:right;line-height:1.3} .bd-beitrag b{font:600 1.3rem/1.1 var(--f-titel);color:var(--tinte)} .bd-beitrag small{display:block}
+.bd-kond,.bd-hinweis{font-size:.84rem;color:var(--tinte-2);margin-top:.25rem} .bd-hinweis{color:var(--tinte);font-weight:550}
+.bd-pfeil{align-self:center;color:var(--tinte-3);font-size:1.2rem}
+.bd-diff{font-size:.84rem;font-weight:650;margin-top:.35rem} .bd-mehr{margin-left:.7rem;font-weight:550;text-decoration:underline;text-underline-offset:.2em;color:var(--tinte-2)}
+.bd-neu,.bd-pfeil,.bd-art{opacity:0;transform:translateX(-.7rem);transition:opacity .45s,transform .55s var(--kurve);transition-delay:calc(var(--i,0)*90ms)}
+[data-schritt="1"] .bd-neu,[data-schritt="1"] .bd-pfeil,[data-schritt="1"] .bd-art{opacity:1;transform:none}
+.bd-eins{grid-column:1/-1;display:grid;grid-template-columns:minmax(9rem,auto) minmax(0,1fr) auto;gap:.1rem 1.5rem;align-items:start}
+.bd-eins .bd-oben{display:contents} .bd-eins .bd-wer{grid-column:1;grid-row:1/3} .bd-eins .bd-beitrag{grid-column:3;grid-row:1/3}
+.bd-eins .bd-kond,.bd-eins .bd-hinweis{grid-column:2;margin:0} .bd-zeile.bleibt{padding-block:.6rem .7rem}
+.bd-zeile.waehlbar{cursor:pointer} [data-schritt="1"] .bd-zeile.gewaehlt{border-color:var(--f);box-shadow:0 0 0 1px var(--f)}
+.vgl{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem;animation:ein .5s var(--kurve) backwards;animation-delay:.25s}
+.vgl-rahmen{overflow-x:auto}
+.vgl-tab{display:grid;grid-template-columns:minmax(7rem,2.3fr) repeat(var(--n),minmax(5.4rem,1fr));min-width:23rem;font-size:.84rem}
+.vgl-tab>div{padding:.36rem .5rem;border-bottom:1px solid var(--linie);display:flex;flex-direction:column;justify-content:center}
+.vgl-k{color:var(--tinte-2)} .vgl-z{align-items:center;text-align:center} .vgl-z.gew{background:color-mix(in srgb,var(--f) 13%,var(--flaeche))}
+.vgl-kopf{line-height:1.25} .vgl-kopf small{font-size:.68rem;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--tinte-3)} .vgl-kopf span{font-size:.78rem;color:var(--tinte-2)}
+.vgl-kopf.gew{border-radius:.5rem .5rem 0 0} .vgl-kopf.gew small{color:var(--tinte)} .vgl-preis b{font:600 1.05rem var(--f-titel)}
+.st{display:inline-flex;vertical-align:-.2em} .st svg{width:1.15rem;height:1.15rem} .st-0{color:var(--tinte-3)}
+.vgl-leg{font-size:.74rem;color:var(--tinte-2);display:flex;align-items:center;gap:.3rem;flex-wrap:wrap} .vgl-leg .st{margin-left:.6rem} .vgl-leg .st:first-child{margin-left:0} .vgl-leg .st svg{width:.9rem;height:.9rem}
+.vgl-warum{display:flex;flex-direction:column;gap:.35rem;font-size:.92rem} .vgl-warum li{padding-left:1.1rem;position:relative}
+.vgl-warum li::before{content:"";position:absolute;left:0;top:.5em;width:.45rem;height:.45rem;border-radius:50%;background:var(--f)}
+
+/* ---------- 7 Drei Töpfe, Vermögensaufbau, Kurz oder mittel ---------- */
+.tp{display:flex;flex-direction:column;gap:.9rem;flex:1}
+.tp-toepfe,.va-felder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem;flex:1}
+.tp-topf{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:1rem 1.15rem;display:flex;flex-direction:column;gap:.7rem}
+.tp-topf h2{font:600 1.7rem/1.1 var(--f-titel);letter-spacing:-.015em;margin:.15rem 0 .25rem}
+.tp-mitte{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1.2rem;align-items:end}
+.tp-gefaess{position:relative;height:7.2rem;border:2px solid var(--linie-2);border-top:0;border-radius:0 0 1.1rem 1.1rem;overflow:hidden;background:var(--flaeche-2)}
+.tp-fuellung{position:absolute;inset:auto 0 0 0;background:var(--tf);transition:height 1s var(--kurve)}
+.tp-linie{position:absolute;left:0;right:0;border-top:2px dashed var(--tinte);opacity:0;transition:opacity .4s}
+.tp-delta{font-size:.88rem;color:var(--tinte-2);opacity:0;transition:opacity .4s} [data-schritt="1"] .tp-delta{opacity:1} [data-schritt="1"] .tp-linie{opacity:.75}
+.tp-ziele,.tp-wege{display:flex;flex-direction:column;font-size:.9rem;border-top:1px solid var(--linie)}
+.tp-ziele li,.tp-wege li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 .8rem;padding:.4rem 0;border-bottom:1px solid var(--linie)}
+.tp-ziele li:last-child,.tp-wege li:last-child{border-bottom:0} .tp-ziele small,.tp-wege span{grid-column:1;grid-row:2;font-size:.78rem;color:var(--tinte-2)}
+.tp-wege em{font-style:normal;font-weight:650;font-variant-numeric:tabular-nums} .tp-wege small{grid-column:2;grid-row:2;text-align:right}
+.tp-wege{border-top:0;background:var(--flaeche-2);border-radius:var(--r-s);padding:.2rem .75rem;margin-top:auto}
+[data-schritt="0"] .tp-v,[data-schritt="1"] .tp-h{display:none}
+.tp-summe{display:flex;align-items:baseline;gap:.5rem 1rem;flex-wrap:wrap;font-size:1rem;color:var(--tinte-2)} .tp-summe>b{font:600 1.9rem var(--f-titel);color:var(--tinte)} .tp-summe span b{color:var(--tinte)}
+.va{display:flex;flex-direction:column;gap:.8rem;flex:1}
+.va-feld{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.va-feld h2{font:600 1.15rem var(--f-titel);display:flex;align-items:baseline;gap:.7rem;margin-top:.15rem}
+.va-chart{height:10.5rem;overflow:hidden;flex:none}
+.va-ziele{display:flex;flex-direction:column;font-size:.86rem;counter-reset:z}
+.va-ziele li{counter-increment:z;display:grid;grid-template-columns:1.3rem minmax(0,1fr) auto;gap:0 .5rem;padding:.3rem 0;border-top:1px solid var(--linie)}
+.va-ziele li::before{content:counter(z);font-weight:700;font-size:.75rem;width:1.15rem;height:1.15rem;display:grid;place-items:center;border-radius:50%;background:var(--tf);color:#fff;grid-row:1/3;align-self:center}
+.va-ziele li.offen::before{background:none;border:2px solid var(--tf);color:var(--tinte)} .va-ziele small{grid-column:2/-1} .va-ziele li.offen small{color:var(--tinte);font-weight:600}
+.va-ende{font-size:.92rem;margin-top:auto;padding-top:.3rem} .va-ende b{font:600 1.25rem var(--f-titel)} .va-ende small{display:block}
+.va-unten{display:flex;gap:.8rem 2rem;align-items:center;flex-wrap:wrap;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:.6rem 1rem}
+.reglerreihe{flex:1 1 30rem;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.3rem 1.6rem} .va-neben{display:flex;flex-direction:column;gap:.3rem}
+.km,.rl{display:grid;grid-template-columns:minmax(0,1fr) 22rem;gap:1.5rem;flex:1;min-height:0;align-items:start}
+.km-haupt,.rl-haupt{display:flex;flex-direction:column;gap:.75rem;min-width:0;align-self:stretch}
+.km-kacheln,.rl-zahlen,.vl-zahlen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.km-chart{flex:1;min-height:15rem;overflow:hidden}
+
+/* ---------- 8 Rentenlücke ---------- */
+.kz-luecke{border-color:var(--tinte)}
+.rl-bild{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:2.5rem 1rem .9rem}
+.rl-spur{position:relative;display:flex;gap:2px;height:3.2rem}
+.rl-teil{flex:0 0 auto;width:0;min-width:0;border-radius:3px;transition:width .95s var(--kurve)} .sofort .rl-teil,.sofort .rl-band,.sofort .rl-ziel{transition:none}
+.rl-g{background:var(--tinte)} .rl-b{background:var(--leben)} .rl-v{background:var(--lang)}
+.rl-l,.rl-leg i.schraff{background:repeating-linear-gradient(135deg,transparent 0 5px,color-mix(in srgb,var(--tinte-3) 60%,transparent) 5px 7px);outline:1.5px dashed var(--tinte-3);outline-offset:-1.5px}
+.rl-band{position:absolute;top:50%;height:1rem;margin-top:-.5rem;border-inline:2px solid var(--tinte);background:linear-gradient(var(--tinte),var(--tinte)) center/100% 2px no-repeat;opacity:0;transition:opacity .4s .6s,left .95s var(--kurve),width .95s var(--kurve);filter:drop-shadow(0 0 1px var(--flaeche))}
+.rl-ziel{position:absolute;top:-1.7rem;bottom:-.45rem;width:0;border-left:2px solid var(--tinte);transition:left .95s var(--kurve);z-index:1}
+.rl-ziel span{position:absolute;top:-.1rem;right:.45rem;font-size:.8rem;font-weight:650;white-space:nowrap}
+.rl-leg{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;font-size:.88rem;margin-top:.75rem;min-height:1.4rem} .rl-leg li{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap}
+.rl-leg i.feld{width:.8rem;height:.8rem;border-radius:2px;align-self:center}
+.rl-stufen{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
+.rl-stufen span{flex:1 1 9rem;display:flex;flex-direction:column;justify-content:space-between;gap:.2rem;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r-s);padding:.5rem .75rem}
+.rl-stufen b{font:600 1.25rem var(--f-titel);font-variant-numeric:tabular-nums} .rl-stufen .summe{background:var(--tinte);border-color:var(--tinte);color:var(--umkehr)} .rl-stufen .summe small{color:inherit;opacity:.75}
+
+/* ---------- 9 Nächste Schritte, 10 Verlauf, Zum Schluss ---------- */
+.ns{display:flex;flex-direction:column;gap:.9rem;flex:1}
+.ns-spalte{min-height:19rem}
+.ns-termin{background:var(--tinte);color:var(--umkehr);border-radius:var(--r);padding:1.1rem 1.4rem;display:grid;grid-template-columns:auto 1fr;gap:.1rem 2rem;align-items:baseline}
+.ns-termin .etikett{color:inherit;opacity:.7;grid-column:1/-1} .ns-art{font:600 2rem/1.1 var(--f-titel);letter-spacing:-.02em} .ns-wann{font-size:1.2rem}
+.ns-spalten{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.85rem}
+.ns-spalte,.vl-seite section{background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--r);padding:1rem 1.15rem}
+.ns-spalte h2,.vl-seite h2{font:650 1.15rem var(--f-titel);margin-bottom:.7rem}
+.ns-liste{display:flex;flex-direction:column;gap:.75rem} .ns-liste li{display:flex;gap:.7rem;align-items:flex-start} .ns-liste span{display:flex;flex-direction:column;font-size:1rem;line-height:1.3}
+.kasten{flex:none;width:1.25rem;height:1.25rem;border:2px solid var(--tinte-3);border-radius:.3rem;margin-top:.05rem;display:grid;place-items:center}
+.erledigt .kasten{background:var(--erledigt);border-color:var(--erledigt)} .erledigt .kasten::after{content:"";width:.6rem;height:.32rem;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(.05rem,-.05rem)}
+.erledigt>span{color:var(--tinte-3)}
+.blatt{flex:none;width:1rem;height:1.25rem;border:2px solid var(--tinte-3);border-radius:2px .45rem 2px 2px;margin-top:.05rem}
+.vl{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.4rem;flex:1;align-items:start}
+.vl-depot{display:flex;flex-direction:column;gap:.75rem;min-width:0;align-self:stretch} .vl-seite{display:flex;flex-direction:column;gap:.75rem;min-width:0}
+.vl-chart{flex:1;min-height:14rem;overflow:hidden}
+.vl-pos li{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) 6rem 3rem;gap:1rem;align-items:center;padding:.4rem 0;border-top:1px solid var(--linie);font-size:.92rem}
+.vl-pos i{height:.5rem;border-radius:99px;background:color-mix(in srgb,var(--mittel) 20%,var(--flaeche))} .vl-pos u{display:block;height:100%;border-radius:99px;background:var(--mittel);animation:wachs .9s var(--kurve) backwards;transform-origin:left}
+.vl-pos b,.vl-pos small{text-align:right;font-variant-numeric:tabular-nums}
+.vl-liste li{display:flex;gap:.6rem;align-items:flex-start} .vl-liste span,.vl-neu li{display:flex;flex-direction:column}
+.haken-kreis{flex:none;width:1.15rem;height:1.15rem;border-radius:50%;background:var(--f);margin-top:.12rem;display:grid;place-items:center}
+.haken-kreis::after{content:"";width:.5rem;height:.26rem;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(.04rem,-.04rem)}
+.vl-termine{border-left:2px solid var(--linie-2);margin-left:.4rem;display:flex;flex-direction:column;gap:.6rem}
+.vl-termine li{position:relative;padding-left:1.1rem;display:grid;grid-template-columns:auto 1fr;gap:0 .6rem;align-items:baseline}
+.vl-termine li::before{content:"";position:absolute;left:calc(-.4rem - 1px);top:.35rem;width:.8rem;height:.8rem;border-radius:50%;background:var(--tinte-3);border:2px solid var(--flaeche)}
+.vl-termine li.jetzt::before{background:var(--tinte);box-shadow:0 0 0 2px var(--tinte)} .vl-termine li.offen::before{background:var(--flaeche);border-color:var(--tinte-3)}
+.vl-termine span{grid-column:1/-1;font-size:.84rem;color:var(--tinte-2)}
+.vl-neu{display:flex;flex-direction:column;gap:.7rem} .vl-neu span{font-size:.86rem;color:var(--tinte-2)}
+.emp{flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.7rem;padding-left:min(9vw,10rem);max-width:66rem}
+.emp .ein{animation-duration:1.1s}
+.emp-zeichen{display:flex;align-items:flex-end;gap:.35rem;height:2.6rem} .emp-zeichen i{width:.9rem;border-radius:2px 2px .45rem .45rem}
+.emp-zeichen i:nth-child(1){height:55%;background:var(--kurz)} .emp-zeichen i:nth-child(2){height:100%;background:var(--mittel)} .emp-zeichen i:nth-child(3){height:78%;background:var(--lang)}
+.emp-satz{font:550 2.7rem/1.18 var(--f-titel);letter-spacing:-.025em;text-wrap:balance}
+.emp-zweiter{font-size:1.45rem;line-height:1.4;color:var(--tinte-2);max-width:36ch;text-wrap:pretty} .emp-dank{color:var(--tinte-3)}
+
+/* ---------- Schmale Bildschirme ---------- */
+@media (max-width:1100px){
+  .km,.rl,.bd,.vl{grid-template-columns:minmax(0,1fr)} .db{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:820px){
+  html{font-size:16px}
+  .wz span,.kopf-kapitel{display:none} .wz{padding:0 .4rem} .kopf{gap:.4rem} .werkzeug{gap:.1rem} .zeichen{flex:none}
+  .folie{gap:.9rem;padding-block:1rem} .folie-kopf h1{font-size:1.75rem} .start-titel{font-size:2.5rem} .lead{font-size:1rem}
+  .kacheln{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;max-height:none;flex:none;gap:.6rem} .kachel{min-height:0;padding:.7rem .8rem .8rem} .kachel-bild svg{width:3.4rem;height:2.1rem} .kachel-titel{font-size:1rem} .kachel-text{font-size:.78rem}
+  .fortschritt{display:none} .fuss-text{justify-content:center} .nav{padding:0 .9rem}
+  .zs-bahn{grid-auto-flow:row;animation:none} .zs-halt{display:grid;grid-template-columns:3.4rem 1.2rem minmax(0,1fr);align-items:stretch}
+  .zs-karte{grid-column:3;grid-row:1;margin:.3rem 0 .3rem .6rem} .zs-stiel{display:none}
+  .zs-achse{grid-column:2;grid-row:1;width:1.2rem;height:auto;justify-content:center} .zs-achse::before{left:50%;right:auto;top:0;bottom:0;width:4px;height:auto;margin:0 0 0 -2px;border-radius:0!important}
+  .zs-jahr{grid-column:1;grid-row:1;align-self:center;padding:0}
+  .zs-summen,.db-karten,.ha-toepfe,.tp-toepfe,.va-felder,.km-kacheln,.rl-zahlen,.vl-zahlen{grid-template-columns:minmax(0,1fr)}
+  .db-zeile{grid-template-columns:minmax(0,1fr);gap:.3rem} .ha-risiko{grid-template-columns:minmax(0,1fr)}
+  .fl-bild{display:none} .fl-liste{position:static;width:auto;height:auto;clip-path:none;overflow:visible}
+  .ub-kopf{display:none} .ub-zeile{grid-template-columns:minmax(0,1fr) auto auto;gap:.3rem .8rem;padding:.6rem .8rem} .ub-spur{grid-column:1/-1;grid-row:2} .ub-pfeil{display:none} .ub-wert{font-size:1.1rem} [data-schritt="0"] .ub-v{display:none}
+  .bd-zeile{grid-template-columns:minmax(0,1fr)} .bd-pfeil{display:none} [data-schritt="0"] .bd-neu{display:none} .bd-neu{border-top:1px solid var(--linie);padding-top:.5rem} .bd-eins{display:block} .bd-eins .bd-oben{display:flex}
+  .reglerreihe{grid-template-columns:minmax(0,1fr);flex-basis:100%} .annahmen ul{columns:1} .ha-topf,.ns-spalte{min-height:0} .va-chart{height:12rem} .km-chart{min-height:16rem;flex:none;height:16rem} .vl-chart{flex:none;height:14rem}
+  .ns-termin{grid-template-columns:minmax(0,1fr)} .ns-art{font-size:1.6rem} .ns-wann{font-size:1.05rem}
+  .vl-pos li{grid-template-columns:minmax(0,1fr) auto auto;gap:.2rem .8rem} .vl-pos i{grid-column:1/-1;grid-row:2}
+  .emp{padding-left:0} .emp-satz{font-size:1.8rem} .emp-zweiter{font-size:1.15rem}
+  .zahl-gross{font-size:1.9rem}
+}
+</style>
+
+<div class="app" id="app">
+  <header class="kopf" id="kopf">
+    <button type="button" class="marke" id="btn-start" aria-label="Zur Übersicht"><span class="zeichen" aria-hidden="true"><i></i><i></i><i></i></span><span id="kopf-name"></span></button>
+    <span class="pille" id="kopf-test" hidden>Testdaten</span>
+    <span class="kopf-kapitel" id="kopf-kapitel"></span>
+    <div class="werkzeug">
+      <button type="button" class="wz" id="btn-uebersicht" title="Zur Übersicht (Esc)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" fill="currentColor"/></svg><span>Übersicht</span></button>
+      <label class="wz schalter" for="sch-anim" title="Animationen ein oder aus"><input type="checkbox" id="sch-anim" checked><i></i><span>Animationen</span></label>
+      <button type="button" class="wz" id="btn-thema" aria-label="Hell oder dunkel" title="Hell oder dunkel"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 3a7 7 0 0 1 0 14Z" fill="currentColor"/></svg></button>
+      <button type="button" class="wz" id="btn-praes" title="Präsentation im Vollbild (F)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Präsentation</span></button>
+    </div>
+  </header>
+  <main class="buehne" id="buehne"><div id="folien"></div></main>
+  <footer class="fuss" id="fuss">
+    <button type="button" class="nav" id="btn-zurueck" aria-label="Zurück" title="Zurück (Pfeil links)">←</button>
+    <div><div class="fortschritt" id="fortschritt"></div><p class="fuss-text"><span><span class="pille" id="fuss-test" hidden>Testdaten</span> <span id="fuss-titel"></span></span><span id="zaehler"></span></p></div>
+    <button type="button" class="wz" id="btn-praes-aus" title="Präsentation beenden (Esc)">Beenden</button>
+    <button type="button" class="nav weiter" id="btn-weiter" title="Weiter (Pfeil rechts)">Weiter →</button>
+  </footer>
+</div>
+<div id="zoom" hidden></div>
+<div id="tipp" role="status" hidden></div>
+
+<script>
+/* =====================================================================================
+   1. DATEN  –  das einzige, was der Agent je Mandant austauscht.
+   Feldnamen wie in der Datenbank (db/migrations/001_init.sql). Beträge in EUR,
+   Finanzstatus pro Monat. Felder mit "nur Artefakt" gibt es (noch) nicht in der DB.
+   Beschreibung Feld für Feld: dashboard/README.md
+   ===================================================================================== */
+const DATEN = {
+  meta: {
+    Version: 1,
+    Stand: "2026-11-25",            // Stichtag aller Rechnungen (JJJJ-MM-TT)
+    Testdaten: true,                // zeigt das Kennzeichen "Testdaten"
+    Berater: "Hugo",
+    AktuellerTerminId: "t-3"        // Termin, für den das Artefakt vorbereitet ist
+  },
+  optionen: {
+    empfehlungsfolie: true,         // letzte Folie "Empfehlungen" zeigen
+    animationen: true,              // Startwert des Schalters "Animationen"
+    kaufkraft: "heute",             // "heute" = alles in heutiger Kaufkraft, "nominal" = Euro zum jeweiligen Zeitpunkt
+    ausgeblendet: []                // Folien-Kennungen, die nicht gezeigt werden, z. B. ["verlauf"]
+  },
+
+  /* Tabelle Mandant */
+  mandant: {
+    MandantId: "m-test-001",
+    Anzeigename: "Lena & Jonas Beispiel",
+    Art: "Haushalt",
+    Status: "Konzept",
+    Geburtsjahr: 1996,
+    Schwerpunkt: "beides",
+    Risikoprofil: 6,
+    RisikoprofilAm: "2026-11-12",
+    EmpfohlenVonText: "Carla Muster",
+    EmpfohlenVonAnzeige: "Carla",   // nur Artefakt: so, wie Hugo den Namen sagen würde
+    Terminrhythmus: "Halbjahr"
+  },
+  /* nur Artefakt, aus Mandant.Profil: wer gehört zum Haushalt */
+  personen: [
+    { Vorname: "Lena",  Geburtsjahr: 1996, Beruf: "Projektmanagerin, angestellt" },
+    { Vorname: "Jonas", Geburtsjahr: 1996, Beruf: "Ingenieur, angestellt" }
+  ],
+
+  /* Tabelle Ziel. Beträge sind in heutiger Kaufkraft gemeint. */
+  ziele: [
+    { ZielId: "z-0", Topf: "kurz",   Beschreibung: "Zwei E-Bikes",                  Betrag: 4200,  Jahr: 2026, Status: "erreicht", Notiz: null },
+    { ZielId: "z-1", Topf: "kurz",   Beschreibung: "Reise nach Japan",              Betrag: 6000,  Jahr: 2027, Status: "offen",    Notiz: null },
+    { ZielId: "z-2", Topf: "kurz",   Beschreibung: "Umzug und neue Küche",          Betrag: 5000,  Jahr: 2028, Status: "offen",    Notiz: null },
+    { ZielId: "z-3", Topf: "mittel", Beschreibung: "Elternzeit überbrücken",        Betrag: 12000, Jahr: 2029, Status: "offen",    Notiz: "Familienzuwachs geplant" },
+    { ZielId: "z-4", Topf: "mittel", Beschreibung: "Gebrauchtes Familienauto",      Betrag: 15000, Jahr: 2032, Status: "offen",    Notiz: null },
+    { ZielId: "z-5", Topf: "mittel", Beschreibung: "Eigenkapital für Wohneigentum", Betrag: 40000, Jahr: 2038, Status: "offen",    Notiz: null },
+    { ZielId: "z-6", Topf: "lang",   Beschreibung: "Mit 67 gut leben",              Betrag: null,  Jahr: 2063, Status: "offen",    Notiz: "3.400 € im Monat, in heutiger Kaufkraft" }
+  ],
+
+  /* Tabelle Finanzstatus (jüngster Stichtag). Alle Beträge pro Monat, Haushalt zusammen. */
+  finanzstatus: {
+    Stichtag: "2026-11-12",
+    Brutto: 7300.00, Steuer: 861.10, AbgabenAV: 94.90, AbgabenKVPV: 815.10, AbgabenRV: 678.90,
+    NettoVon: 4850.00, NettoBis: 4850.00, Nebeneinkommen: 0,
+    Wohnkosten: 1350.00, Lebenshaltung: 2602.00, Verbindlichkeiten: 150.00,
+    Ruecklage: 14000.00,
+    SparrateKurz: 400.00, SparrateMittel: 200.00, SparrateLang: 0,
+    RenteLautInfo: 3200.00,         // Hochrechnung zur Regelaltersgrenze, brutto, beide zusammen
+    RenteBisherErreicht: 520.00,    // nur Artefakt: bisher erreichte Anwartschaft (für Rentenbeginn vor 67)
+    RenteninfoStand: "2026-08-15",
+    Rentenbeginn: 2063,
+    BedarfImAlter: 3400.00,         // netto, heutige Kaufkraft
+    Rentenluecke: 934.40,           // Kontrollwert des Agenten; das Artefakt rechnet selbst
+    Annahmen: "Inflation 2 %, Rentenanpassungen gleichen die Inflation aus, Steuersatz im Alter 10 %"
+  },
+  /* nur Artefakt: woraus sich BedarfImAlter zusammensetzt (Summe = BedarfImAlter) */
+  bedarfImAlter: { Lebenshaltung: 2100, Wohnkosten: 1150, Absicherung: 150 },
+  /* nur Artefakt: Sparraten mit Vorschlag */
+  vorschlag: { SparrateKurz: 350, SparrateMittel: 400, SparrateLang: 400 },
+
+  /* Tabelle Vertrag: bestehende Verträge (Status aktiv) und Vorschläge (Status Vorschlag).
+     nur Artefakt: Person, UeberGehalt, Wert, MaxBeitrag, Rentenfaktor, EffektivkostenProzent, RentenArt */
+  vertraege: [
+    { VertragId: "v-g1",  Bereich: "Gesundheit", Sparte: "Krankenkasse", Person: "Lena", Gesellschaft: "Kasse A", Tarif: "Zusatzbeitrag 3,4 %",
+      Beitrag: 315.00, Zahlweise: "monatlich", Status: "aktiv", Betreuung: "fremd", UeberGehalt: true,
+      KonditionenKurz: "Gesetzlich versichert. Arbeitnehmeranteil bei 3.500 € Brutto." },
+    { VertragId: "v-g1n", Bereich: "Gesundheit", Sparte: "Krankenkasse", Person: "Lena", Gesellschaft: "Kasse B", Tarif: "Zusatzbeitrag 2,5 %",
+      Beitrag: 299.25, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "Hugo", UeberGehalt: true, ErsetztVertragId: "v-g1",
+      KonditionenKurz: "Gleiche gesetzliche Leistungen, dazu Zuschuss zur Zahnreinigung." },
+    { VertragId: "v-g2",  Bereich: "Gesundheit", Sparte: "Krankenkasse", Person: "Jonas", Gesellschaft: "Kasse B", Tarif: "Zusatzbeitrag 2,5 %",
+      Beitrag: 324.90, Zahlweise: "monatlich", Status: "aktiv", Betreuung: "fremd", UeberGehalt: true,
+      KonditionenKurz: "Gesetzlich versichert. Arbeitnehmeranteil bei 3.800 € Brutto.", Hinweis: "Passt, bleibt." },
+    { VertragId: "v-g3",  Bereich: "Gesundheit", Sparte: "Zahnzusatz", Person: "Lena", Gesellschaft: "Anbieter E", Tarif: "Tarif M",
+      Beitrag: 21.40, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "Hugo", Variante: "Preis-Leistung",
+      KonditionenKurz: "90 % Zahnersatz, 100 % Zahnbehandlung, ohne Wartezeit." },
+
+    { VertragId: "v-b1",  Bereich: "Basisrisiken", Sparte: "Privathaftpflicht", Gesellschaft: "Anbieter K", Tarif: "Single-Tarif von 2016",
+      Beitrag: 96.00, Zahlweise: "jaehrlich", Status: "aktiv", Betreuung: "fremd",
+      KonditionenKurz: "10 Mio. € Deckung.", Hinweis: "Läuft nur auf Jonas. Lena ist nicht mitversichert." },
+    { VertragId: "v-b1n", Bereich: "Basisrisiken", Sparte: "Privathaftpflicht", Gesellschaft: "Anbieter H", Tarif: "Tarif M, Familie",
+      Beitrag: 74.40, Zahlweise: "jaehrlich", Status: "Vorschlag", Betreuung: "Hugo", ErsetztVertragId: "v-b1", Variante: "Preis-Leistung",
+      KonditionenKurz: "50 Mio. € Deckung, beide versichert, Forderungsausfall und deliktunfähige Kinder enthalten." },
+    { VertragId: "v-b2",  Bereich: "Basisrisiken", Sparte: "Hausrat", Gesellschaft: "Anbieter K", Tarif: "Tarif Wohnung",
+      Beitrag: 120.00, Zahlweise: "jaehrlich", Status: "aktiv", Betreuung: "fremd",
+      KonditionenKurz: "45.000 € Versicherungssumme, Fahrraddiebstahl bis 3.000 €.", Hinweis: "Passt zur Wohnung, bleibt." },
+    { VertragId: "v-b3",  Bereich: "Basisrisiken", Sparte: "Kfz", Gesellschaft: "Anbieter L", Tarif: "Haftpflicht und Vollkasko",
+      Beitrag: 816.00, Zahlweise: "jaehrlich", Status: "aktiv", Betreuung: "fremd",
+      KonditionenKurz: "Selbstbeteiligung 500 € Vollkasko, 150 € Teilkasko.", Hinweis: "Bleibt. Im Herbst 2027 vergleichen wir neu." },
+
+    { VertragId: "v-e1",  Bereich: "Einkommen", Sparte: "Berufsunfähigkeit", Person: "Jonas", Gesellschaft: "Anbieter M", Tarif: "BU-Tarif von 2021",
+      Beitrag: 62.00, Zahlweise: "monatlich", Status: "aktiv", Betreuung: "fremd", Beginn: "2021-04-01",
+      KonditionenKurz: "2.000 € Rente bis 67, ohne abstrakte Verweisung.", Hinweis: "Gute Bedingungen, bleibt." },
+    { VertragId: "v-e2",  Bereich: "Einkommen", Sparte: "Berufsunfähigkeit", Person: "Lena", Gesellschaft: "Anbieter B", Tarif: "Tarif M",
+      Beitrag: 71.30, MaxBeitrag: 96.40, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "Hugo", Variante: "Preis-Leistung",
+      KonditionenKurz: "2.000 € Rente bis 67. Zahlbeitrag 71,30 €, Maximalbeitrag 96,40 €." },
+
+    { VertragId: "v-k1",  Bereich: "Kapital", Topf: "kurz", Sparte: "Tagesgeld", Gesellschaft: "Bank N", Tarif: "Tagesgeldkonto",
+      Beitrag: 400.00, Zahlweise: "monatlich", Status: "aktiv", Betreuung: "fremd", Wert: 14000,
+      KonditionenKurz: "Täglich verfügbar, Zins variabel." },
+    { VertragId: "v-k1n", Bereich: "Kapital", Topf: "kurz", Sparte: "Tagesgeld", Gesellschaft: "Bank N", Tarif: "Tagesgeldkonto",
+      Beitrag: 350.00, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "fremd", ErsetztVertragId: "v-k1",
+      KonditionenKurz: "Die Rücklage steht. Deshalb reicht hier etwas weniger." },
+    { VertragId: "v-k2",  Bereich: "Kapital", Topf: "mittel", Sparte: "ETF-Sparplan", Gesellschaft: "Bank P", Tarif: "Welt-Aktien-ETF",
+      Beitrag: 200.00, Zahlweise: "monatlich", Status: "aktiv", Betreuung: "fremd", Wert: 11400,
+      KonditionenKurz: "Breit gestreut, niedrige Kosten.", Hinweis: "Passt, bleibt." },
+    { VertragId: "v-k3",  Bereich: "Kapital", Topf: "mittel", Sparte: "Fondsdepot", Gesellschaft: "Depot über Hugo", Tarif: "Sparplan weltweite Aktienfonds",
+      Beitrag: 200.00, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "Hugo",
+      KonditionenKurz: "Jederzeit verfügbar, Kosten rund 0,5 % im Jahr." },
+    { VertragId: "v-k4",  Bereich: "Kapital", Topf: "lang", Sparte: "Private Rentenversicherung", Gesellschaft: "Anbieter Q", Tarif: "Fondsrente",
+      Beitrag: 400.00, Zahlweise: "monatlich", Status: "Vorschlag", Betreuung: "Hugo", Beginn: "2027-01-01",
+      Rentenfaktor: 27.50, EffektivkostenProzent: 1.1, RentenArt: "privat",
+      KonditionenKurz: "Fondsgebunden, je 200 € für Lena und Jonas. Kosten 1,1 % im Jahr, Rentenfaktor 27,50 € je 10.000 €." }
+  ],
+
+  /* nur Artefakt, aus dem Leistungsvergleich (PDF): die verglichenen Tarife je Vorschlag.
+     Werte: 2 = erfüllt, 1 = eingeschränkt, 0 = nicht erfüllt, oder ein kurzer Text. */
+  vergleiche: [
+    { VertragId: "v-e2",
+      Kriterien: ["Verzicht auf abstrakte Verweisung", "Volle Rente ab 50 % Berufsunfähigkeit", "Prognosezeitraum 6 Monate",
+                  "Nachversicherung ohne Gesundheitsprüfung", "Leistung bei längerer Krankschreibung", "Regelung bei Teilzeit"],
+      Tarife: [
+        { Variante: "guenstig",       Gesellschaft: "Anbieter A", Tarif: "Tarif S", Beitrag: 58.90, MaxBeitrag: 92.10,  Werte: [2, 2, 2, 1, 0, 0] },
+        { Variante: "Preis-Leistung", Gesellschaft: "Anbieter B", Tarif: "Tarif M", Beitrag: 71.30, MaxBeitrag: 96.40,  Werte: [2, 2, 2, 2, 2, 1], Gewaehlt: true },
+        { Variante: "Top",            Gesellschaft: "Anbieter C", Tarif: "Tarif L", Beitrag: 84.70, MaxBeitrag: 108.20, Werte: [2, 2, 2, 2, 2, 2] }
+      ],
+      Warum: ["Erfüllt alle Punkte, die für Lena als Angestellte wichtig sind.",
+              "Der Top-Tarif kostet rund 13 € mehr im Monat. Der Unterschied liegt vor allem in der Teilzeit-Regelung.",
+              "Der günstigste Tarif leistet nicht bei längerer Krankschreibung. Der Abstand zum Maximalbeitrag ist dort am größten."] },
+    { VertragId: "v-g1n",
+      Kriterien: ["Zusatzbeitrag", "Zuschuss Zahnreinigung", "Bonusprogramm", "Geschäftsstelle in der Nähe"],
+      Tarife: [
+        { Variante: "heute",     Gesellschaft: "Kasse A", Tarif: "", Beitrag: 315.00, Werte: ["3,4 %", "keiner", 2, 2] },
+        { Variante: "Vorschlag", Gesellschaft: "Kasse B", Tarif: "", Beitrag: 299.25, Werte: ["2,5 %", "bis 60 € im Jahr", 2, 1], Gewaehlt: true }
+      ],
+      Warum: ["Die Leistungen der Kassen sind zum größten Teil gesetzlich gleich.",
+              "Ihr zahlt die halbe Differenz beim Zusatzbeitrag weniger: 15,75 € im Monat.",
+              "Zusatzbeiträge ändern sich jedes Jahr. Die Ersparnis gilt für heute, nicht für immer."] },
+    { VertragId: "v-g3",
+      Kriterien: ["Zahnersatz", "Zahnbehandlung", "Zahnreinigung", "Ohne Wartezeit", "Grenze im ersten Jahr"],
+      Tarife: [
+        { Variante: "guenstig",       Gesellschaft: "Anbieter D", Tarif: "Tarif S", Beitrag: 14.90, Werte: ["75 %", "100 %", "60 € im Jahr", 2, "1.000 €"] },
+        { Variante: "Preis-Leistung", Gesellschaft: "Anbieter E", Tarif: "Tarif M", Beitrag: 21.40, Werte: ["90 %", "100 %", "120 € im Jahr", 2, "1.500 €"], Gewaehlt: true },
+        { Variante: "Top",            Gesellschaft: "Anbieter F", Tarif: "Tarif L", Beitrag: 34.80, Werte: ["100 %", "100 %", "200 € im Jahr", 2, "keine"] }
+      ],
+      Warum: ["90 % Zahnersatz decken den größten Teil ab. Die letzten 10 Punkte kosten im Top-Tarif rund 13 € mehr im Monat.",
+              "Keine Wartezeit, Leistungsgrenzen nur in den ersten Jahren.",
+              "Der Beitrag steigt mit dem Alter. Den Verlauf zeigt der Kostenvergleich in den Unterlagen."] },
+    { VertragId: "v-b1n",
+      Kriterien: ["Deckungssumme", "Forderungsausfall", "Deliktunfähige Kinder", "Schlüsselverlust", "Erstattung zum Neuwert"],
+      Tarife: [
+        { Variante: "guenstig",       Gesellschaft: "Anbieter G", Tarif: "Tarif S", Beitrag: 4.10, Werte: ["10 Mio. €", 1, 0, 1, 0] },
+        { Variante: "Preis-Leistung", Gesellschaft: "Anbieter H", Tarif: "Tarif M", Beitrag: 6.20, Werte: ["50 Mio. €", 2, 2, 2, 1], Gewaehlt: true },
+        { Variante: "Top",            Gesellschaft: "Anbieter J", Tarif: "Tarif L", Beitrag: 8.90, Werte: ["50 Mio. €", 2, 2, 2, 2] }
+      ],
+      Warum: ["Ihr seid beide versichert, Kinder später automatisch mit.",
+              "Forderungsausfall und deliktunfähige Kinder sind enthalten. Beides fehlt im günstigsten Tarif.",
+              "Der Top-Tarif bringt vor allem die Erstattung zum Neuwert, für 2,70 € mehr im Monat."] }
+  ],
+
+  /* nur Artefakt: Annahmen der Rechner (Startwerte der Regler). Prozent pro Jahr. */
+  annahmen: {
+    RenditeProzent: 5.0,            // Rendite vor Kosten, mittlerer und langer Topf
+    RenditeBandbreite: 2.0,         // Bandbreite: Rendite minus/plus so viele Punkte
+    ZinsKurzProzent: 2.0,           // Tagesgeld
+    ZinsKurzBandbreite: 1.0,
+    InflationProzent: 2.0,
+    KostenMittelProzent: 0.5,       // Effektivkosten mittlerer Topf
+    KostenLangProzent: 1.1,         // Effektivkosten langer Topf (wenn am Vertrag nichts steht)
+    Rentenfaktor: 27.50,            // € Monatsrente je 10.000 € Kapital (wenn am Vertrag nichts steht)
+    DynamikProzent: 0,              // jährliche Erhöhung der Sparraten
+    SteuersatzAlterProzent: 10,     // persönlicher Steuersatz im Alter (Durchschnitt, Annahme)
+    Rentenalter: 67,
+    Kinderlos: true,                // Pflegeversicherung der Rentner mit Kinderlosen-Zuschlag
+    SparerpauschbetragJahr: 2000,   // frei verfügbarer Sparerpauschbetrag (Paar 2.000 €), 0 = schon verbraucht
+    VergleichSparrate: 300,         // Folie "Kurz oder mittel": gleiche Sparrate auf beiden Seiten
+    VergleichJahre: 15
+  },
+
+  /* Tabelle Aufgabe (nur, was der Mandant sehen darf). Zustaendig "Agent" wird als Hugos Seite gezeigt. */
+  aufgaben: [
+    { AufgabeId: "a-1", Titel: "Renteninformation und Policen geschickt", Art: "Unterlage", Zustaendig: "Mandant", Status: "erledigt", ErledigtAm: "2026-11-18" },
+    { AufgabeId: "a-2", Titel: "Unterlagen in Ruhe durchsehen", Art: "To-do", Zustaendig: "Mandant", Status: "offen", FaelligAm: "2026-12-09" },
+    { AufgabeId: "a-3", Titel: "Fragen sammeln, gern vorab per Mail", Art: "Frage", Zustaendig: "Mandant", Status: "offen", FaelligAm: "2026-12-09" },
+    { AufgabeId: "a-4", Titel: "Nachsehen, seit wann Lena bei Kasse A ist", Art: "Frage", Zustaendig: "Mandant", Status: "offen", FaelligAm: "2026-12-09" },
+    { AufgabeId: "a-5", Titel: "Vergleiche und Angebote per Mail schicken", Art: "To-do", Zustaendig: "Hugo", Status: "offen", FaelligAm: "2026-11-26" },
+    { AufgabeId: "a-6", Titel: "Offene Fragen bis zur Fragerunde klären", Art: "To-do", Zustaendig: "Hugo", Status: "offen", FaelligAm: "2026-12-10" },
+    { AufgabeId: "a-7", Titel: "Kfz-Versicherung im Herbst 2027 neu vergleichen", Art: "Wiedervorlage", Zustaendig: "Agent", Status: "offen", FaelligAm: "2027-10-01" }
+  ],
+  /* nur Artefakt: Unterlagen, die nach dem Termin per Mail kommen */
+  unterlagen: [
+    "Marktvergleich und Leistungsvergleich Berufsunfähigkeit",
+    "Marktvergleich, Leistungs- und Kostenvergleich Zahnzusatz",
+    "Vergleich der beiden Krankenkassen",
+    "Marktvergleich und Leistungsvergleich Privathaftpflicht",
+    "Angebot Altersvorsorge mit Basisinformationsblatt"
+  ],
+
+  /* Tabelle Termin. Ergebnisse: nur eine mandantentaugliche Kurzfassung. */
+  termine: [
+    { TerminId: "t-1", Beginn: "2026-11-03T17:30:00", Art: "Telefonat",  Ort: "Telefon", Status: "nachbereitet", Ergebnisse: "Kennengelernt, Analyse-Termin vereinbart." },
+    { TerminId: "t-2", Beginn: "2026-11-12T18:00:00", Art: "Analyse",    Ort: "online",  Status: "nachbereitet", Ergebnisse: "Ziele, Drittel-Regel und alle Verträge aufgenommen." },
+    { TerminId: "t-3", Beginn: "2026-11-25T18:00:00", Art: "Konzept",    Ort: "online",  Status: "vorbereitet",  Ergebnisse: null },
+    { TerminId: "t-4", Beginn: "2026-12-10T18:00:00", Art: "Fragerunde", Ort: "online",  Status: "geplant",      Ergebnisse: null }
+  ],
+
+  /* Tabellen Depotstand und DepotPosition (Positionen hängen am jeweiligen Stand) */
+  depotstaende: [
+    { DepotstandId: "d-1", Stichtag: "2025-11-30", Gesamtwert: 8150.00,  Einzahlungen: 7000.00, positionen: [] },
+    { DepotstandId: "d-2", Stichtag: "2026-02-28", Gesamtwert: 8540.00,  Einzahlungen: 7600.00, positionen: [] },
+    { DepotstandId: "d-3", Stichtag: "2026-05-31", Gesamtwert: 9480.00,  Einzahlungen: 8200.00, positionen: [] },
+    { DepotstandId: "d-4", Stichtag: "2026-08-31", Gesamtwert: 10420.00, Einzahlungen: 8800.00, positionen: [] },
+    { DepotstandId: "d-5", Stichtag: "2026-10-31", Gesamtwert: 11400.00, Einzahlungen: 9200.00, positionen: [
+      { Bezeichnung: "Aktien-ETF Welt (Beispiel)",            ISIN: null, Anteile: 78.4, Wert: 8550.00, Anteil: 75.0 },
+      { Bezeichnung: "Aktien-ETF Schwellenländer (Beispiel)", ISIN: null, Anteile: 91.2, Wert: 2850.00, Anteil: 25.0 }
+    ] }
+  ],
+
+  /* aus Tabelle Thema: Neuerungen, die zu diesem Mandanten passen */
+  neuerungen: [
+    { Titel: "Gefördertes Altersvorsorgedepot", GiltAb: "2027-01-01", Kurzfassung: "Depot ohne Garantie, auch mit ETFs. Gefördert werden Eigenbeiträge bis 1.800 € im Jahr plus Zulagen." },
+    { Titel: "Frühstartrente", GiltAb: "2027-01-01", Kurzfassung: "10 € im Monat vom Staat für Kinder von 6 bis 18 Jahren, ab Jahrgang 2020." }
+  ],
+
+  /* nur Artefakt: Faktenboxen je Folie, aus agent/fachwissen.md Abschnitt 9 (nur geprüfte Werte mit Quelle) */
+  fakten: {
+    gesundheit: [
+      { Text: "Arbeitnehmer zahlen die Hälfte des Zusatzbeitrags, die andere Hälfte der Arbeitgeber.", Quelle: "§ 249 SGB V" },
+      { Text: "Nach einem Kassenwechsel 12 Monate Bindung. Erhöht die Kasse den Zusatzbeitrag, gibt es ein Sonderkündigungsrecht.", Quelle: "§ 175 Abs. 4 SGB V" }
+    ],
+    basisrisiken: [
+      { Text: "Kinder unter 7 Jahren haften nicht, bei Unfällen mit Auto oder Bahn bis 10 Jahre. Deshalb zählt die Mitversicherung deliktunfähiger Kinder.", Quelle: "§ 828 BGB" }
+    ],
+    arbeitskraft: [
+      { Text: "Ab 50 % Berufsunfähigkeit gibt es die volle vereinbarte Rente.", Quelle: "BaFin" },
+      { Text: "Regelaltersgrenze 67 ab Jahrgang 1964. Das Endalter der BU sollte dazu passen.", Quelle: "§ 35 SGB VI" },
+      { Text: "Krankengeld: 70 % vom Brutto, höchstens 90 % vom Netto, bis 78 Wochen.", Quelle: "§§ 47, 48 SGB V" }
+    ],
+    "kurz-mittel": [
+      { Text: "Abgeltungsteuer 26,375 % inklusive Soli auf den Gewinn. Bei Aktienfonds bleiben 30 % des Gewinns steuerfrei.", Quelle: "§ 32d EStG, § 20 InvStG" },
+      { Text: "Sparerpauschbetrag: 1.000 € im Jahr je Person.", Quelle: "§ 20 Abs. 9 EStG" }
+    ],
+    rentenluecke: [
+      { Text: "Frühester Rentenbeginn mit 63, nur mit 35 Versicherungsjahren. Abschlag 0,3 % je Monat, bei vier Jahren 14,4 %.", Quelle: "§§ 36, 77 SGB VI" },
+      { Text: "Besteuert wird der Anteil nach dem Jahr des Rentenbeginns: 2026 sind es 84 %, ab 2058 dann 100 %.", Quelle: "§ 22 EStG" },
+      { Text: "Rentenniveau: Haltelinie 48 % bis 2031. Was danach kommt, ist offen.", Quelle: "Rentenpaket 2025" }
+    ]
+  }
+};
+
+/* =====================================================================================
+   2. RECHT  –  gesetzliche Werte, Stand 2026. Quelle: agent/fachwissen.md. Jährlich prüfen.
+   ===================================================================================== */
+/* fehlende Listen als leer behandeln, damit auch ein Mandant ganz am Anfang (nur Analyse) funktioniert */
+["personen", "ziele", "vertraege", "vergleiche", "aufgaben", "termine", "depotstaende", "neuerungen", "unterlagen"].forEach(k => { DATEN[k] = DATEN[k] || []; });
+DATEN.fakten = DATEN.fakten || {}; DATEN.optionen = DATEN.optionen || {};
+const HAT_VORSCHLAG = !!DATEN.vorschlag || DATEN.vertraege.some(v => v.Status === "Vorschlag");
+
+const RECHT = {
+  Stand: 2026,
+  Regelaltersgrenze: 67,                                   // § 35 SGB VI, ab Jahrgang 1964
+  FruehesterRentenbeginn: 63,                              // § 36 SGB VI, nur mit 35 Jahren Wartezeit
+  AbschlagProMonat: 0.003,                                 // § 77 SGB VI
+  KvPvRentner: { mitKind: 0.1235, kinderlos: 0.1295 },     // § 249a SGB V, § 59 SGB XI, Ø-Zusatzbeitrag 2026
+  besteuerungsanteil: jahr => Math.min(1, Math.max(0.5, 0.84 + 0.005 * (jahr - 2026))),   // § 22 Nr. 1 EStG: 2026 84 %, 100 % ab 2058
+  ertragsanteil: alter => ({ 60: .22, 61: .22, 62: .21, 63: .20, 64: .19, 65: .18, 66: .18, 67: .17, 68: .16, 69: .15, 70: .15 }[alter] ?? .17),   // § 22 Nr. 1 S. 3 a bb EStG
+  Abgeltungsteuer: 0.26375,                                // § 32d EStG, inklusive Soli
+  TeilfreistellungAktienfonds: 0.30,                       // § 20 InvStG
+  Bav: { FreibetragKv: 197.75, KvSatz: 0.175, PvSatz: { mitKind: 0.036, kinderlos: 0.042 } }   // § 226 SGB V, Ø-Zusatzbeitrag 2026
+};
+
+/* =====================================================================================
+   3. RECHENKERN  –  reine Funktionen ohne Bildschirm. Regeln: agent/fachwissen.md 6.1 bis 6.4.
+   Alles wird zuerst nominal gerechnet (Euro zum jeweiligen Zeitpunkt) und für die Anzeige
+   "heutige Kaufkraft" mit der Inflation zurückgerechnet. Nie gemischt.
+   ===================================================================================== */
+const RECHNEN = (() => {
+  const F = DATEN.finanzstatus, A = DATEN.annahmen, M = DATEN.mandant;
+  const standJahr = +DATEN.meta.Stand.slice(0, 4), standMonat = +DATEN.meta.Stand.slice(5, 7) - 1;
+  const summe = (liste, f) => liste.reduce((s, x) => s + (f(x) || 0), 0);
+  const proMonat = v => { const teiler = { monatlich: 1, vierteljaehrlich: 3, halbjaehrlich: 6, jaehrlich: 12 }[v.Zahlweise || "monatlich"]; return teiler ? (v.Beitrag || 0) / teiler : 0; };
+  const monatszins = pa => Math.pow(1 + pa, 1 / 12) - 1;
+  const TOEPFE = ["kurz", "mittel", "lang"], BEREICHE = ["Gesundheit", "Basisrisiken", "Einkommen", "Wohnen", "Kapital"];
+
+  /* Netto im Monat: aus Brutto minus Steuer und Abgaben, sonst Mitte der Spanne */
+  const netto = () => F.Brutto != null && F.Steuer != null
+    ? F.Brutto - F.Steuer - (F.AbgabenAV || 0) - (F.AbgabenKVPV || 0) - (F.AbgabenRV || 0)
+    : ((F.NettoVon || 0) + (F.NettoBis || F.NettoVon || 0)) / 2;
+  const sparraten = wann => { const q = wann === "vorschlag" && DATEN.vorschlag ? DATEN.vorschlag : F; return { kurz: q.SparrateKurz || 0, mittel: q.SparrateMittel || 0, lang: q.SparrateLang || 0 }; };
+  const sparSumme = wann => { const s = sparraten(wann); return s.kurz + s.mittel + s.lang; };
+
+  /* Zeilen eines Bereichs: bestehender Vertrag und, falls vorhanden, der Vorschlag, der ihn ersetzt */
+  function zeilen(bereich) {
+    const alle = DATEN.vertraege.filter(v => v.Bereich === bereich);
+    const neu = alle.filter(v => v.Status === "Vorschlag");
+    const zeilen = alle.filter(v => v.Status === "aktiv").map(heute => {
+      const vorschlag = neu.find(n => n.ErsetztVertragId === heute.VertragId) || null;
+      return { heute, vorschlag, art: vorschlag ? "wechsel" : "bleibt" };
+    });
+    neu.filter(n => !n.ErsetztVertragId).forEach(vorschlag => zeilen.push({ heute: null, vorschlag, art: "neu" }));
+    return zeilen;
+  }
+  /* Aufwand je Bereich im Monat, heute und mit Vorschlag. Kapital = Sparraten. */
+  function bereichSummen() {
+    return BEREICHE.map(name => {
+      if (name === "Kapital") return { name, heute: sparSumme("heute"), vorschlag: sparSumme("vorschlag"), toepfe: { heute: sparraten("heute"), vorschlag: sparraten("vorschlag") }, anzahl: zeilen(name).length };
+      const z = zeilen(name);
+      return { name, anzahl: z.length, heute: summe(z, x => x.heute && proMonat(x.heute)), vorschlag: summe(z, x => proMonat(x.vorschlag || x.heute)) };
+    });
+  }
+
+  /* Wohin das Netto heute geht, und was davon im Alter bleibt */
+  function verwendung() {
+    const aktiv = DATEN.vertraege.filter(v => v.Status === "aktiv" && !v.UeberGehalt);
+    const b = DATEN.bedarfImAlter || {};
+    const teile = [
+      { id: "bu",      name: "Absicherung Arbeitskraft",  heute: summe(aktiv.filter(v => v.Bereich === "Einkommen"), proMonat), alter: 0 },
+      { id: "sparen",  name: "Vermögensaufbau",           heute: sparSumme("heute"), alter: 0 },
+      { id: "leben",   name: "Lebenshaltung, Freizeit",   heute: F.Lebenshaltung || 0, alter: b.Lebenshaltung ?? 0 },
+      { id: "kredit",  name: "Verbindlichkeiten",         heute: F.Verbindlichkeiten || 0, alter: 0 },
+      { id: "wohnen",  name: "Wohnkosten",                heute: F.Wohnkosten || 0, alter: b.Wohnkosten ?? 0 },
+      { id: "risiken", name: "Absicherung von Risiken",   heute: summe(aktiv.filter(v => ["Gesundheit", "Basisrisiken", "Wohnen"].includes(v.Bereich)), proMonat), alter: b.Absicherung ?? 0 }
+    ];
+    const rest = netto() - summe(teile, t => t.heute);
+    if (Math.abs(rest) >= 1) teile.push({ id: "rest", name: rest > 0 ? "Nicht zugeordnet" : "Mehr verplant als Netto", heute: Math.abs(rest), alter: 0 });
+    return teile;
+  }
+  const bedarf = () => DATEN.bedarfImAlter ? summe(Object.values(DATEN.bedarfImAlter), x => x) : (F.BedarfImAlter || 0);
+
+  /* Sparplan: Rate am Monatsanfang, Zins monatlich. pa = Rendite nach Kosten pro Jahr. */
+  function sparplan({ start = 0, rate = 0, monate, pa, dynamik = 0 }) {
+    const rm = monatszins(pa); let kapital = start, eingezahlt = start, r = rate;
+    for (let m = 1; m <= monate; m++) {
+      if (m > 1 && (m - 1) % 12 === 0) r *= 1 + dynamik;
+      kapital = (kapital + r) * (1 + rm); eingezahlt += r;
+    }
+    return { kapital, eingezahlt };
+  }
+
+  /* Gesetzliche Rente im ersten Rentenjahr, in heutiger Kaufkraft (Annahme: Rentenanpassungen = Inflation) */
+  function gesetzlicheRente(alter, steuersatz) {
+    const regel = RECHT.Regelaltersgrenze, jahr = M.Geburtsjahr + alter;
+    const infoJahr = +(F.RenteninfoStand || DATEN.meta.Stand).slice(0, 4);
+    let brutto = F.RenteLautInfo || 0;
+    if (alter < regel && F.RenteBisherErreicht != null) {           // weniger Beitragsjahre: linear zwischen "bisher erreicht" und Hochrechnung
+      const bisRegel = M.Geburtsjahr + regel - infoJahr;
+      brutto = F.RenteBisherErreicht + (F.RenteLautInfo - F.RenteBisherErreicht) * Math.max(0, bisRegel - (regel - alter)) / bisRegel;
+    }
+    const abschlagSatz = Math.max(0, regel - alter) * 12 * RECHT.AbschlagProMonat;
+    const vorAbschlag = brutto; brutto *= 1 - abschlagSatz;
+    const kvpvSatz = A.Kinderlos ? RECHT.KvPvRentner.kinderlos : RECHT.KvPvRentner.mitKind;
+    const anteil = RECHT.besteuerungsanteil(jahr);
+    const kvpv = brutto * kvpvSatz, steuer = brutto * anteil * steuersatz;
+    return { jahr, laut: F.RenteLautInfo || 0, vorAbschlag, abschlagSatz, brutto, kvpvSatz, kvpv, besteuerungsanteil: anteil, steuer, netto: brutto - kvpv - steuer };
+  }
+
+  /* Monatsrente aus einem Vertrag im langen Topf, netto, nominal im ersten Rentenjahr */
+  function renteAusVertrag(v, rate, jahre, rendite, alter, steuersatz, infl) {
+    const kosten = (v.EffektivkostenProzent ?? A.KostenLangProzent) / 100;
+    const { kapital, eingezahlt } = sparplan({ start: v.Wert || 0, rate, monate: jahre * 12, pa: rendite - kosten, dynamik: A.DynamikProzent / 100 });
+    const brutto = kapital / 10000 * (v.Rentenfaktor ?? A.Rentenfaktor);
+    let nettoRente;
+    if (v.RentenArt === "gefoerdert") nettoRente = brutto * (1 - steuersatz);                                     // Riester, Altersvorsorgedepot: voll steuerpflichtig
+    else if (v.RentenArt === "bav") {                                                                             // bAV: voll steuerpflichtig, dazu volle Kranken-/Pflegebeiträge
+      const frei = RECHT.Bav.FreibetragKv * infl;                                                                // Freibetrag wächst mit (Annahme: wie die Inflation)
+      const kv = Math.max(0, brutto - frei) * RECHT.Bav.KvSatz;
+      const pv = brutto > frei ? brutto * (A.Kinderlos ? RECHT.Bav.PvSatz.kinderlos : RECHT.Bav.PvSatz.mitKind) : 0;
+      nettoRente = brutto * (1 - steuersatz) - kv - pv;
+    } else nettoRente = brutto * (1 - RECHT.ertragsanteil(alter) * steuersatz);                                    // private Rente: nur der Ertragsanteil
+    return { kapital, eingezahlt, brutto, netto: nettoRente };
+  }
+
+  /* Rentenlücke. p: { alter, sparrateLang, rendite, inflation, steuersatz, kaufkraft } (Prozentwerte als Zahl, z. B. 5) */
+  function rentenluecke(p) {
+    const alter = p.alter, jahre = Math.max(0, M.Geburtsjahr + alter - standJahr);
+    const infl = Math.pow(1 + p.inflation / 100, jahre), s = p.steuersatz / 100;
+    const band = A.RenditeBandbreite, renditen = { tief: p.rendite - band, erwartet: p.rendite, hoch: p.rendite + band };
+    const g = gesetzlicheRente(alter, s);
+    const lang = DATEN.vertraege.filter(v => v.Bereich === "Kapital" && v.Topf === "lang");
+    let neu = lang.filter(v => v.Status === "Vorschlag");
+    const ersetzt = new Set(neu.map(v => v.ErsetztVertragId).filter(Boolean));
+    const aktiv = lang.filter(v => v.Status === "aktiv");
+    if (!neu.length) neu = [{ Beitrag: 1, Zahlweise: "monatlich", virtuell: true }];
+    const neuSumme = summe(neu, proMonat) || 1;
+    const fall = r => {
+      const heute = summe(aktiv, v => renteAusVertrag(v, proMonat(v), jahre, r / 100, alter, s, infl).netto);
+      const bleibt = summe(aktiv.filter(v => !ersetzt.has(v.VertragId)), v => renteAusVertrag(v, proMonat(v), jahre, r / 100, alter, s, infl).netto);
+      const teile = neu.map(v => renteAusVertrag(v, p.sparrateLang * proMonat(v) / neuSumme, jahre, r / 100, alter, s, infl));
+      return { heute: heute / infl, bleibt: bleibt / infl, neu: summe(teile, t => t.netto) / infl, neuBrutto: summe(teile, t => t.brutto) / infl, kapital: summe(teile, t => t.kapital) / infl, eingezahlt: summe(teile, t => t.eingezahlt) };
+    };
+    const f = { tief: fall(renditen.tief), erwartet: fall(renditen.erwartet), hoch: fall(renditen.hoch) };
+    const b = bedarf(), k = p.kaufkraft === "nominal" ? infl : 1;      // k rechnet heutige Kaufkraft in Euro des Rentenjahres um
+    const mal = (o, keys) => Object.fromEntries(Object.entries(o).map(([key, v]) => [key, keys.includes(key) ? v * k : v]));
+    const drei = fn => ({ tief: fn(f.tief) * k, erwartet: fn(f.erwartet) * k, hoch: fn(f.hoch) * k });
+    return {
+      alter, jahr: g.jahr, jahre, inflationsfaktor: infl, renditen, ertragsanteil: RECHT.ertragsanteil(alter),
+      bedarf: b * k,
+      gesetzlich: mal(g, ["laut", "vorAbschlag", "brutto", "kvpv", "steuer", "netto"]),
+      bestehendHeute: drei(x => x.heute),                              // private Vorsorge, die heute schon läuft
+      bestehendBleibt: drei(x => x.bleibt),
+      vorschlag: drei(x => x.neu), vorschlagBrutto: drei(x => x.neuBrutto), kapital: drei(x => x.kapital), eingezahlt: f.erwartet.eingezahlt,
+      lueckeHeute: (b - g.netto - f.erwartet.heute) * k,
+      lueckeVorschlag: { tief: (b - g.netto - f.hoch.bleibt - f.hoch.neu) * k, erwartet: (b - g.netto - f.erwartet.bleibt - f.erwartet.neu) * k, hoch: (b - g.netto - f.tief.bleibt - f.tief.neu) * k }
+    };
+  }
+
+  /* Kurz oder mittel bei gleicher Sparrate. Liefert je Jahr den Wert nach Kosten und Steuern
+     (so, als würde man in dem Jahr alles auflösen). p: { rate, jahre, zins, rendite, inflation, kaufkraft } */
+  function kurzOderMittel(p) {
+    const abg = RECHT.Abgeltungsteuer, tf = RECHT.TeilfreistellungAktienfonds, frei = A.SparerpauschbetragJahr || 0;
+    const real = p.kaufkraft !== "nominal", i = p.inflation / 100;
+    const lauf = (zins, rendite) => {
+      const zm = monatszins(zins / 100), rm = monatszins(rendite / 100 - A.KostenMittelProzent / 100);
+      let kurz = 0, mittel = 0, ein = 0, einReal = 0, zinsenJahr = 0; const reihe = [{ jahr: 0, eingezahlt: 0, kurz: 0, mittel: 0 }];
+      for (let m = 1; m <= p.jahre * 12; m++) {
+        const z = (kurz + p.rate) * zm; kurz += p.rate + z; zinsenJahr += z;
+        mittel = (mittel + p.rate) * (1 + rm); ein += p.rate; einReal += p.rate / Math.pow(1 + i, (m - 1) / 12);
+        if (m % 12 === 0) {
+          kurz -= Math.max(0, zinsenJahr - frei) * abg; zinsenJahr = 0;                              // Zinsen: jedes Jahr versteuert
+          const steuerMittel = Math.max(0, (mittel - ein) * (1 - tf) - frei) * abg;                 // Fonds: einmal beim Verkauf, 30 % steuerfrei
+          const d = real ? Math.pow(1 + i, m / 12) : 1;
+          reihe.push({ jahr: m / 12, eingezahlt: real ? einReal : ein, kurz: kurz / d, mittel: (mittel - steuerMittel) / d, steuerMittel: steuerMittel / d });
+        }
+      }
+      return reihe;
+    };
+    const zb = A.ZinsKurzBandbreite, rb = A.RenditeBandbreite;
+    return { tief: lauf(Math.max(0, p.zins - zb), p.rendite - rb), erwartet: lauf(p.zins, p.rendite), hoch: lauf(p.zins + zb, p.rendite + rb),
+             zinsen: [Math.max(0, p.zins - zb), p.zins + zb], renditen: [p.rendite - rb, p.rendite + rb] };
+  }
+
+  /* Vermögensaufbau je Topf: Monat für Monat, Ziele werden im Zieljahr (Mitte des Jahres) entnommen.
+     Ziel-Beträge gelten in heutiger Kaufkraft und wachsen mit der Inflation mit. */
+  function topfVerlauf(topf, p) {
+    const i = p.inflation / 100, real = p.kaufkraft !== "nominal";
+    const jahreBisRente = Math.max(1, M.Geburtsjahr + p.alter - standJahr);
+    const ziele = DATEN.ziele.filter(z => z.Topf === topf && z.Status === "offen" && z.Betrag)
+      .map(z => ({ ziel: z, monat: Math.max(1, (z.Jahr - standJahr) * 12 + 6 - standMonat) }));
+    const letztes = Math.max(0, ...ziele.map(z => z.monat));
+    const monate = topf === "kurz" ? Math.max(36, letztes + 6) : topf === "mittel" ? Math.min(jahreBisRente * 12, Math.max(120, letztes + 24)) : jahreBisRente * 12;
+    const start = topf === "kurz" ? (F.Ruecklage || 0) : summe(DATEN.vertraege.filter(v => v.Bereich === "Kapital" && v.Topf === topf && v.Status === "aktiv"), v => v.Wert);
+    const kosten = topf === "mittel" ? A.KostenMittelProzent : topf === "lang" ? A.KostenLangProzent : 0;
+    const lauf = pa => {
+      const rm = monatszins(pa / 100 - kosten / 100); let wert = start, rate = p.rate; const punkte = [{ m: 0, wert: start }], ereignisse = [];
+      for (let m = 1; m <= monate; m++) {
+        if (m > 1 && (m - 1) % 12 === 0) rate *= 1 + A.DynamikProzent / 100;
+        wert = (wert + rate) * (1 + rm);
+        const d = Math.pow(1 + i, m / 12), teiler = real ? d : 1;
+        ziele.filter(z => z.monat === m).forEach(z => {
+          const soll = z.ziel.Betrag * d, entnahme = Math.min(wert, soll);
+          punkte.push({ m, wert: wert / teiler }); wert -= entnahme;
+          ereignisse.push({ m, ziel: z.ziel, betrag: soll / teiler, fehlt: (soll - entnahme) / teiler, davor: (wert + entnahme) / teiler });
+        });
+        punkte.push({ m, wert: wert / teiler });
+      }
+      return { punkte, ereignisse, ende: punkte[punkte.length - 1].wert };
+    };
+    const basis = topf === "kurz" ? p.zins : p.rendite, band = topf === "kurz" ? A.ZinsKurzBandbreite : A.RenditeBandbreite;
+    return { topf, monate, start, startJahr: standJahr, startMonat: standMonat, erwartet: lauf(basis), tief: lauf(Math.max(0, basis - band)), hoch: lauf(basis + band) };
+  }
+
+  return { TOEPFE, BEREICHE, standJahr, standMonat, proMonat, summe, netto, sparraten, sparSumme, zeilen, bereichSummen, verwendung, bedarf, sparplan, gesetzlicheRente, rentenluecke, kurzOderMittel, topfVerlauf };
+})();
+
+/* =====================================================================================
+   4. HELFER  –  Formatierung, Anrede, Animation, Diagramme
+   ===================================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const zahlDE = (x, stellen = 0) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: stellen, maximumFractionDigits: stellen }).format(x);
+const eur = x => zahlDE(Math.round(x)) + " €";
+const eur2 = x => zahlDE(x, 2) + " €";
+const eurGenau = x => Math.abs(x - Math.round(x)) < 0.005 ? eur(x) : eur2(x);          // Beiträge: Cent nur, wenn es welche gibt
+const pct = (x, stellen = 0) => zahlDE(x, stellen) + " %";
+const pctKurz = x => pct(x, Math.abs(x - Math.round(x)) < 0.005 ? 0 : Math.abs(x * 10 - Math.round(x * 10)) < 0.005 ? 1 : 2);   // 100 %, 84,5 %, 12,95 %
+const mitVorzeichen = (x, f = eur) => (x > 0 ? "+" : x < 0 ? "−" : "±") + f(Math.abs(x));
+const FORMAT = { eur, eur2, eurGenau, pct: x => pct(x), pct1: x => pct(x, 1), zahl: x => zahlDE(Math.round(x)), komma1: x => zahlDE(x, 1) };
+const tag = iso => new Date(iso.length === 10 ? iso + "T12:00:00" : iso);
+const datumLang = iso => tag(iso).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
+const datumKurz = iso => tag(iso).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+const monatJahr = iso => tag(iso).toLocaleDateString("de-DE", { month: "2-digit", year: "numeric" });
+const uhrzeit = iso => tag(iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+const F = DATEN.finanzstatus, A = DATEN.annahmen, M = DATEN.mandant, R = RECHNEN;
+const IHR = DATEN.personen.length > 1;
+const du = (einzahl, mehrzahl) => IHR ? mehrzahl : einzahl;                               // Anrede: eine Person "du", Haushalt "ihr"
+const NAME = DATEN.personen.length ? DATEN.personen.map(p => p.Vorname).join(" & ") : M.Anzeigename;
+const TOPF = {
+  kurz:   { name: "Kurz",   phase: "Heute",               horizont: "bis etwa 18 Monate", wofuer: "Rücklage und alles, was bald ansteht" },
+  mittel: { name: "Mittel", phase: "Berufstätige Jahre",  horizont: "2 bis 20 Jahre",     wofuer: "Größere Wünsche auf dem Weg" },
+  lang:   { name: "Lang",   phase: "Berufsfreie Jahre",   horizont: "ab der Rente",       wofuer: "Einkommen, wenn das Gehalt wegfällt" }
+};
+const BEREICH = {
+  Gesundheit:   { farbe: "gesundheit",   folie: "gesundheit" },
+  Basisrisiken: { farbe: "basisrisiken", folie: "basisrisiken" },
+  Einkommen:    { farbe: "einkommen",    folie: "arbeitskraft" },
+  Wohnen:       { farbe: "wohnen",       folie: null },
+  Kapital:      { farbe: null,           folie: "toepfe" }
+};
+
+/* ---------- Animation: klarer Start, klares Ende, nichts läuft dauerhaft ---------- */
+const ANIM = { an: true };
+const weich = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+function tween(dauer, schritt, fertig) {
+  if (!ANIM.an || dauer <= 0) { schritt(1); fertig && fertig(); return { stop() {} }; }
+  let id, t0 = null, aus = false;
+  const tick = t => {
+    if (aus) return; if (t0 === null) t0 = t;
+    const p = Math.min(1, (t - t0) / dauer); schritt(weich(p));
+    if (p < 1) id = requestAnimationFrame(tick); else fertig && fertig();
+  };
+  id = requestAnimationFrame(tick);
+  return { stop() { aus = true; cancelAnimationFrame(id); } };
+}
+/* Zahl im Element von ihrem jetzigen Wert auf den Zielwert zählen */
+function zaehle(el, ziel, dauer = 850) {
+  const f = FORMAT[el.dataset.format || "eur"], von = el._wert ?? 0;
+  el._lauf && el._lauf.stop(); el.dataset.zahl = ziel;
+  el._lauf = tween(dauer, p => { el._wert = von + (ziel - von) * p; el.textContent = f(el._wert); }, () => { el._wert = ziel; el.textContent = f(ziel); });
+}
+function zaehleAlle(wurzel) {
+  $$(".zahl[data-zahl]", wurzel).forEach(el => { el._wert = 0; if (ANIM.an) el.textContent = FORMAT[el.dataset.format || "eur"](0); zaehle(el, +el.dataset.zahl); });
+}
+const Z_ = (wert, format = "eur", klasse = "") => `<span class="zahl ${klasse}" data-zahl="${wert}" data-format="${format}">${FORMAT[format](wert)}</span>`;
+/* CSS-Animationen einer Folie neu starten (z. B. beim Schrittwechsel) */
+const neuStarten = el => { el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; };
+
+/* ---------- Tooltip (ergänzt, ersetzt keine Beschriftung) ---------- */
+const tipp = {
+  el: null,
+  zeige(x, y, titel, zeilen) {
+    const el = this.el || (this.el = $("#tipp")); el.replaceChildren();
+    const t = document.createElement("div"); t.className = "tipp-titel"; t.textContent = titel; el.append(t);
+    zeilen.forEach(z => {
+      const r = document.createElement("div"); r.className = "tipp-zeile";
+      const k = document.createElement("i"); k.style.background = z.farbe || "transparent";
+      const w = document.createElement("b"); w.textContent = z.wert;
+      const n = document.createElement("span"); n.textContent = z.name; r.append(k, w, n); el.append(r);
+    });
+    el.hidden = false;
+    const b = el.offsetWidth, h = el.offsetHeight;
+    el.style.left = Math.max(8, Math.min(window.innerWidth - b - 8, x + 14)) + "px";
+    el.style.top = Math.max(8, Math.min(window.innerHeight - h - 8, y - h - 12)) + "px";
+  },
+  weg() { if (this.el) this.el.hidden = true; }
+};
+
+/* ---------- Achsen ---------- */
+function achse(max, anzahl = 4) {
+  const roh = max / anzahl, hoch = Math.pow(10, Math.floor(Math.log10(roh || 1))), n = roh / hoch;
+  const schritt = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * hoch;
+  const oben = Math.ceil(max / schritt) * schritt, marken = [];
+  for (let v = 0; v <= oben + schritt / 2; v += schritt) marken.push(v);
+  return { oben, marken };
+}
+
+/* ---------- Liniendiagramm (SVG, in echten Pixeln, damit Schrift auch am Handy lesbar bleibt) ----------
+   c: { reihen:[{name, farbe, punkte:[{x,y}], gestrichelt, flaeche, ende}], baender:[{farbe, punkte:[{x,tief,hoch}]}],
+        marker:[{x,y,text,farbe,offen}], xMarken:[{x,text}], xText(x), yText(y), randRechts, ruhig, hoverTitel(x) } */
+function linienChart(el, c) {
+  el.innerHTML = "";                                                       // erst leeren, dann messen: so passt sich das Diagramm dem freien Platz an
+  const B = el.clientWidth, H = el.clientHeight, r = rem();
+  if (B < 40 || H < 40) return;
+  const schmal = B < 520, mitEnde = c.reihen.some(x => x.ende) && !schmal;
+  const rand = { l: 3.7 * r, r: (mitEnde ? (c.randRechts || 8.5) : 0.9) * r, o: 1.1 * r, u: 1.7 * r };
+  const xs = c.reihen.flatMap(x => x.punkte.map(p => p.x));
+  const xMin = c.xMin ?? Math.min(...xs), xMax = c.xMax ?? Math.max(...xs);
+  const ys = c.reihen.flatMap(x => x.punkte.map(p => p.y)).concat((c.baender || []).flatMap(b => b.punkte.map(p => p.hoch)), (c.marker || []).map(m => m.y));
+  const { oben, marken } = achse(Math.max(1, ...ys) * 1.03, H < 14 * r ? 3 : 4);
+  const sx = x => rand.l + (x - xMin) / ((xMax - xMin) || 1) * (B - rand.l - rand.r);
+  const sy = y => rand.o + (1 - y / oben) * (H - rand.o - rand.u);
+  const pfad = pkt => pkt.map((p, i) => (i ? "L" : "M") + sx(p.x).toFixed(1) + " " + sy(p.y).toFixed(1)).join(" ");
+  const kl = c.ruhig ? "" : " zieh", bl = c.ruhig ? "" : " blend";
+  let s = `<svg class="chart" width="${B}" height="${H}" viewBox="0 0 ${B} ${H}" role="img" aria-label="${esc(c.titel || "Diagramm")}">`;
+  marken.forEach(v => { s += `<line class="gitter" x1="${rand.l}" x2="${B - rand.r}" y1="${sy(v)}" y2="${sy(v)}"/><text class="achse" x="${rand.l - 0.5 * r}" y="${sy(v)}" dy=".32em" text-anchor="end">${c.yText ? c.yText(v) : zahlDE(v)}</text>`; });
+  (c.xMarken || []).forEach(m => { s += `<text class="achse" x="${sx(m.x)}" y="${H - 0.4 * r}" text-anchor="${m.anker || "middle"}">${esc(m.text)}</text>`; });
+  s += `<line class="grundlinie" x1="${rand.l}" x2="${B - rand.r}" y1="${sy(0)}" y2="${sy(0)}"/>`;
+  (c.baender || []).forEach(b => {
+    const oben_ = b.punkte.map((p, i) => (i ? "L" : "M") + sx(p.x).toFixed(1) + " " + sy(p.hoch).toFixed(1)).join(" ");
+    const unten = [...b.punkte].reverse().map(p => "L" + sx(p.x).toFixed(1) + " " + sy(p.tief).toFixed(1)).join(" ");
+    s += `<path class="band${bl}" d="${oben_} ${unten} Z" fill="${b.farbe}"/>`;
+  });
+  c.reihen.forEach((x, i) => {
+    if (x.flaeche) s += `<path class="flaeche${bl}" d="${pfad(x.punkte)} L${sx(x.punkte[x.punkte.length - 1].x)} ${sy(0)} L${sx(x.punkte[0].x)} ${sy(0)} Z" fill="${x.farbe}"/>`;
+    s += x.gestrichelt
+      ? `<path class="linie strich${bl}" d="${pfad(x.punkte)}" stroke="${x.farbe}"/>`
+      : `<path class="linie${kl}" pathLength="1" d="${pfad(x.punkte)}" stroke="${x.farbe}" style="animation-delay:${i * 180}ms"/>`;
+  });
+  (c.marker || []).forEach(m => {
+    const mx = sx(m.x), my = sy(m.y), links = mx > B - rand.r - 7 * r;
+    s += `<g class="marke${bl}"><circle cx="${mx}" cy="${my}" r="${0.32 * r}" fill="${m.offen ? "var(--flaeche)" : m.farbe}" stroke="${m.offen ? m.farbe : "var(--flaeche)"}" stroke-width="2"/>`;
+    if (m.text) s += `<text class="marke-text" x="${mx + (links ? -0.6 : 0.6) * r}" y="${my - 0.55 * r}" text-anchor="${links ? "end" : "start"}">${esc(m.text)}</text>`;
+    s += `</g>`;
+  });
+  if (mitEnde) {                                                           // Beschriftung am Linienende, mit Mindestabstand
+    const enden = c.reihen.filter(x => x.ende).map(x => ({ x, y: sy(x.punkte[x.punkte.length - 1].y), y0: sy(x.punkte[x.punkte.length - 1].y) })).sort((a, b) => a.y - b.y);
+    const abstand = 2.5 * r;
+    for (let i = 1; i < enden.length; i++) if (enden[i].y - enden[i - 1].y < abstand) enden[i].y = enden[i - 1].y + abstand;
+    const ueber = enden.length ? enden[enden.length - 1].y - (H - rand.u - 0.6 * r) : 0;
+    if (ueber > 0) enden.forEach(e => e.y -= ueber);
+    for (let i = enden.length - 2; i >= 0; i--) if (enden[i + 1].y - enden[i].y < abstand) enden[i].y = enden[i + 1].y - abstand;
+    enden.forEach(e => {
+      const ex = B - rand.r;
+      s += `<g class="ende${bl}"><circle cx="${ex}" cy="${e.y0}" r="${0.3 * r}" fill="${e.x.farbe}" stroke="var(--flaeche)" stroke-width="2"/>`
+        + (Math.abs(e.y - e.y0) > 2 ? `<line class="fuehrung" x1="${ex + 0.3 * r}" y1="${e.y0}" x2="${ex + 0.7 * r}" y2="${e.y}"/>` : "")
+        + `<text class="ende-wert" x="${ex + 0.9 * r}" y="${e.y}" dy="-.15em">${esc(e.x.ende)}</text><text class="ende-name" x="${ex + 0.9 * r}" y="${e.y}" dy="1.05em">${esc(e.x.name)}</text></g>`;
+    });
+  }
+  s += `<line class="faden" y1="${rand.o}" y2="${H - rand.u}" x1="-9" x2="-9"/><rect class="fang" x="${rand.l}" y="${rand.o}" width="${Math.max(0, B - rand.l - rand.r)}" height="${Math.max(0, H - rand.o - rand.u)}" fill="transparent"/></svg>`;
+  el.innerHTML = s;
+  const fang = $(".fang", el), faden = $(".faden", el);
+  const naechster = (pkt, x) => pkt.reduce((b, p) => Math.abs(p.x - x) <= Math.abs(b.x - x) ? p : b, pkt[0]);
+  fang.addEventListener("pointermove", ev => {
+    const box = el.getBoundingClientRect(), x = xMin + (ev.clientX - box.left - rand.l) / (B - rand.l - rand.r) * (xMax - xMin);
+    const p0 = naechster(c.reihen[0].punkte, x);
+    faden.setAttribute("x1", sx(p0.x)); faden.setAttribute("x2", sx(p0.x));
+    tipp.zeige(ev.clientX, ev.clientY, c.hoverTitel ? c.hoverTitel(p0.x) : String(p0.x),
+      c.reihen.map(x_ => ({ name: x_.name, wert: (c.wertText || eur)(naechster(x_.punkte, p0.x).y), farbe: x_.farbe })));
+  });
+  fang.addEventListener("pointerleave", () => { faden.setAttribute("x1", -9); faden.setAttribute("x2", -9); tipp.weg(); });
+}
+
+/* Legende als HTML (immer da, sobald es zwei Reihen gibt) */
+const legende = eintraege => `<ul class="legende">${eintraege.map(e => `<li><i class="${e.art || "strich"}" style="--f:${e.farbe}"></i>${esc(e.name)}</li>`).join("")}</ul>`;
+
+/* Regler: ein Feld im Zustand ZU, mehrere Regler dürfen dasselbe Feld steuern */
+const FELD = {
+  rendite:    { name: "Rendite-Annahme",            min: 1,  max: 9,    step: 0.5, f: v => pct(v, 1), hinweis: "vor Kosten" },
+  inflation:  { name: "Inflation",                  min: 0,  max: 4,    step: 0.5, f: v => pct(v, 1), hinweis: "pro Jahr" },
+  zins:       { name: "Zins Tagesgeld",             min: 0,  max: 4,    step: 0.5, f: v => pct(v, 1), hinweis: "pro Jahr" },
+  steuersatz: { name: "Steuersatz im Alter",        min: 0,  max: 35,   step: 1,   f: v => pct(v),    hinweis: "Annahme" },
+  alter:      { name: "Rentenbeginn",               min: 63, max: 67,   step: 1,   f: v => "mit " + v, hinweis: "" },
+  sparKurz:   { name: "Sparrate kurz",              min: 0,  max: 1000, step: 25,  f: eur, hinweis: "im Monat" },
+  sparMittel: { name: "Sparrate mittel",            min: 0,  max: 1500, step: 25,  f: eur, hinweis: "im Monat" },
+  sparLang:   { name: "Sparrate lang",              min: 0,  max: 1500, step: 25,  f: eur, hinweis: "im Monat" },
+  vglRate:    { name: "Sparrate",                   min: 50, max: 1500, step: 25,  f: eur, hinweis: "auf beiden Seiten" },
+  vglJahre:   { name: "Laufzeit",                   min: 5,  max: 30,   step: 1,   f: v => v + " Jahre", hinweis: "" }
+};
+const sparVorschlag = R.sparraten("vorschlag");
+const startZustand = () => ({
+  rendite: A.RenditeProzent, inflation: A.InflationProzent, zins: A.ZinsKurzProzent, steuersatz: A.SteuersatzAlterProzent, alter: A.Rentenalter,
+  sparKurz: sparVorschlag.kurz, sparMittel: sparVorschlag.mittel, sparLang: sparVorschlag.lang,
+  vglRate: A.VergleichSparrate, vglJahre: A.VergleichJahre, kaufkraft: DATEN.optionen.kaufkraft === "nominal" ? "nominal" : "heute"
+});
+let ZU = startZustand();
+const regler = (folie, feld, zusatz = "") => {
+  const d = FELD[feld], id = `r-${folie}-${feld}`;
+  return `<div class="regler ${zusatz}"><label for="${id}"><span>${d.name}${d.hinweis ? ` <small>${d.hinweis}</small>` : ""}</span><output id="${id}-o" for="${id}" data-feld="${feld}">${d.f(ZU[feld])}</output></label>
+    <input type="range" id="${id}" data-feld="${feld}" min="${d.min}" max="${d.max}" step="${d.step}" value="${ZU[feld]}"></div>`;
+};
+const kaufkraftSchalter = folie => `<div class="wahl" role="group" aria-label="Anzeige der Beträge">
+    <button type="button" id="kk-${folie}-heute" data-kaufkraft="heute" aria-pressed="${ZU.kaufkraft === "heute"}">In heutiger Kaufkraft</button>
+    <button type="button" id="kk-${folie}-nominal" data-kaufkraft="nominal" aria-pressed="${ZU.kaufkraft === "nominal"}">In Euro von später</button></div>`;
+const ruecksetzen = folie => `<button type="button" class="leise" id="reset-${folie}" data-reset>Zurück zum Vorschlag</button>`;
+const kaufkraftText = () => ZU.kaufkraft === "nominal" ? "in Euro zum jeweiligen Zeitpunkt (nominal)" : "in heutiger Kaufkraft";
+const faktenbox = id => { const f = DATEN.fakten && DATEN.fakten[id]; return f && f.length ? `<aside class="fakten ein" style="--i:6"><p class="etikett">Gut zu wissen</p><ul>${f.map(x => `<li>${esc(x.Text)} <cite>${esc(x.Quelle)}</cite></li>`).join("")}</ul></aside>` : ""; };
+
+/* =====================================================================================
+   5. FOLIEN  –  je Folie: render() liefert das HTML, betreten() startet die Animationen,
+   schritt() wechselt z. B. von "Heute" zu "Vorschlag", rechne() rechnet nach einem Regler neu.
+   ===================================================================================== */
+const kopf = (f, titel, lead, aktion = "") => `<header class="folie-kopf"><div>
+    <p class="etikett">${f.nr ? `Kapitel ${f.nr}` : ""}${f.nr && f.termin ? " · " : ""}${f.termin ? `Thema im ${esc(f.termin)}-Termin` : ""}</p>
+    <h1>${titel}</h1>${lead ? `<p class="lead">${lead}</p>` : ""}</div>${aktion}</header>`;
+const stufen = namen => `<div class="stufen" role="group" aria-label="Ansicht">${namen.map((n, i) => `<button type="button" data-schritt="${i}" aria-pressed="${i === 0}">${n}</button>`).join("")}</div>`;
+const gleichAlt = DATEN.personen.every(p => p.Geburtsjahr === M.Geburtsjahr);
+const alterIn = jahr => M.Geburtsjahr && gleichAlt ? jahr - M.Geburtsjahr : null;
+const topfPunkte = (s, klasse = "") => R.TOEPFE.map(t => `<i class="${klasse}" style="--f:var(--${t});flex-grow:${Math.max(0, s[t])}"></i>`).join("");
+
+/* kleine Bilder auf den Kacheln der Startseite */
+function bild(id) {
+  const k = "var(--kurz)", m = "var(--mittel)", l = "var(--lang)", t = "var(--tinte-3)", n = "var(--linie-2)";
+  const b = {
+    ziele: `<path d="M4 30H68" stroke="${n}" stroke-width="2"/><circle cx="12" cy="30" r="5" fill="${k}"/><circle cx="34" cy="30" r="5" fill="${m}"/><circle cx="60" cy="30" r="5" fill="${l}"/><path d="M12 25V14M34 25V8M60 25V16" stroke="${n}" stroke-width="2"/>`,
+    drittel: `<rect x="4" y="16" width="20" height="12" rx="2" fill="var(--wohnen)"/><rect x="26" y="16" width="20" height="12" rx="2" fill="var(--leben)"/><rect x="48" y="16" width="20" height="12" rx="2" fill="${l}"/>`,
+    heute: `<rect x="6" y="20" width="16" height="18" rx="3" fill="${k}"/><rect x="28" y="12" width="16" height="26" rx="3" fill="${m}"/><rect x="50" y="30" width="16" height="8" rx="3" fill="${l}"/>`,
+    einkommen: `<rect x="4" y="6" width="5" height="32" rx="2" fill="${t}"/><path d="M9 6C30 6 30 4 50 4V12C30 12 30 16 9 16Z" fill="${n}"/><path d="M9 16C30 16 30 18 50 18V40C30 40 30 38 9 38Z" fill="var(--leben)" opacity=".55"/><rect x="50" y="4" width="5" height="8" rx="2" fill="${t}"/><rect x="50" y="18" width="5" height="22" rx="2" fill="var(--tinte)"/>`,
+    uebersicht: `<rect x="4" y="5" width="46" height="6" rx="2" fill="var(--gesundheit)"/><rect x="4" y="15" width="18" height="6" rx="2" fill="var(--basisrisiken)"/><rect x="4" y="25" width="28" height="6" rx="2" fill="var(--einkommen)"/><rect x="4" y="35" width="20" height="6" rx="2" fill="${k}"/><rect x="25" y="35" width="20" height="6" rx="2" fill="${m}"/><rect x="46" y="35" width="20" height="6" rx="2" fill="${l}"/>`,
+    gesundheit: `<circle cx="36" cy="22" r="17" fill="var(--gesundheit)" opacity=".16"/><path d="M36 12V32M26 22H46" stroke="var(--gesundheit)" stroke-width="5" stroke-linecap="round"/>`,
+    basisrisiken: `<path d="M36 5L52 11V22C52 31 45 37 36 40C27 37 20 31 20 22V11Z" fill="var(--basisrisiken)" opacity=".16"/><path d="M36 5L52 11V22C52 31 45 37 36 40C27 37 20 31 20 22V11Z" fill="none" stroke="var(--basisrisiken)" stroke-width="3" stroke-linejoin="round"/>`,
+    arbeitskraft: `<rect x="18" y="14" width="36" height="24" rx="4" fill="var(--einkommen)" opacity=".16"/><rect x="18" y="14" width="36" height="24" rx="4" fill="none" stroke="var(--einkommen)" stroke-width="3"/><path d="M29 14V9H43V14" fill="none" stroke="var(--einkommen)" stroke-width="3" stroke-linejoin="round"/>`,
+    toepfe: [[6, k, 14], [28, m, 22], [50, l, 18]].map(([x, f, h]) => `<path d="M${x} 8V32a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6V8" fill="none" stroke="${n}" stroke-width="2"/><path d="M${x + 1} ${38 - h}H${x + 15}V32a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5Z" fill="${f}"/>`).join(""),
+    vermoegensaufbau: `<path d="M4 38L14 30V36L24 26V34L34 22" fill="none" stroke="${m}" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 38C50 34 58 24 68 6" fill="none" stroke="${l}" stroke-width="2.5" stroke-linecap="round"/><path d="M4 40H68" stroke="${n}" stroke-width="2"/>`,
+    "kurz-mittel": `<path d="M4 38C28 34 46 30 68 26" fill="none" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><path d="M4 38C28 32 48 20 68 6" fill="none" stroke="${m}" stroke-width="2.5" stroke-linecap="round"/>`,
+    rentenluecke: `<rect x="4" y="16" width="40" height="12" rx="2" fill="${l}"/><rect x="46" y="16" width="22" height="12" rx="2" fill="none" stroke="${t}" stroke-width="2" stroke-dasharray="3 3"/>`,
+    schritte: [8, 20, 32].map((y, i) => `<circle cx="10" cy="${y + 3}" r="5" fill="${i ? "none" : "var(--tinte)"}" stroke="var(--tinte)" stroke-width="2"/><path d="M22 ${y + 3}H${[60, 50, 56][i]}" stroke="${n}" stroke-width="4" stroke-linecap="round"/>`).join(""),
+    verlauf: `<path d="M4 34L20 28L36 30L52 16L68 10" fill="none" stroke="${m}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="68" cy="10" r="4" fill="${m}"/><path d="M4 40H68" stroke="${n}" stroke-width="2"/>`,
+    empfehlungen: `<circle cx="26" cy="22" r="12" fill="none" stroke="${t}" stroke-width="2.5"/><circle cx="46" cy="22" r="12" fill="none" stroke="${t}" stroke-width="2.5"/>`
+  };
+  return `<svg viewBox="0 0 72 44" aria-hidden="true">${b[id] || ""}</svg>`;
+}
+
+const FOLIEN = [];
+
+/* ---------- Startseite ---------- */
+FOLIEN.push({ id: "start", titel: "Übersicht",
+  render() {
+    const t = DATEN.termine.find(x => x.TerminId === DATEN.meta.AktuellerTerminId);
+    const kacheln = FOLIEN.filter(f => f.id !== "start").map((f, i) => `<button type="button" class="kachel ein" style="--i:${i}" data-ziel="${f.id}">
+        <span class="kachel-oben"><span class="kachel-nr">${f.nr || ""}</span><span class="kachel-bild">${bild(f.id)}</span></span>
+        <span class="kachel-titel">${esc(f.kachel[0])}</span><span class="kachel-text">${esc(f.kachel[1])}</span></button>`).join("");
+    return `<header class="start-kopf"><p class="etikett">${t ? `${esc(t.Art)}-Termin · ${datumLang(t.Beginn)}` : `Stand ${datumLang(DATEN.meta.Stand)}`}</p>
+      <h1 class="start-titel">${esc(NAME)}</h1>
+      <p class="lead">${du("Dein", "Euer")} Finanzplan: wo ${du("du stehst", "ihr steht")}, was ich vorschlage und wie es weitergeht.</p></header>
+      <nav class="kacheln" aria-label="Kapitel">${kacheln}</nav>`;
+  }
+});
+
+/* ---------- 1 Ziele ---------- */
+FOLIEN.push({ id: "ziele", nr: 1, termin: "Analyse", titel: "Ziele", kachel: ["Ziele", "Was wann ansteht: kurz, mittel, lang"],
+  render(f) {
+    const ziele = DATEN.ziele.filter(z => z.Status !== "verworfen").sort((a, b) => (a.Jahr || 9999) - (b.Jahr || 9999));
+    const halte = ziele.map((z, i) => { const a = alterIn(z.Jahr); return `<li class="zs-halt${z.Status === "erreicht" ? " erreicht" : ""}" style="--tf:var(--${z.Topf});--h:${i % 2}">
+        <div class="zs-karte"><span class="topfmarke">${TOPF[z.Topf].name}</span><strong>${esc(z.Beschreibung)}</strong>
+          ${z.Betrag ? `<span class="zs-betrag">${Z_(z.Betrag)}</span>` : ""}${z.Notiz ? `<span class="zs-notiz">${esc(z.Notiz)}</span>` : ""}${z.Status === "erreicht" ? `<span class="haken">erreicht</span>` : ""}</div>
+        <div class="zs-stiel"></div><div class="zs-achse"><i class="zs-punkt"></i></div>
+        <div class="zs-jahr"><b>${z.Jahr || ""}</b>${a ? `<span>mit ${a}</span>` : ""}</div></li>`; }).join("");
+    const summen = R.TOEPFE.map((t, i) => { const zz = ziele.filter(z => z.Topf === t && z.Status === "offen"); const s = R.summe(zz, z => z.Betrag);
+      return `<div class="zs-summe ein" style="--tf:var(--${t});--i:${i + 8}"><p><span class="topfmarke">${TOPF[t].name}</span><span>${TOPF[t].horizont}</span></p>
+        ${s ? `<b>${Z_(s)}</b>` : `<b class="text">${zz.length ? esc(zz[0].Notiz || zz[0].Beschreibung) : "Noch kein Ziel"}</b>`}<p><span>${zz.length} ${zz.length === 1 ? "Ziel" : "Ziele"} offen</span></p></div>`; }).join("");
+    return kopf(f, `Was ${du("du vorhast", "ihr vorhabt")}`, `${du("Deine", "Eure")} Ziele auf dem Zeitstrahl. Jedes Ziel gehört in einen von drei Töpfen.`)
+      + `<div class="zs"><ol class="zs-bahn" id="zs-bahn">${halte}</ol><div class="zs-summen">${summen}</div></div>`;
+  }
+});
+
+/* ---------- 2 Drittel-Regel ---------- */
+FOLIEN.push({ id: "drittel", nr: 2, termin: "Analyse", titel: "Drittel-Regel", kachel: ["Drittel-Regel", "Wohnen, Leben, Leben später"],
+  schritte: HAT_VORSCHLAG && DATEN.vorschlag ? 2 : 1,
+  werte(wann) {
+    const netto = R.netto() + (F.Nebeneinkommen || 0), s = R.sparraten(wann), spaeter = s.kurz + s.mittel + s.lang, wohnen = F.Wohnkosten || 0;
+    return { netto, s, spaeter, wohnen, leben: netto - wohnen - spaeter };
+  },
+  render(f) {
+    const h = this.werte("heute"), d = h.netto / 3;
+    const balken = id => `<div class="db-balken" id="db-${id}">
+        <i class="db-teil" data-teil="wohnen" style="--f:var(--wohnen)"><b></b></i><i class="db-teil" data-teil="leben" style="--f:var(--leben)"><b></b></i>
+        <i class="db-teil klein" data-teil="kurz" style="--f:var(--kurz)"></i><i class="db-teil klein" data-teil="mittel" style="--f:var(--mittel)"></i><i class="db-teil klein" data-teil="lang" style="--f:var(--lang)"></i><b class="db-spaeter"></b></div>`;
+    const karte = (id, name, farbe, text) => `<div class="db-karte ein" style="--i:${farbe}" data-karte="${id}"><p class="db-kname">${id === "spaeter" ? `<span class="dreifarb">${topfPunkte({ kurz: 1, mittel: 1, lang: 1 })}</span>` : `<i class="punkt" style="--f:var(--${id})"></i>`}${name}</p>
+        <p class="db-kzahl">${Z_(0)} <small>${Z_(0, "pct")} vom Netto</small></p><p class="db-ktext"></p><p class="klein">${text}</p></div>`;
+    return kopf(f, "Die Drittel-Regel", `Eine Faustregel, kein Muss: je ein Drittel fürs Wohnen, fürs Leben und für später.`, this.schritte > 1 ? stufen(["Heute", "Mit Vorschlag"]) : "")
+      + `<div class="db"><div class="db-netto ein"><p class="etikett">Netto im Monat</p><p class="zahl-gross">${Z_(h.netto)}</p><p class="klein">Ein Drittel sind ${eur(d)}.</p></div>
+        <div class="db-zeilen">
+          <div class="db-zeile ein" style="--i:1"><p class="db-name">Faustregel</p><div class="db-balken regel"><i>Wohnen <b>${eur(d)}</b></i><i>Leben <b>${eur(d)}</b></i><i>Leben später <b>${eur(d)}</b></i></div></div>
+          <div class="db-zeile ein" style="--i:2"><p class="db-name">Bei ${du("dir", "euch")} heute</p>${balken("heute")}</div>
+          <div class="db-zeile db-v" style="--i:3"><p class="db-name">Mit Vorschlag</p>${balken("vorschlag")}</div>
+        </div>
+        <div class="db-karten">${karte("wohnen", "Wohnen", 4, "Miete oder Rate, warm")}${karte("leben", "Leben", 5, "Alles andere: Alltag, Freizeit, Versicherungen, Kredite")}${karte("spaeter", "Leben später", 6, "Sparen in den drei Töpfen: kurz, mittel, lang")}</div></div>`;
+  },
+  setze(el, id, w, drittel) {
+    const b = $("#db-" + id, el); if (!b) return;
+    const p = { wohnen: w.wohnen, leben: w.leben, kurz: w.s.kurz, mittel: w.s.mittel, lang: w.s.lang };
+    $$(".db-teil", b).forEach(t => { const anteil = drittel ? ({ wohnen: 1 / 3, leben: 1 / 3 }[t.dataset.teil] ?? 1 / 9) : Math.max(0, p[t.dataset.teil]) / w.netto;
+      t.style.flexBasis = (anteil * 100).toFixed(2) + "%"; const lab = $("b", t); if (lab) lab.textContent = drittel ? "" : pct(p[t.dataset.teil] / w.netto * 100); });
+    $(".db-spaeter", b).textContent = drittel ? "" : pct(w.spaeter / w.netto * 100);
+  },
+  karten(el, w, heute) {
+    const d = w.netto / 3;
+    [["wohnen", w.wohnen, heute.wohnen], ["leben", w.leben, heute.leben], ["spaeter", w.spaeter, heute.spaeter]].forEach(([id, wert, alt]) => {
+      const k = $(`[data-karte="${id}"]`, el), z = $$(".zahl", k); zaehle(z[0], wert); zaehle(z[1], wert / w.netto * 100);
+      const diff = wert - d, t = Math.abs(diff) < 1 ? "genau ein Drittel" : `${eur(Math.abs(diff))} ${diff > 0 ? "über" : "unter"} einem Drittel`;
+      $(".db-ktext", k).textContent = t + (Math.abs(wert - alt) >= 1 ? `, heute ${eur(alt)}` : "");
+    });
+  },
+  betreten(el, schritt) {
+    const h = this.werte("heute");
+    this.setze(el, "heute", h, true); this.setze(el, "vorschlag", h, false);
+    void el.offsetWidth; setTimeout(() => this.setze(el, "heute", h, false), ANIM.an ? 450 : 0);
+    this.schritt(el, schritt);
+  },
+  schritt(el, n) { const h = this.werte("heute"), v = this.werte("vorschlag"); this.setze(el, "vorschlag", n ? v : h, false); this.karten(el, n ? v : h, h); }
+});
+
+/* ---------- 3 Heute aufgestellt ---------- */
+FOLIEN.push({ id: "heute", nr: 3, termin: "Analyse", titel: "Heute aufgestellt", kachel: ["Heute aufgestellt", "Rücklage, Sparraten, Risikoprofil"],
+  render(f) {
+    const netto = R.netto(), s = R.sparraten("heute"), kap = DATEN.vertraege.filter(v => v.Bereich === "Kapital" && v.Status === "aktiv");
+    const bestand = { kurz: F.Ruecklage || 0, mittel: R.summe(kap.filter(v => v.Topf === "mittel"), v => v.Wert), lang: R.summe(kap.filter(v => v.Topf === "lang"), v => v.Wert) };
+    const gehaelter = netto ? bestand.kurz / netto : 0;
+    const spalte = (t, i) => { const vs = kap.filter(v => v.Topf === t);
+      return `<article class="ha-topf ein" style="--tf:var(--${t});--i:${i}"><header><span class="topfmarke">${TOPF[t].name}</span><span class="klein">${TOPF[t].horizont}</span></header>
+        <p class="etikett">${t === "kurz" ? "Rücklage" : "Angespart"}</p><p class="zahl-gross">${Z_(bestand[t])}</p>
+        ${t === "kurz" ? `<div class="ha-mass"><div class="ha-mass-spur"><i style="width:${Math.min(100, gehaelter / 3 * 100)}%"></i><em style="left:66.67%"></em></div><p class="klein">${zahlDE(gehaelter, 1)} Nettogehälter. Faustregel: 2 bis 3.</p></div>` : ""}
+        ${t === "lang" && F.RenteLautInfo ? `<p class="ha-rente"><b>${eur(F.RenteLautInfo)}</b> gesetzliche Rente im Monat, brutto, laut Renteninformation${F.RenteninfoStand ? ` (Stand ${monatJahr(F.RenteninfoStand)})` : ""}.</p>` : ""}
+        <p class="ha-rate"><span>Sparrate im Monat</span><b>${Z_(s[t])}</b></p>
+        <ul class="ha-liste">${vs.length ? vs.map(v => `<li><b>${esc(v.Sparte)}</b><span>${esc(v.Gesellschaft || "")}${v.Tarif ? ", " + esc(v.Tarif) : ""}</span></li>`).join("") : `<li class="leer">Noch nichts eingerichtet</li>`}</ul></article>`; };
+    const rp = M.Risikoprofil;
+    return kopf(f, `So ${du("bist du", "seid ihr")} heute aufgestellt`, `Was schon da ist und was jeden Monat dazukommt, sortiert nach den drei Töpfen.`)
+      + `<div class="ha"><div class="ha-toepfe">${R.TOEPFE.map(spalte).join("")}</div>
+        ${rp ? `<section class="ha-risiko ein" style="--i:4"><div><p class="etikett">Risikoprofil</p><p class="ha-rp"><b>${rp}</b> von 10</p><p class="klein">${du("Deine", "Eure")} Einschätzung${M.RisikoprofilAm ? " vom " + datumKurz(M.RisikoprofilAm) : ""}</p></div>
+          <div class="ha-skala"><div class="ha-skala-spur">${Array.from({ length: 10 }, (_, i) => `<i class="${i + 1 === rp ? "an" : ""}">${i + 1}</i>`).join("")}<em id="ha-zeiger"></em></div><div class="ha-skala-text"><span>Sicherheit zuerst</span><span>Schwankungen sind in Ordnung</span></div></div></section>` : ""}</div>`;
+  },
+  betreten(el) {
+    const z = $("#ha-zeiger", el); if (!z) return;
+    z.style.left = "5%"; void z.offsetWidth; setTimeout(() => { z.style.left = ((M.Risikoprofil - 0.5) * 10) + "%"; }, ANIM.an ? 500 : 0);
+  }
+});
+
+/* ---------- 4 Einkommen heute und im Alter ---------- */
+FOLIEN.push({ id: "einkommen", nr: 4, termin: "Konzept", titel: "Einkommen", kachel: ["Einkommen", "Vom Brutto bis zum Bedarf im Alter"],
+  schritte: 2, t: 0,
+  abzuege: () => [
+    { id: "steuer", name: "Steuer", wert: F.Steuer || 0, farbe: "var(--abzug)" },
+    { id: "av", name: "Arbeitslosenversicherung", wert: F.AbgabenAV || 0, farbe: "var(--abzug-2)" },
+    { id: "kvpv", name: "Kranken- und Pflegeversicherung", wert: F.AbgabenKVPV || 0, farbe: "var(--abzug-2)" },
+    { id: "rv", name: "Rentenversicherung", wert: F.AbgabenRV || 0, farbe: "var(--abzug-2)" }
+  ].filter(x => x.wert > 0),
+  farbe: { bu: "var(--einkommen)", sparen: "var(--tinte-3)", leben: "var(--leben)", kredit: "var(--abzug-2)", wohnen: "var(--wohnen)", risiken: "var(--basisrisiken)", rest: "var(--linie-2)" },
+  render(f) {
+    return kopf(f, `Wohin ${du("dein", "euer")} Einkommen fließt`, `Erst heute, dann der Blick nach vorn: Was davon ${du("brauchst du", "braucht ihr")} im Alter noch?`, stufen(["Heute", "Im Alter"]))
+      + `<div class="fl"><div class="fl-bild" id="fl-bild"></div><div class="fl-liste" id="fl-liste"></div><p class="fazit fl-fazit ein" style="--i:5" id="fl-fazit"></p></div>`;
+  },
+  messen(el) { const feld = $("#fl-bild", el); feld.innerHTML = ""; this.mass = { B: feld.clientWidth, H: feld.clientHeight }; },
+  zeichne(el, t, auf) {
+    const feld = $("#fl-bild", el), { B, H } = this.mass, r = rem();
+    const brutto = F.Brutto || R.netto(), netto = R.netto(), abz = this.abzuege();
+    const verw = R.verwendung().map(v => ({ ...v, wert: v.heute + (v.alter - v.heute) * t }));
+    const summeC = R.summe(verw, v => v.wert), sparH = R.sparraten("heute");
+    this.liste(el, t, abz, verw, brutto, netto, summeC);
+    if (B < 640 || H < 200) { feld.innerHTML = ""; return; }
+    const nb = 0.8 * r, lue = 0.6 * r, oben = 3.5 * r, unten = 0.4 * r;
+    const xA = 0.2 * r, xB = B * 0.36, xC = B * 0.71, nB = abz.length + 1;
+    const s = (H - oben - unten - (nB - 1) * lue) / brutto, alpha = 1 - 0.68 * t;
+    const band = (x0, y0a, y0b, x1, y1a, y1b, farbe, deck) => { const m = (x0 + x1) / 2;
+      return `<path d="M${x0} ${y0a}C${m} ${y0a} ${m} ${y1a} ${x1} ${y1a}L${x1} ${y1b}C${m} ${y1b} ${m} ${y0b} ${x0} ${y0b}Z" fill="${farbe}" opacity="${deck}"/>`; };
+    let svg = `<svg class="chart" width="${B}" height="${H}" viewBox="0 0 ${B} ${H}" role="img" aria-label="Einkommen: vom Brutto zur Verwendung"><defs><clipPath id="fl-clip"><rect x="0" y="0" width="${(B * auf).toFixed(1)}" height="${H}"/></clipPath></defs><g clip-path="url(#fl-clip)">`;
+    /* Spalte A: Brutto, Spalte B: Abzüge und Netto */
+    let yA = oben, yB = oben, nettoY = 0; const hA = brutto * s;
+    svg += `<g opacity="${alpha}"><rect x="${xA}" y="${oben}" width="${nb}" height="${hA}" rx="3" fill="var(--tinte)"/>`;
+    [...abz, { id: "netto", name: "Netto", wert: netto, farbe: "var(--tinte)" }].forEach(k => {
+      const h = Math.max(2, k.wert * s);
+      svg += band(xA + nb, yA, yA + k.wert * s, xB, yB, yB + h, k.id === "netto" ? "var(--tinte)" : k.farbe, k.id === "netto" ? 0.1 : 0.3);
+      svg += `<rect x="${xB}" y="${yB}" width="${nb}" height="${h}" rx="3" fill="${k.farbe}"/>`;
+      if (k.id === "netto") nettoY = yB;
+      else svg += `<text class="fl-t" x="${xB + nb + 0.6 * r}" y="${yB + h / 2}" dy=".34em"><tspan class="fl-w">${eur(k.wert)}</tspan> ${esc(k.name)}</text>`;
+      yA += k.wert * s; yB += h + lue;
+    });
+    svg += `<text class="fl-kopf" x="${xA}" y="${oben - 2.3 * r}">${F.Brutto ? "Brutto" : "Netto"} im Monat</text><text class="fl-gross" x="${xA}" y="${oben - 0.6 * r}">${eur(brutto)}</text></g>`;
+    /* Spalte C: Verwendung heute, wird zu Bedarf im Alter */
+    const hoehen = verw.map(v => v.wert * s), abst = hoehen.map(h => lue * Math.min(1, h / 3));
+    const gesamtC = R.summe(hoehen, h => h) + R.summe(abst.slice(0, -1), a => a);
+    let yC = Math.min(H - unten - gesamtC, Math.max(oben + 0.9 * r, nettoY + netto * s / 2 - gesamtC / 2)), yQ = nettoY, letzteY = -99;
+    verw.forEach((v, i) => {
+      const h = hoehen[i], sicht = Math.min(1, v.wert / 20);
+      if (h > 0.2) {
+        svg += band(xB + nb, yQ, yQ + h, xC, yC, yC + h, this.farbe[v.id], 0.3 * sicht);
+        if (v.id === "sparen") { let y = yC; const ges = sparH.kurz + sparH.mittel + sparH.lang || 1;
+          R.TOEPFE.forEach(tp => { const th = h * sparH[tp] / ges; if (th > 0.1) svg += `<rect x="${xC}" y="${y}" width="${nb}" height="${th}" fill="var(--${tp})"/>`; y += th; }); }
+        else svg += `<rect x="${xC}" y="${yC}" width="${nb}" height="${Math.max(1.5, h)}" rx="2" fill="${this.farbe[v.id]}"/>`;
+        const ty = Math.max(yC + h / 2, letzteY + 1.25 * r); letzteY = ty;
+        svg += `<text class="fl-t" x="${xC + nb + 0.6 * r}" y="${ty}" dy=".34em" opacity="${sicht}"><tspan class="fl-w">${eur(v.wert)}</tspan> ${esc(v.name)}</text>`;
+      }
+      yQ += h; yC += h + abst[i];
+    });
+    svg += `<text class="fl-kopf" x="${xB + nb + 0.6 * r}" y="${nettoY + 1.25 * r}" opacity="${alpha}">Netto <tspan class="fl-w">${eur(netto)}</tspan></text>`;
+    svg += `<text class="fl-kopf" x="${xC}" y="${oben - 2.3 * r}">${t < 0.5 ? `Dafür ${du("nutzt du", "nutzt ihr")} es heute` : `Das ${du("brauchst du", "braucht ihr")} im Alter`}</text><text class="fl-gross" x="${xC}" y="${oben - 0.6 * r}">${eur(summeC)}</text></g></svg>`;
+    feld.innerHTML = svg;
+  },
+  liste(el, t, abz, verw, brutto, netto, summeC) {            // dieselben Zahlen als Liste: am Handy statt des Bildes, sonst als Tabelle für Screenreader
+    const alt = t >= 0.5, zeile = (name, wert, farbe, max, weg) => `<li class="${weg ? "weg" : ""}"><span>${esc(name)}</span><i><u style="width:${Math.max(0, Math.min(100, wert / max * 100))}%;background:${farbe}"></u></i><b>${eur(wert)}</b></li>`;
+    $("#fl-liste", el).innerHTML = (alt ? "" : `${F.Brutto ? `<p class="fl-lkopf"><span>Brutto im Monat</span><b>${eur(brutto)}</b></p><ul>${abz.map(a => zeile(a.name, a.wert, a.farbe, brutto)).join("")}</ul>` : ""}`)
+      + `<p class="fl-lkopf"><span>${alt ? `Das ${du("brauchst du", "braucht ihr")} im Alter` : "Netto"}</span><b>${eur(alt ? summeC : netto)}</b></p><ul>${verw.map(v => zeile(v.name, alt ? v.alter : v.heute, this.farbe[v.id] === "var(--tinte-3)" ? "var(--lang)" : this.farbe[v.id], netto, alt && v.alter < 1)).join("")}</ul>`;
+  },
+  fazit(el, n) {
+    const verw = R.verwendung(), weg = verw.filter(v => v.heute >= 1 && v.alter < 1).map(v => v.name);
+    $("#fl-fazit", el).textContent = n
+      ? `Im Alter ${weg.length ? `${weg.length === 1 ? "fällt" : "fallen"} weg: ${weg.join(", ")}. ` : ""}Es bleiben ${eur(R.bedarf())} im Monat, die ${du("du brauchst", "ihr braucht")}, gerechnet in heutiger Kaufkraft. Steuer und Krankenversicherung auf die Rente kommen dazu. Das rechnen wir bei der Rentenlücke.`
+      : `${F.Brutto ? `Von ${eur(F.Brutto)} Brutto kommen ${eur(R.netto())} an` : `Im Monat kommen ${eur(R.netto())} netto an`}. Davon ${R.sparSumme("heute") >= 1 ? `gehen heute ${eur(R.sparSumme("heute"))} in den Vermögensaufbau` : "geht heute noch nichts in den Vermögensaufbau"}.`;
+  },
+  betreten(el, schritt) {
+    this.t = schritt ? 1 : 0; this.fazit(el, schritt); this.messen(el);
+    this.lauf && this.lauf.stop(); this.lauf = tween(1100, p => this.zeichne(el, this.t, p));
+  },
+  schritt(el, n) {
+    const von = this.t, nach = n ? 1 : 0; this.fazit(el, n);
+    this.lauf && this.lauf.stop(); this.lauf = tween(1000, p => { this.t = von + (nach - von) * p; this.zeichne(el, this.t, 1); });
+  },
+  rechne(el) { this.lauf && this.lauf.stop(); this.t = Math.round(this.t); this.messen(el); this.zeichne(el, this.t, 1); }
+});
+
+/* ---------- 5 Übersicht heute / Vorschlag ---------- */
+FOLIEN.push({ id: "uebersicht", nr: 5, termin: "Konzept", titel: "Übersicht", kachel: ["Übersicht", HAT_VORSCHLAG ? "Alle Bereiche: heute und Vorschlag" : "Alle Bereiche auf einen Blick"],
+  schritte: HAT_VORSCHLAG ? 2 : 1,
+  render(f) {
+    const b = R.bereichSummen(), max = Math.max(1, ...b.flatMap(x => [x.heute, x.vorschlag]));
+    const zeile = (x, i) => { const ziel = BEREICH[x.name].folie, leer = x.heute < 0.5 && x.vorschlag < 0.5, kap = x.name === "Kapital";
+      const inhalt = `<span class="ub-name">${kap ? `<span class="dreifarb">${topfPunkte({ kurz: 1, mittel: 1, lang: 1 })}</span>` : `<i class="punkt" style="--f:var(--${BEREICH[x.name].farbe})"></i>`}<b>${x.name === "Einkommen" ? "Einkommen absichern" : x.name}</b>
+          <small>${leer ? "Keine Verträge. Die Miete steht bei den Wohnkosten." : kap ? "Sparraten in den drei Töpfen" : `${x.anzahl} ${x.anzahl === 1 ? "Thema" : "Themen"}`}</small></span>
+        <span class="ub-spur">${leer ? "" : `<i class="ub-geist" style="width:${x.heute / max * 100}%"></i><span class="ub-balken${kap ? " kap" : ""}" data-heute="${x.heute / max * 100}" data-vorschlag="${x.vorschlag / max * 100}" style="width:${x.heute / max * 100}%;--f:var(--${BEREICH[x.name].farbe || "lang"})">${kap ? topfPunkte(x.toepfe.heute, "ub-seg") : ""}</span>`}</span>
+        <span class="ub-wert ub-h">${leer ? "–" : Z_(x.heute)}</span>
+        <span class="ub-wert ub-v">${leer ? "–" : `<b class="zahl" data-format="eur" data-von="${x.heute}" data-nach="${x.vorschlag}">${eur(x.heute)}</b><em class="delta">${Math.abs(x.vorschlag - x.heute) < 0.5 ? "gleich" : mitVorzeichen(x.vorschlag - x.heute)}</em>`}</span>
+        <span class="ub-pfeil" aria-hidden="true">${ziel && !leer ? "›" : ""}</span>`;
+      return ziel && !leer ? `<button type="button" class="ub-zeile ein" style="--i:${i}" data-ziel="${ziel}" data-bereich="${x.name}">${inhalt}</button>` : `<div class="ub-zeile ein${leer ? " leer" : ""}" style="--i:${i}">${inhalt}</div>`; };
+    const sH = R.summe(b, x => x.heute), sV = R.summe(b, x => x.vorschlag), gehalt = DATEN.vertraege.some(v => v.UeberGehalt && v.Status === "aktiv");
+    return kopf(f, "Alle Bereiche auf einen Blick", `Was ${du("du", "ihr")} im Monat für Absicherung und Vermögen ${du("ausgibst", "ausgebt")}. Ein Klick auf eine Zeile öffnet den Bereich.`, HAT_VORSCHLAG ? stufen(["Heute", "Vorschlag"]) : "")
+      + `<div class="ub"><div class="ub-kopf"><span></span><span></span><span class="ub-h">Heute</span><span class="ub-v">Vorschlag</span><span></span></div>
+        <p class="ub-gruppe">Vorsorge</p>${b.slice(0, 3).map(zeile).join("")}<p class="ub-gruppe">Vermögen</p>${b.slice(3).map((x, i) => zeile(x, i + 3)).join("")}
+        <div class="ub-zeile ub-summe ein" style="--i:6"><span class="ub-name"><b>Zusammen im Monat</b></span><span class="ub-spur"></span><span class="ub-wert ub-h">${Z_(sH)}</span>
+          <span class="ub-wert ub-v"><b class="zahl" data-format="eur" data-von="${sH}" data-nach="${sV}">${eur(sH)}</b><em class="delta">${mitVorzeichen(sV - sH)}</em></span><span></span></div>
+        <p class="klein ub-hinweis">${gehalt ? `Bei Gesundheit ist ${du("dein", "euer")} Anteil am Krankenkassen-Beitrag enthalten. Er läuft über die Gehaltsabrechnung. ` : ""}<span class="ub-strich"><i></i>Der Strich zeigt den Stand von heute.</span></p></div>`;
+  },
+  schritt(el, n) {
+    $$(".ub-balken", el).forEach(b => { b.style.width = (n ? b.dataset.vorschlag : b.dataset.heute) + "%"; });
+    const kap = R.bereichSummen().find(x => x.name === "Kapital"), seg = $$(".ub-seg", el), s = n ? kap.toepfe.vorschlag : kap.toepfe.heute;
+    R.TOEPFE.forEach((t, i) => { if (seg[i]) seg[i].style.flexGrow = Math.max(0, s[t]); });
+    $$(".ub-v .zahl", el).forEach(z => { if (z._wert == null) z._wert = +z.dataset.von; zaehle(z, n ? +z.dataset.nach : +z.dataset.von); });
+  },
+  betreten(el, schritt) { $$(".ub-v .zahl", el).forEach(z => { z._wert = +z.dataset.von; }); this.schritt(el, schritt); }
+});
+
+/* ---------- 6 Bereiche im Detail: Gesundheit, Basisrisiken, Einkommen absichern ---------- */
+const VARIANTE = { guenstig: "Günstig", "Preis-Leistung": "Preis-Leistung", Top: "Top", heute: "Heute", Vorschlag: "Vorschlag" };
+const STUFE = [
+  `<span class="st st-0" role="img" aria-label="nicht erfüllt"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6.5 10h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>`,
+  `<span class="st st-1" role="img" aria-label="eingeschränkt"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 2a8 8 0 0 0 0 16Z" fill="currentColor"/></svg></span>`,
+  `<span class="st st-2" role="img" aria-label="erfüllt"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.8 10.4l2.9 2.9 5.6-6.2" fill="none" stroke="var(--flaeche)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`
+];
+function bereichFolie(id, bereich, name, titel, lead) {
+  const zeilen = R.zeilen(bereich); if (!zeilen.length) return;
+  const farbe = BEREICH[bereich].farbe, vgl = v => v && DATEN.vergleiche.find(x => x.VertragId === v.VertragId);
+  const artText = { neu: "Neu", wechsel: "Wechsel", bleibt: "Bleibt" };
+  const seite = v => `<div class="bd-oben"><p class="bd-wer"><b>${esc(v.Gesellschaft || "")}</b>${v.Tarif ? ` <span>${esc(v.Tarif)}</span>` : ""}</p>
+      <p class="bd-beitrag"><b>${eurGenau(R.proMonat(v))}</b> im Monat${v.MaxBeitrag ? ` <small>höchstens ${eurGenau(v.MaxBeitrag)}</small>` : ""}${v.Zahlweise === "jaehrlich" ? ` <small>${eurGenau(v.Beitrag)} im Jahr</small>` : ""}</p></div>
+      ${v.KonditionenKurz ? `<p class="bd-kond">${esc(v.KonditionenKurz)}</p>` : ""}${v.Hinweis ? `<p class="bd-hinweis">${esc(v.Hinweis)}</p>` : ""}`;
+  FOLIEN.push({ id, nr: 6, termin: "Konzept", titel: name, bereich, schritte: zeilen.some(z => z.vorschlag) ? 2 : 1, wahl: null,
+    kachel: [name, [...new Set(zeilen.map(z => (z.heute || z.vorschlag).Sparte))].join(", ")],
+    render(f) {
+      const liste = zeilen.map((z, i) => { const v = z.vorschlag, basis = z.heute || v, kannVgl = !!vgl(v);
+        const diff = v ? R.proMonat(v) - (z.heute ? R.proMonat(z.heute) : 0) : 0;
+        const titelzeile = `<header><strong>${esc(basis.Sparte)}</strong>${basis.Person ? `<span class="person">${esc(basis.Person)}</span>` : ""}<span class="bd-art">${artText[z.art]}</span></header>`;
+        if (z.art === "bleibt") return `<article class="bd-zeile bleibt ein" style="--i:${i}">${titelzeile}<div class="bd-eins">${seite(z.heute)}</div></article>`;
+        return `<article class="bd-zeile ein ${z.art}${kannVgl ? " waehlbar" : ""}" style="--i:${i}" ${kannVgl ? `data-vertrag="${esc(v.VertragId)}" tabindex="0" role="button" aria-label="Vergleich zu ${esc(basis.Sparte)} zeigen"` : ""}>${titelzeile}
+          <div class="bd-heute"><p class="etikett">Heute</p>${z.heute ? seite(z.heute) : `<p class="bd-leer">Bisher nichts</p>`}</div>
+          <div class="bd-pfeil" aria-hidden="true">→</div>
+          <div class="bd-neu"><p class="etikett">Vorschlag</p>${seite(v)}<p class="bd-diff">${Math.abs(diff) < 0.005 ? "Beitrag bleibt gleich" : mitVorzeichen(diff, eurGenau) + " im Monat"}${kannVgl ? `<span class="bd-mehr">Warum dieser?</span>` : ""}</p></div></article>`; }).join("");
+      return kopf(f, titel, lead, this.schritte > 1 ? stufen(["Heute", "Vorschlag"]) : "")
+        + `<div class="bd" style="--f:var(--${farbe})"><div class="bd-liste">${liste}${faktenbox(id)}</div><div class="bd-seite"><div class="bd-vgl" id="vgl-${id}"></div></div></div>`;
+    },
+    vergleich(el, vertragId) {
+      const v = DATEN.vertraege.find(x => x.VertragId === vertragId), g = vgl(v), ziel = $("#vgl-" + id, el);
+      this.wahl = vertragId; $$(".bd-zeile", el).forEach(z => z.classList.toggle("gewaehlt", z.dataset.vertrag === vertragId));
+      if (!g) { ziel.innerHTML = ""; return; }
+      const n = g.Tarife.length, zelle = (w, t) => `<div class="vgl-z${t.Gewaehlt ? " gew" : ""}">${typeof w === "number" ? STUFE[w] || "" : esc(w)}</div>`;
+      ziel.innerHTML = `<section class="vgl" style="--n:${n}"><p class="etikett">Warum dieser · ${esc(v.Sparte)}${v.Person ? " " + esc(v.Person) : ""}</p>
+        <div class="vgl-rahmen"><div class="vgl-tab">
+          <div class="vgl-k"></div>${g.Tarife.map(t => `<div class="vgl-z vgl-kopf${t.Gewaehlt ? " gew" : ""}"><small>${esc(VARIANTE[t.Variante] || t.Variante || "")}</small><b>${esc(t.Gesellschaft)}</b>${t.Tarif ? `<span>${esc(t.Tarif)}</span>` : ""}</div>`).join("")}
+          <div class="vgl-k">Beitrag im Monat</div>${g.Tarife.map(t => `<div class="vgl-z vgl-preis${t.Gewaehlt ? " gew" : ""}"><b>${eurGenau(t.Beitrag)}</b>${t.MaxBeitrag ? `<small>höchstens ${eurGenau(t.MaxBeitrag)}</small>` : ""}</div>`).join("")}
+          ${g.Kriterien.map((k, i) => `<div class="vgl-k">${esc(k)}</div>${g.Tarife.map(t => zelle(t.Werte[i], t)).join("")}`).join("")}
+        </div></div>
+        ${g.Tarife.some(t => t.Werte.some(w => typeof w === "number")) ? `<p class="vgl-leg">${STUFE[2]} erfüllt ${STUFE[1]} eingeschränkt ${STUFE[0]} nicht erfüllt</p>` : ""}
+        <ul class="vgl-warum">${(g.Warum || []).map(w => `<li>${esc(w)}</li>`).join("")}</ul>
+        <p class="klein">Den ganzen Markt- und Leistungsvergleich ${du("bekommst du", "bekommt ihr")} per Mail.</p></section>`;
+    },
+    betreten(el, n) { this.wahl = null; this.schritt(el, n); },
+    schritt(el, n) {
+      const erste = zeilen.find(z => vgl(z.vorschlag));
+      if (n && erste) this.vergleich(el, this.wahl || erste.vorschlag.VertragId); else { $("#vgl-" + id, el).innerHTML = ""; $$(".bd-zeile", el).forEach(z => z.classList.remove("gewaehlt")); }
+    },
+    klick(el, ev) {
+      const z = ev.target.closest(".bd-zeile.waehlbar"); if (!z) return false;
+      if (+el.dataset.schritt < 1) setzeSchritt(1);
+      this.vergleich(el, z.dataset.vertrag); return true;
+    }
+  });
+}
+bereichFolie("gesundheit", "Gesundheit", "Gesundheit", "Gesundheit", `Krankenkasse und was ${du("du", "ihr")} zusätzlich ${du("absicherst", "absichert")}.`);
+bereichFolie("basisrisiken", "Basisrisiken", "Basisrisiken", "Basisrisiken", `Die Versicherungen für den Alltag: Haftpflicht, Hausrat, Auto.`);
+bereichFolie("arbeitskraft", "Einkommen", "Einkommen absichern", "Einkommen absichern", `Was passiert, wenn ${du("du", "einer von euch")} länger nicht arbeiten ${du("kannst", "kann")}?`);
+
+/* ---------- 7a Drei Töpfe ---------- */
+FOLIEN.push({ id: "toepfe", nr: 7, termin: "Konzept", titel: "Drei Töpfe", kachel: ["Drei Töpfe", "Kurz, mittel, lang: wer bekommt wie viel"],
+  schritte: DATEN.vorschlag ? 2 : 1,
+  render(f) {
+    const h = R.sparraten("heute"), v = R.sparraten("vorschlag"), max = Math.max(1, h.kurz, h.mittel, h.lang, v.kurz, v.mittel, v.lang) * 1.1, netto = R.netto();
+    const zeilen = R.zeilen("Kapital"), artText = { neu: "neu", wechsel: "angepasst", bleibt: "bleibt" };
+    const topf = (t, i) => {
+      const ziele = DATEN.ziele.filter(z => z.Topf === t && z.Status === "offen"), zz = zeilen.filter(z => (z.heute || z.vorschlag).Topf === t);
+      const weg = (x, art) => `<li><b>${esc(x.Sparte)}</b><span>${esc(x.Gesellschaft || "")}</span><em>${eurGenau(R.proMonat(x))}</em>${art ? `<small>${art}</small>` : ""}</li>`;
+      return `<article class="tp-topf ein" style="--tf:var(--${t});--i:${i}"><header><p class="etikett">${TOPF[t].phase}</p><h2>${TOPF[t].name}</h2><p class="klein">${TOPF[t].horizont}. ${TOPF[t].wofuer}.</p></header>
+        <div class="tp-mitte"><div class="tp-gefaess" aria-hidden="true"><i class="tp-fuellung" data-heute="${h[t] / max * 100}" data-vorschlag="${v[t] / max * 100}" style="height:${h[t] / max * 100}%"></i><em class="tp-linie" style="bottom:${h[t] / max * 100}%"></em></div>
+          <div class="tp-zahlen"><p class="etikett">Sparrate im Monat</p><p class="zahl-gross"><span class="zahl tp-rate" data-format="eur" data-von="${h[t]}" data-nach="${v[t]}">${eur(h[t])}</span></p>
+            <p class="tp-delta">${Math.abs(v[t] - h[t]) < 0.5 ? "wie heute" : `heute ${eur(h[t])}`}</p></div></div>
+        <ul class="tp-ziele">${ziele.length ? ziele.map(z => `<li><span>${esc(z.Beschreibung)}</span><b>${z.Betrag ? eur(z.Betrag) : esc(z.Notiz || "")}</b><small>${z.Jahr || ""}</small></li>`).join("") : `<li class="leer">Noch kein Ziel in diesem Topf</li>`}</ul>
+        <ul class="tp-wege tp-h">${zz.filter(z => z.heute).map(z => weg(z.heute)).join("") || `<li class="leer">Noch nichts eingerichtet</li>`}</ul>
+        <ul class="tp-wege tp-v">${zz.map(z => weg(z.vorschlag || z.heute, artText[z.art])).join("") || `<li class="leer">Kein Vorschlag</li>`}</ul></article>`; };
+    const sH = h.kurz + h.mittel + h.lang, sV = v.kurz + v.mittel + v.lang;
+    return kopf(f, "Drei Töpfe für drei Zeiträume", `Jeder Euro fürs Sparen bekommt eine Aufgabe: bald gebraucht, für größere Wünsche oder für die Rente.`, this.schritte > 1 ? stufen(["Heute", "Vorschlag"]) : "")
+      + `<div class="tp"><div class="tp-toepfe">${R.TOEPFE.map(topf).join("")}</div>
+        <p class="tp-summe ein" style="--i:4"><span>Zusammen im Monat</span><b class="zahl" data-format="eur" data-von="${sH}" data-nach="${sV}">${eur(sH)}</b>
+          <span>das sind <b class="zahl" data-format="pct" data-von="${netto ? sH / netto * 100 : 0}" data-nach="${netto ? sV / netto * 100 : 0}">${pct(netto ? sH / netto * 100 : 0)}</b> vom Netto</span></p></div>`;
+  },
+  betreten(el, n) { $$(".zahl[data-von]", el).forEach(z => { z._wert = 0; }); $$(".tp-fuellung", el).forEach(x => { x.style.height = "0%"; }); void el.offsetWidth; this.schritt(el, n); },
+  schritt(el, n) {
+    $$(".tp-fuellung", el).forEach(x => { x.style.height = (n ? x.dataset.vorschlag : x.dataset.heute) + "%"; });
+    $$(".zahl[data-von]", el).forEach(z => zaehle(z, n ? +z.dataset.nach : +z.dataset.von));
+  }
+});
+
+/* ---------- 7b Vermögensaufbau ---------- */
+FOLIEN.push({ id: "vermoegensaufbau", nr: 7, termin: "Konzept", titel: "Vermögensaufbau", kachel: ["Vermögensaufbau", "Wie die Töpfe wachsen und wofür sie da sind"],
+  feldName: { kurz: "sparKurz", mittel: "sparMittel", lang: "sparLang" },
+  render(f) {
+    const feld = (t, i) => `<figure class="va-feld ein" style="--tf:var(--${t});--i:${i}"><figcaption><p class="etikett">${TOPF[t].phase}</p><h2><span class="topfmarke">${TOPF[t].name}</span> <span id="va-${t}-rate"></span></h2></figcaption>
+        <div class="va-chart" id="va-${t}"></div><div class="va-text" id="va-${t}-text"></div></figure>`;
+    return kopf(f, `So wachsen ${du("deine", "eure")} drei Töpfe`, `${HAT_VORSCHLAG ? "Mit den Sparraten aus dem Vorschlag" : "Mit den heutigen Sparraten"}. Aus kurz und mittel ${du("nimmst du", "nehmt ihr")} das Geld für ${du("deine", "eure")} Ziele wieder heraus.`)
+      + `<div class="va"><div class="va-felder">${R.TOEPFE.map(feld).join("")}</div>
+        <div class="va-unten"><div class="reglerreihe">${regler("va", "sparKurz", "f-kurz")}${regler("va", "sparMittel", "f-mittel")}${regler("va", "sparLang", "f-lang")}${regler("va", "rendite")}</div>
+          <div class="va-neben">${kaufkraftSchalter("va")}${ruecksetzen("va")}</div></div>
+        <p class="annahmen" id="va-annahmen"></p></div>`;
+  },
+  rechne(el, ruhig) {
+    const jahrVon = (v, m) => v.startJahr + Math.floor((v.startMonat + m) / 12);
+    R.TOEPFE.forEach((t, i) => {
+      const rate = ZU[this.feldName[t]], v = R.topfVerlauf(t, { rate, rendite: ZU.rendite, zins: ZU.zins, inflation: ZU.inflation, alter: ZU.alter, kaufkraft: ZU.kaufkraft });
+      const farbe = `var(--${t})`, e = v.erwartet, spanne = v.monate / 12, takt = spanne <= 5 ? 1 : spanne <= 18 ? 5 : 10, xMarken = [];
+      for (let j = v.startJahr + 1; j <= jahrVon(v, v.monate); j++) if (takt === 1 || j % takt === 0) xMarken.push({ x: (j - v.startJahr) * 12 - v.startMonat, text: String(j) });
+      linienChart($("#va-" + t, el), { titel: `Topf ${TOPF[t].name}: Verlauf`, ruhig, xMin: 0, xMax: v.monate, xMarken,
+        reihen: [{ name: "Erwartet", farbe, flaeche: true, punkte: e.punkte.map(p => ({ x: p.m, y: p.wert })) }],
+        baender: [{ farbe, punkte: v.tief.punkte.map((p, k) => ({ x: p.m, tief: p.wert, hoch: v.hoch.punkte[k].wert })) }],
+        marker: e.ereignisse.map((x, k) => ({ x: x.m, y: x.davor, text: String(k + 1), farbe, offen: x.fehlt > 1 })),
+        hoverTitel: m => new Date(v.startJahr, v.startMonat + m, 1).toLocaleDateString("de-DE", { month: "long", year: "numeric" }) });
+      $(`#va-${t}-rate`, el).textContent = `${eur(rate)} im Monat`;
+      const endJahr = jahrVon(v, v.monate);
+      $(`#va-${t}-text`, el).innerHTML = (e.ereignisse.length ? `<ol class="va-ziele">${e.ereignisse.map(x => `<li class="${x.fehlt > 1 ? "offen" : ""}"><span>${esc(x.ziel.Beschreibung)}</span><b>${eur(x.betrag)}</b><small>${x.ziel.Jahr}: ${x.fehlt > 1 ? `es fehlen rund ${eur(Math.round(x.fehlt / 100) * 100)}` : "gedeckt"}</small></li>`).join("")}</ol>` : "")
+        + (t === "lang" ? `<p class="klein">Aus diesem Topf wird unterwegs nichts entnommen. Was daraus im Monat wird, zeigt das Kapitel Rentenlücke.</p>` : "")
+        + `<p class="va-ende">${t === "lang" ? `Zum Rentenbeginn ${endJahr}` : `Stand ${endJahr}`}: rund <b>${eur(Math.round(e.ende / 100) * 100)}</b>${t === "kurz" || v.hoch.ende - v.tief.ende < 1500 ? "" : ` <small>${eur(Math.round(v.tief.ende / 1000) * 1000)} bis ${eur(Math.round(v.hoch.ende / 1000) * 1000)}, je nach Rendite</small>`}</p>`;
+    });
+    const b = A.RenditeBandbreite;
+    $("#va-annahmen", el).innerHTML = `<b>Annahmen:</b> Tagesgeld ${pct(ZU.zins, 1)} Zins. Mittel und lang ${pct(ZU.rendite, 1)} Rendite vor Kosten (Bandbreite ${pct(ZU.rendite - b, 1)} bis ${pct(ZU.rendite + b, 1)}), Kosten ${pct(A.KostenMittelProzent, 1)} und ${pct(A.KostenLangProzent, 1)} im Jahr. Inflation ${pct(ZU.inflation, 1)}, Beträge ${kaufkraftText()}, Ziele wachsen mit der Inflation mit. Ohne Steuern. Eine Hochrechnung, keine Zusage.`;
+  },
+  betreten(el) { this.rechne(el, false); }
+});
+
+/* ---------- 7c Kurz oder mittel bei gleicher Sparrate ---------- */
+FOLIEN.push({ id: "kurz-mittel", nr: 7, termin: "Konzept", titel: "Kurz oder mittel", kachel: ["Kurz oder mittel", "Gleiche Sparrate, zwei Wege"],
+  render(f) {
+    const kachel = (id, name, farbe) => `<div class="kz ein" ${farbe ? `style="--tf:var(--${farbe})"` : ""}><p class="kz-name">${farbe ? `<i class="punkt" style="--f:var(--${farbe})"></i>` : ""}${name}</p><p class="zahl-gross"><span class="zahl" id="km-${id}" data-format="eur">0</span></p><p class="klein" id="km-${id}-t"></p></div>`;
+    return kopf(f, "Gleiche Sparrate, zwei Wege", `Dieselbe Rate, einmal aufs Tagesgeld und einmal in Aktienfonds. Beides nach Kosten und Steuern.`)
+      + `<div class="km"><div class="km-haupt"><div class="km-kacheln">${kachel("ein", "Eingezahlt", "")}${kachel("kurz", "Kurz: Tagesgeld", "kurz")}${kachel("mittel", "Mittel: Aktienfonds", "mittel")}</div>
+          ${legende([{ name: "Mittel: Aktienfonds", farbe: "var(--mittel)" }, { name: "Kurz: Tagesgeld", farbe: "var(--kurz)" }, { name: "Eingezahlt", farbe: "var(--tinte-3)", art: "punkte" }, { name: "Bandbreite", farbe: "var(--mittel)", art: "feld" }])}
+          <div class="km-chart" id="km-chart"></div><p class="fazit" id="km-fazit"></p><div class="annahmen" id="km-annahmen"></div></div>
+        <aside class="seite"><div class="reglerstapel">${regler("km", "vglRate")}${regler("km", "vglJahre")}${regler("km", "zins", "f-kurz")}${regler("km", "rendite", "f-mittel")}${regler("km", "inflation")}</div>
+          ${kaufkraftSchalter("km")}${ruecksetzen("km")}${faktenbox("kurz-mittel")}</aside></div>`;
+  },
+  rechne(el, ruhig) {
+    const v = R.kurzOderMittel({ rate: ZU.vglRate, jahre: ZU.vglJahre, zins: ZU.zins, rendite: ZU.rendite, inflation: ZU.inflation, kaufkraft: ZU.kaufkraft });
+    const e = v.erwartet[v.erwartet.length - 1], t = v.tief[v.tief.length - 1], h = v.hoch[v.hoch.length - 1], d = ruhig ? 0 : 850, rund = x => Math.round(x / 100) * 100;
+    zaehle($("#km-ein", el), rund(e.eingezahlt), d); zaehle($("#km-kurz", el), rund(e.kurz), d); zaehle($("#km-mittel", el), rund(e.mittel), d);
+    $("#km-ein-t", el).textContent = `${eur(ZU.vglRate)} im Monat, ${ZU.vglJahre} Jahre` + (ZU.kaufkraft === "heute" && ZU.inflation > 0 ? `. In Euro: ${eur(ZU.vglRate * ZU.vglJahre * 12)}` : "");
+    $("#km-kurz-t", el).textContent = `${eur(rund(t.kurz))} bis ${eur(rund(h.kurz))}, je nach Zins`;
+    $("#km-mittel-t", el).textContent = `${eur(rund(t.mittel))} bis ${eur(rund(h.mittel))}, je nach Rendite`;
+    const diff = e.mittel - e.kurz;
+    $("#km-fazit", el).textContent = `Nach ${ZU.vglJahre} Jahren liegt der mittlere Topf bei diesen Annahmen rund ${eur(rund(Math.abs(diff)))} ${diff >= 0 ? "über" : "unter"} dem kurzen. Der Unterschied kommt aus der Rendite-Annahme: ${pct(ZU.rendite, 1)} vor Kosten statt ${pct(ZU.zins, 1)} Zins. Dafür schwankt der Wert unterwegs, in schlechten Jahren auch deutlich. Geld, das ${du("du", "ihr")} in den nächsten Jahren ${du("brauchst", "braucht")}, gehört deshalb in den kurzen Topf.`;
+    const frei = A.SparerpauschbetragJahr || 0;
+    $("#km-annahmen", el).innerHTML = `<p class="etikett">Annahmen</p><ul>
+      <li>Kurz: ${pct(ZU.zins, 1)} Zins (Bandbreite ${pct(v.zinsen[0], 1)} bis ${pct(v.zinsen[1], 1)}), keine Kosten. Zinsen werden jedes Jahr versteuert.</li>
+      <li>Mittel: ${pct(ZU.rendite, 1)} Rendite vor Kosten (Bandbreite ${pct(v.renditen[0], 1)} bis ${pct(v.renditen[1], 1)}), Kosten ${pct(A.KostenMittelProzent, 1)} im Jahr. Steuer einmal beim Verkauf, 30 % des Gewinns bleiben steuerfrei.</li>
+      <li>Abgeltungsteuer 26,375 %. ${frei ? `Sparerpauschbetrag ${eur(frei)} im Jahr auf beiden Seiten berücksichtigt.` : "Ohne Sparerpauschbetrag gerechnet."}</li>
+      <li>Inflation ${pct(ZU.inflation, 1)}. Alle Beträge ${kaufkraftText()}.</li><li>Eine Hochrechnung, keine Zusage.</li></ul>`;
+    const reihe = (name, feld, farbe, extra = {}) => ({ name, farbe, punkte: v.erwartet.map(p => ({ x: p.jahr, y: p[feld] })), ...extra });
+    const band = (feld, farbe) => ({ farbe, punkte: v.tief.map((p, i) => ({ x: p.jahr, tief: p[feld], hoch: v.hoch[i][feld] })) });
+    const takt = ZU.vglJahre <= 10 ? 2 : 5, xMarken = [];
+    for (let j = 0; j <= ZU.vglJahre; j += takt) xMarken.push({ x: j, text: j ? `${j} Jahre` : "heute", anker: j ? "middle" : "start" });
+    linienChart($("#km-chart", el), { titel: "Kurz oder mittel: Wert nach Kosten und Steuern", ruhig, xMin: 0, xMax: ZU.vglJahre, xMarken,
+      reihen: [reihe("Mittel", "mittel", "var(--mittel)", { ende: eur(rund(e.mittel)) }), reihe("Kurz", "kurz", "var(--kurz)", { ende: eur(rund(e.kurz)) }), reihe("Eingezahlt", "eingezahlt", "var(--tinte-3)", { gestrichelt: true, ende: eur(rund(e.eingezahlt)) })],
+      baender: [band("mittel", "var(--mittel)"), band("kurz", "var(--kurz)")], hoverTitel: j => j ? `Nach ${j} ${j === 1 ? "Jahr" : "Jahren"}` : "Heute" });
+  },
+  betreten(el) { $$(".km-kacheln .zahl", el).forEach(z => { z._wert = 0; }); this.rechne(el, false); }
+});
+
+/* ---------- 8 Rentenlücke ---------- */
+FOLIEN.push({ id: "rentenluecke", nr: 8, termin: "Konzept", titel: "Rentenlücke", kachel: ["Rentenlücke", "Was im Alter fehlt und was der Vorschlag ändert"],
+  schritte: 2, n: 0,
+  render(f) {
+    return kopf(f, "Die Rentenlücke", `Was ${du("du", "ihr")} im Alter ${du("brauchst", "braucht")}, was die gesetzliche Rente deckt und was mein Vorschlag ändert.`, stufen(["Heute", HAT_VORSCHLAG ? "Mit Vorschlag" : "Mit Sparrate"]))
+      + `<div class="rl"><div class="rl-haupt">
+          <div class="rl-zahlen"><div class="kz ein"><p class="kz-name">Bedarf im Alter</p><p class="zahl-gross"><span class="zahl" id="rl-bedarf" data-format="eur">0</span></p><p class="klein">netto im Monat</p></div>
+            <div class="kz ein" style="--i:1"><p class="kz-name"><i class="punkt" style="--f:var(--tinte)"></i>Gesetzliche Rente</p><p class="zahl-gross"><span class="zahl" id="rl-gesetz" data-format="eur">0</span></p><p class="klein">netto, nach Krankenversicherung und Steuer</p></div>
+            <div class="kz kz-luecke ein" style="--i:2"><p class="kz-name" id="rl-lname">Lücke heute</p><p class="zahl-gross"><span class="zahl" id="rl-luecke" data-format="eur">0</span></p><p class="klein" id="rl-ltext"></p></div></div>
+          <div class="rl-bild ein" style="--i:3">
+            <div class="rl-spur" id="rl-spur"><i class="rl-teil rl-g" id="rl-g"></i><i class="rl-teil rl-b" id="rl-b"></i><i class="rl-teil rl-v" id="rl-v"></i><i class="rl-teil rl-l" id="rl-l"></i><em class="rl-band" id="rl-band"></em><div class="rl-ziel" id="rl-ziel"><span id="rl-zieltext">Bedarf</span></div></div>
+            <ul class="rl-leg" id="rl-leg"></ul></div>
+          <div class="rl-treppe ein" style="--i:4" id="rl-treppe"></div><p class="fazit" id="rl-fazit"></p><div class="annahmen" id="rl-annahmen"></div></div>
+        <aside class="seite"><div class="reglerstapel">${regler("rl", "sparLang", "f-lang")}${regler("rl", "rendite")}${regler("rl", "inflation")}${regler("rl", "alter")}${regler("rl", "steuersatz")}</div>
+          ${kaufkraftSchalter("rl")}${ruecksetzen("rl")}${faktenbox("rentenluecke")}</aside></div>`;
+  },
+  rechne(el, ruhig) {
+    const L = R.rentenluecke({ alter: ZU.alter, sparrateLang: ZU.sparLang, rendite: ZU.rendite, inflation: ZU.inflation, steuersatz: ZU.steuersatz, kaufkraft: ZU.kaufkraft });
+    const n = this.n, g = L.gesetzlich, d = ruhig ? 0 : 900, rund = x => Math.round(x / 10) * 10;
+    const best = n ? L.bestehendBleibt.erwartet : L.bestehendHeute.erwartet, neu = n ? L.vorschlag.erwartet : 0;
+    const luecke = n ? L.lueckeVorschlag.erwartet : L.lueckeHeute, max = Math.max(L.bedarf, g.netto + L.bestehendBleibt.hoch + L.vorschlag.hoch, g.netto + L.bestehendHeute.erwartet) * 1.03;
+    const spur = $("#rl-spur", el); spur.classList.toggle("sofort", !!ruhig);
+    const breite = (id, wert) => { $("#" + id, el).style.width = Math.max(0, wert / max * 100).toFixed(2) + "%"; };
+    breite("rl-g", g.netto); breite("rl-b", best); breite("rl-v", neu); breite("rl-l", Math.max(0, luecke));
+    $("#rl-ziel", el).style.left = (L.bedarf / max * 100).toFixed(2) + "%"; $("#rl-zieltext", el).textContent = `Bedarf ${eur(L.bedarf)}`;
+    const band = $("#rl-band", el), sockel = g.netto + L.bestehendBleibt.erwartet;
+    band.style.left = ((sockel + L.vorschlag.tief) / max * 100).toFixed(2) + "%"; band.style.width = ((L.vorschlag.hoch - L.vorschlag.tief) / max * 100).toFixed(2) + "%";
+    band.style.opacity = n && L.vorschlag.erwartet > 1 ? 1 : 0;
+    zaehle($("#rl-bedarf", el), L.bedarf, d); zaehle($("#rl-gesetz", el), g.netto, d); zaehle($("#rl-luecke", el), Math.max(0, n ? rund(luecke) : luecke), d);
+    $("#rl-lname", el).textContent = !(L.bedarf > 0) ? "Lücke" : luecke <= 0.5 ? "Lücke geschlossen" : n ? "Lücke mit Vorschlag, rund" : "Lücke heute";
+    $("#rl-ltext", el).textContent = n
+      ? (luecke <= 0.5 ? `rechnerisch ${eur(rund(-luecke))} über dem Bedarf, ` : "") + `je nach Rendite ${L.lueckeVorschlag.tief <= 0 ? "geschlossen" : eur(rund(L.lueckeVorschlag.tief))} bis ${L.lueckeVorschlag.hoch <= 0 ? "geschlossen" : eur(rund(L.lueckeVorschlag.hoch))}. Heute: ${eur(L.lueckeHeute)}`
+      : L.bedarf > 0 ? `im Monat, ${pct(Math.max(0, L.lueckeHeute) / L.bedarf * 100)} vom Bedarf` : "";
+    $("#rl-leg", el).innerHTML = `<li><i class="feld" style="--f:var(--tinte)"></i>Gesetzliche Rente netto <b>${eur(g.netto)}</b></li>`
+      + (L.bestehendHeute.erwartet > 1 ? `<li><i class="feld" style="--f:var(--leben)"></i>Vorsorge, die schon läuft <b>${eur(best)}</b></li>` : "")
+      + (n ? `<li><i class="feld" style="--f:var(--lang)"></i>Vorschlag: private Rente netto <b>rund ${eur(rund(L.vorschlag.erwartet))}</b> <small>${eur(rund(L.vorschlag.tief))} bis ${eur(rund(L.vorschlag.hoch))}</small></li>` : "")
+      + (luecke > 0.5 ? `<li><i class="feld schraff"></i>Lücke <b>${n ? "rund " + eur(rund(luecke)) : eur(luecke)}</b></li>` : "");
+    $("#rl-treppe", el).innerHTML = `<p class="etikett">So wird aus der Renteninformation die Netto-Rente</p><div class="rl-stufen">
+      <span><small>laut Renteninformation, brutto</small><b>${eur(g.laut)}</b></span>
+      ${g.abschlagSatz > 0 ? `<span><small>früher in Rente: weniger Beitragsjahre, ${pctKurz(g.abschlagSatz * 100)} Abschlag</small><b>−${eur(g.laut - g.brutto)}</b></span>` : ""}
+      <span><small>Kranken- und Pflegeversicherung ${pctKurz(g.kvpvSatz * 100)}</small><b>−${eur(g.kvpv)}</b></span>
+      <span><small>Steuer: ${pctKurz(g.besteuerungsanteil * 100)} der Rente steuerpflichtig, darauf ${pct(ZU.steuersatz)}</small><b>−${eur(g.steuer)}</b></span>
+      <span class="summe"><small>netto im Monat</small><b>${eur(g.netto)}</b></span></div>`;
+    const noetig = L.vorschlag.erwartet > 1 ? ZU.sparLang * (L.bedarf - g.netto - L.bestehendBleibt.erwartet) / L.vorschlag.erwartet : 0;
+    $("#rl-fazit", el).textContent = !(L.bedarf > 0) || !(g.laut > 0)
+      ? `Hier fehlen noch Angaben: ${[!(L.bedarf > 0) && "der Bedarf im Alter", !(g.laut > 0) && "die Renteninformation"].filter(Boolean).join(" und ")}. Sobald sie da sind, steht hier die Rechnung.`
+      : n
+      ? (ZU.sparLang < 1 ? `Ohne Sparrate ändert sich an der Lücke nichts.` : luecke <= 0.5
+        ? `Mit ${eur(ZU.sparLang)} im Monat ist die Lücke bei diesen Annahmen geschlossen. Bei niedrigerer Rendite ${L.lueckeVorschlag.hoch > 0 ? `bleiben bis zu ${eur(rund(L.lueckeVorschlag.hoch))} offen` : "auch"}.`
+        : `Mit ${eur(ZU.sparLang)} im Monat schrumpft die Lücke bei diesen Annahmen von ${eur(L.lueckeHeute)} auf rund ${eur(rund(luecke))}. Ganz geschlossen wäre sie rechnerisch mit rund ${eur(Math.ceil(noetig / 25) * 25)} im Monat.`)
+      : `Die gesetzliche Rente deckt bei diesen Annahmen ${pct(Math.min(100, (g.netto + L.bestehendHeute.erwartet) / L.bedarf * 100))} von dem, was ${du("du", "ihr")} im Alter ${du("brauchst", "braucht")}. ${L.lueckeHeute > 0.5 ? `Es fehlen ${eur(L.lueckeHeute)} im Monat.` : "Es fehlt nichts."}`;
+    const b = A.RenditeBandbreite, kosten = (DATEN.vertraege.find(v => v.Topf === "lang" && v.Status === "Vorschlag") || {}).EffektivkostenProzent ?? A.KostenLangProzent;
+    const faktor = (DATEN.vertraege.find(v => v.Topf === "lang" && v.Status === "Vorschlag") || {}).Rentenfaktor ?? A.Rentenfaktor;
+    $("#rl-annahmen", el).innerHTML = `<p class="etikett">Annahmen</p><ul>
+      <li>Rentenbeginn ${L.jahr} mit ${L.alter}, in ${L.jahre} Jahren.${L.alter < RECHT.Regelaltersgrenze ? " Geht nur mit 35 Versicherungsjahren." : ""}</li>
+      <li>Bedarf ${eur(R.bedarf())} im Monat in heutiger Kaufkraft: Lebenshaltung, Wohnen, Absicherung.</li>
+      <li>Inflation ${pct(ZU.inflation, 1)}. Alle Beträge ${kaufkraftText()}. Die Rentenanpassungen gleichen die Inflation aus.</li>
+      <li>Vorschlag: ${eur(ZU.sparLang)} im Monat${A.DynamikProzent ? `, jedes Jahr ${pct(A.DynamikProzent, 1)} mehr` : ", gleichbleibend"}. Rendite ${pct(ZU.rendite, 1)} vor Kosten (Bandbreite ${pct(ZU.rendite - b, 1)} bis ${pct(ZU.rendite + b, 1)}), Kosten ${pct(kosten, 1)} im Jahr.</li>
+      <li>Kapital zum Rentenbeginn rund ${eur(Math.round(L.kapital.erwartet / 1000) * 1000)}. Rentenfaktor ${eur2(faktor)} je 10.000 €${L.alter < RECHT.Regelaltersgrenze ? " (gilt für 67, früher ist er niedriger)" : ""}. Steuerpflichtig ist nur der Ertragsanteil von ${pct(L.ertragsanteil * 100)}.</li>
+      <li>Eine Hochrechnung für das erste Rentenjahr, keine Zusage.</li></ul>`;
+  },
+  betreten(el, n) { this.n = n ? 1 : 0; $$(".rl-zahlen .zahl", el).forEach(z => { z._wert = 0; }); $$(".rl-teil", el).forEach(x => { x.style.width = "0%"; }); void el.offsetWidth; this.rechne(el, false); },
+  schritt(el, n) { this.n = n ? 1 : 0; this.rechne(el, false); }
+});
+
+/* ---------- 9 Nächste Schritte ---------- */
+FOLIEN.push({ id: "schritte", nr: 9, termin: "", titel: "Nächste Schritte", kachel: ["Nächste Schritte", "Unterlagen, Aufgaben, nächster Termin"],
+  render(f) {
+    const jetzt = DATEN.termine.find(t => t.TerminId === DATEN.meta.AktuellerTerminId);
+    const naechster = DATEN.termine.filter(t => t.Status === "geplant" && (!jetzt || t.Beginn > jetzt.Beginn)).sort((a, b) => a.Beginn.localeCompare(b.Beginn))[0];
+    const liste = (wer) => DATEN.aufgaben.filter(a => a.Status !== "verworfen" && wer(a.Zustaendig)).sort((a, b) => (a.Status === "erledigt") - (b.Status === "erledigt") || String(a.FaelligAm || "9").localeCompare(String(b.FaelligAm || "9")))
+      .map((a, i) => `<li class="ein ${a.Status === "erledigt" ? "erledigt" : ""}" style="--i:${i + 2}"><i class="kasten" aria-hidden="true"></i><span>${esc(a.Titel)}<small>${a.Status === "erledigt" ? `erledigt${a.ErledigtAm ? " am " + datumKurz(a.ErledigtAm) : ""}` : a.FaelligAm ? `bis ${datumKurz(a.FaelligAm)}` : ""}</small></span></li>`).join("") || `<li class="leer">Nichts offen</li>`;
+    const ort = { online: "online", Buero: "im Büro", Telefon: "am Telefon" };
+    return kopf(f, "Wie es weitergeht", jetzt && jetzt.Art === "Konzept" ? `Heute wird nichts unterschrieben. ${du("Nimm dir", "Nehmt euch")} die Zeit, die ${du("du brauchst", "ihr braucht")}.` : "")
+      + `<div class="ns">${naechster ? `<section class="ns-termin ein"><p class="etikett">Nächster Termin</p><p class="ns-art">${esc(naechster.Art)}</p>
+          <p class="ns-wann">${tag(naechster.Beginn).toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}, ${uhrzeit(naechster.Beginn)} Uhr${naechster.Ort ? ", " + (ort[naechster.Ort] || esc(naechster.Ort)) : ""}</p></section>` : ""}
+        <div class="ns-spalten">
+          ${DATEN.unterlagen && DATEN.unterlagen.length ? `<section class="ns-spalte"><h2>Kommt per Mail</h2><ul class="ns-liste dok">${DATEN.unterlagen.map((u, i) => `<li class="ein" style="--i:${i + 2}"><i class="blatt" aria-hidden="true"></i><span>${esc(u)}</span></li>`).join("")}</ul></section>` : ""}
+          <section class="ns-spalte"><h2>Bei ${du("dir", "euch")}</h2><ul class="ns-liste">${liste(w => w === "Mandant")}</ul></section>
+          <section class="ns-spalte"><h2>Bei mir</h2><ul class="ns-liste">${liste(w => w !== "Mandant")}</ul></section></div></div>`;
+  }
+});
+
+/* ---------- 10 Verlauf ---------- */
+FOLIEN.push({ id: "verlauf", nr: 10, termin: "Update", titel: "Verlauf", kachel: ["Verlauf", "Depot, Ziele, Termine, Neues"],
+  render(f) {
+    const st = [...DATEN.depotstaende].sort((a, b) => a.Stichtag.localeCompare(b.Stichtag)), l = st[st.length - 1];
+    const erreicht = DATEN.ziele.filter(z => z.Status === "erreicht"), plus = l ? l.Gesamtwert - (l.Einzahlungen || 0) : 0;
+    const termine = [...DATEN.termine].sort((a, b) => a.Beginn.localeCompare(b.Beginn));
+    return kopf(f, "Was seitdem passiert ist", `Der Verlauf über die Zeit: Depot, erreichte Ziele, Termine und was sich geändert hat.`)
+      + `<div class="vl"><section class="vl-depot">${l ? `<div class="vl-zahlen"><div class="kz ein"><p class="kz-name"><i class="punkt" style="--f:var(--mittel)"></i>Depotwert</p><p class="zahl-gross">${Z_(l.Gesamtwert)}</p><p class="klein">Stand ${datumKurz(l.Stichtag)}</p></div>
+            ${l.Einzahlungen != null ? `<div class="kz ein" style="--i:1"><p class="kz-name">Eingezahlt</p><p class="zahl-gross">${Z_(l.Einzahlungen)}</p><p class="klein">seit Beginn</p></div>
+            <div class="kz ein" style="--i:2"><p class="kz-name">Wertzuwachs</p><p class="zahl-gross">${plus < 0 ? "−" : ""}${Z_(Math.abs(plus))}</p><p class="klein">${l.Einzahlungen ? mitVorzeichen(plus / l.Einzahlungen * 100, x => pct(x, 1)) + " auf die Einzahlungen" : ""}</p></div>` : ""}</div>
+          ${st.length > 1 ? legende([{ name: "Depotwert", farbe: "var(--mittel)" }, { name: "Eingezahlt", farbe: "var(--tinte-3)", art: "punkte" }]) + `<div class="vl-chart" id="vl-chart"></div>` : ""}
+          ${l.positionen && l.positionen.length ? `<ul class="vl-pos">${l.positionen.map((p, i) => `<li class="ein" style="--i:${i + 3}"><span>${esc(p.Bezeichnung)}</span><i><u style="width:${p.Anteil ?? p.Wert / l.Gesamtwert * 100}%"></u></i><b>${eur(p.Wert)}</b><small>${pct(p.Anteil ?? p.Wert / l.Gesamtwert * 100)}</small></li>`).join("")}</ul>` : ""}` : `<p class="leer">Noch kein Depotstand. Der Verlauf beginnt mit dem ersten Stichtag.</p>`}</section>
+        <div class="vl-seite">
+          <section><h2>Erreichte Ziele</h2><ul class="vl-liste">${erreicht.map(z => `<li class="ein"><i class="haken-kreis" style="--f:var(--${z.Topf})"></i><span>${esc(z.Beschreibung)}<small>${z.Jahr || ""}${z.Betrag ? " · " + eur(z.Betrag) : ""}</small></span></li>`).join("") || `<li class="leer">Kommt mit der Zeit</li>`}</ul></section>
+          <section><h2>Termine</h2><ol class="vl-termine">${termine.map(t => `<li class="${t.TerminId === DATEN.meta.AktuellerTerminId ? "jetzt" : t.Status === "geplant" ? "offen" : "war"}"><b>${esc(t.Art)}</b><small>${datumKurz(t.Beginn)}</small>${t.Ergebnisse ? `<span>${esc(t.Ergebnisse)}</span>` : t.TerminId === DATEN.meta.AktuellerTerminId ? `<span>heute</span>` : ""}</li>`).join("")}</ol></section>
+          ${DATEN.neuerungen && DATEN.neuerungen.length ? `<section><h2>Neu und für ${du("dich", "euch")} wichtig</h2><ul class="vl-neu">${DATEN.neuerungen.map(n => `<li><b>${esc(n.Titel)}</b>${n.GiltAb ? `<small>ab ${datumKurz(n.GiltAb)}</small>` : ""}<span>${esc(n.Kurzfassung)}</span></li>`).join("")}</ul></section>` : ""}
+        </div></div>`;
+  },
+  betreten(el) {
+    const st = [...DATEN.depotstaende].sort((a, b) => a.Stichtag.localeCompare(b.Stichtag)), ziel = $("#vl-chart", el); if (!ziel || st.length < 2) return;
+    const t0 = tag(st[0].Stichtag).getTime(), x = s => Math.round((tag(s.Stichtag).getTime() - t0) / 864e5), l = st[st.length - 1];
+    const jede = Math.ceil(st.length / 6);
+    linienChart(ziel, { titel: "Depotwert und Einzahlungen", xMarken: st.filter((s, i) => i % jede === 0 || i === st.length - 1).map((s, i) => ({ x: x(s), text: monatJahr(s.Stichtag), anker: i === 0 ? "start" : "middle" })),
+      reihen: [{ name: "Depotwert", farbe: "var(--mittel)", flaeche: true, ende: eur(l.Gesamtwert), punkte: st.map(s => ({ x: x(s), y: s.Gesamtwert })) }]
+        .concat(st.every(s => s.Einzahlungen != null) ? [{ name: "Eingezahlt", farbe: "var(--tinte-3)", gestrichelt: true, ende: eur(l.Einzahlungen), punkte: st.map(s => ({ x: x(s), y: s.Einzahlungen })) }] : []),
+      marker: st.map(s => ({ x: x(s), y: s.Gesamtwert, farbe: "var(--mittel)" })), hoverTitel: tage => new Date(t0 + tage * 864e5).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" }) });
+  },
+  rechne(el) { this.betreten(el); }
+});
+
+/* ---------- Zum Schluss: Empfehlungen (über DATEN.optionen.empfehlungsfolie ein- und ausschaltbar) ---------- */
+FOLIEN.push({ id: "empfehlungen", titel: "Zum Schluss", kachel: ["Zum Schluss", "Wie man zu mir kommt"],
+  render() {
+    const von = M.EmpfohlenVonAnzeige || M.EmpfohlenVonText;
+    return `<div class="emp"><div class="emp-zeichen ein" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="emp-satz ein" style="--i:2">Zu mir kommt man fast immer über Empfehlungen${von ? `, so wie ${du("du", "ihr")} über ${esc(von)}` : ""}.</p>
+      <p class="emp-zweiter ein" style="--i:6">Wenn ${du("dir", "euch")} jemand einfällt, dem das auch hilft: Ich schick ${du("dir", "euch")} einen kurzen Text zum Weiterleiten.</p>
+      <p class="emp-dank ein" style="--i:10">Danke für ${du("deine", "eure")} Zeit.</p></div>`;
+  }
+});
+
+/* =====================================================================================
+   6. BÜHNE  –  Folien aufbauen, Navigation, Tastatur, Sprungadressen, Präsentationsmodus
+   ===================================================================================== */
+const app = $("#app"), buehne = $("#buehne");
+const merke = (k, v) => { try { localStorage.setItem("artefakt-" + k, v); } catch (e) { /* ohne Speicher geht es auch */ } };
+const gemerkt = k => { try { return localStorage.getItem("artefakt-" + k); } catch (e) { return null; } };
+
+{ /* ausgeblendete Folien entfernen */
+  const weg = new Set(DATEN.optionen.ausgeblendet || []);
+  if (!DATEN.optionen.empfehlungsfolie) weg.add("empfehlungen");
+  for (let i = FOLIEN.length - 1; i > 0; i--) if (weg.has(FOLIEN[i].id)) FOLIEN.splice(i, 1);
+}
+let aktuell = -1, schrittJetzt = 0;
+const elVon = f => $("#f-" + f.id);
+const stufenAn = el => $$(".stufen button", el).forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.schritt === schrittJetzt)));
+
+function baue() {
+  $("#folien").innerHTML = FOLIEN.map(f => `<section class="folie f-${f.id}" id="f-${f.id}" data-schritt="0" aria-label="${esc(f.titel)}" hidden>${f.render(f)}</section>`).join("");
+  $("#fortschritt").innerHTML = FOLIEN.map((f, i) => `<button type="button" class="fp${i && f.nr !== FOLIEN[i - 1].nr ? " neu" : ""}" data-index="${i}" title="${f.nr ? "Kapitel " + f.nr + ": " : ""}${esc(f.titel)}" aria-label="${esc(f.titel)}"><i></i></button>`).join("");
+  $("#kopf-name").textContent = NAME;
+  $("#kopf-test").hidden = $("#fuss-test").hidden = !DATEN.meta.Testdaten;
+}
+
+function zeige(index, { schritt = 0, hash = true, still = false } = {}) {
+  index = Math.max(0, Math.min(FOLIEN.length - 1, index));
+  const f = FOLIEN[index], el = elVon(f), max = (f.schritte || 1) - 1;
+  if (aktuell >= 0 && aktuell !== index) elVon(FOLIEN[aktuell]).hidden = true;
+  tipp.weg();
+  aktuell = index; schrittJetzt = schritt === "letzter" ? max : Math.min(max, schritt);
+  el.classList.toggle("still", still); el.dataset.schritt = schrittJetzt; el.hidden = false; buehne.scrollTop = 0;
+  stufenAn(el); zaehleAlle(el);
+  if (f.betreten) f.betreten(el, schrittJetzt); else if (f.rechne) f.rechne(el, false);
+  $("#kopf-kapitel").textContent = f.nr ? `Kapitel ${f.nr} · ${f.titel}` : "";
+  $("#fuss-titel").textContent = f.nr ? `${f.nr} · ${f.titel}` : f.titel;
+  $("#zaehler").textContent = `${index + 1} / ${FOLIEN.length}`;
+  $$(".fp").forEach((b, i) => { b.classList.toggle("war", i < index); b.classList.toggle("jetzt", i === index); });
+  $("#btn-zurueck").disabled = index === 0; $("#btn-weiter").disabled = index === FOLIEN.length - 1 && schrittJetzt >= max;
+  if (hash && location.hash.slice(1) !== f.id && (index > 0 || location.hash)) { try { location.hash = f.id; } catch (e) { /* in manchen Rahmen gesperrt */ } }
+}
+function setzeSchritt(n) {
+  const f = FOLIEN[aktuell], el = elVon(f), max = (f.schritte || 1) - 1; n = Math.max(0, Math.min(max, n));
+  if (n === schrittJetzt) return;
+  schrittJetzt = n; el.dataset.schritt = n; stufenAn(el); f.schritt && f.schritt(el, n);
+  $("#btn-weiter").disabled = aktuell === FOLIEN.length - 1 && n >= max;
+}
+const weiter = () => { const f = FOLIEN[aktuell]; if (schrittJetzt < (f.schritte || 1) - 1) setzeSchritt(schrittJetzt + 1); else if (aktuell < FOLIEN.length - 1) zeige(aktuell + 1); };
+const zurueck = () => { if (schrittJetzt > 0) setzeSchritt(schrittJetzt - 1); else if (aktuell > 0) zeige(aktuell - 1, { schritt: "letzter" }); };
+const neuRechnen = () => { const f = FOLIEN[aktuell]; if (f && f.rechne) f.rechne(elVon(f), true); };
+
+/* Kachel zoomt zur Folie auf, und beim Zurückspringen wieder zur Kachel */
+function zoom(von, nach, danach, inhalt) {
+  const z = $("#zoom"), setze = r => Object.assign(z.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+  z.innerHTML = inhalt ? `<div class="zoom-inhalt">${inhalt}</div>` : "";
+  z.style.transition = "none"; z.style.opacity = "1"; setze(von); z.hidden = false; void z.offsetWidth;
+  z.style.transition = "left .46s cubic-bezier(.3,.7,.2,1),top .46s cubic-bezier(.3,.7,.2,1),width .46s cubic-bezier(.3,.7,.2,1),height .46s cubic-bezier(.3,.7,.2,1)";
+  setze(nach);
+  setTimeout(() => { danach(); z.style.transition = "opacity .28s"; z.style.opacity = "0"; setTimeout(() => { z.hidden = true; z.innerHTML = ""; }, 300); }, 450);
+}
+function springe(id, vonEl) {
+  const index = FOLIEN.findIndex(f => f.id === id); if (index < 0) return;
+  if (!ANIM.an || !vonEl) return zeige(index);
+  zoom(vonEl.getBoundingClientRect(), buehne.getBoundingClientRect(), () => zeige(index), vonEl.classList.contains("kachel") ? vonEl.innerHTML : "");
+}
+function zurUebersicht() {
+  if (aktuell <= 0) return;
+  const id = FOLIEN[aktuell].id;
+  if (!ANIM.an) return zeige(0);
+  zeige(0, { still: true });
+  const kachel = $(`.kachel[data-ziel="${id}"]`);
+  if (kachel) { kachel.scrollIntoView({ block: "nearest" }); zoom(buehne.getBoundingClientRect(), kachel.getBoundingClientRect(), () => {}, kachel.innerHTML); }
+}
+
+function praesentation(an) {
+  app.classList.toggle("praes", an);
+  const wurzel = document.documentElement;
+  try {
+    if (an && wurzel.requestFullscreen) { const p = wurzel.requestFullscreen(); p && p.catch && p.catch(() => {}); }
+    else if (!an && document.fullscreenElement) { const p = document.exitFullscreen(); p && p.catch && p.catch(() => {}); }
+  } catch (e) { /* Vollbild nicht erlaubt: die Ansicht ohne Kopfzeile bleibt */ }
+  setTimeout(neuRechnen, 400);
+}
+function animationen(an, merken) {
+  ANIM.an = an; document.documentElement.classList.toggle("ruhig", !an); $("#sch-anim").checked = an;
+  if (merken) merke("animationen", an ? "an" : "aus");
+}
+function gleicheRegler() {
+  $$("input[type=range][data-feld]").forEach(i => { i.value = ZU[i.dataset.feld]; });
+  $$("output[data-feld]").forEach(o => { o.textContent = FELD[o.dataset.feld].f(ZU[o.dataset.feld]); });
+  $$("[data-kaufkraft]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.kaufkraft === ZU.kaufkraft)));
+}
+
+document.addEventListener("click", ev => {
+  const t = ev.target, f = FOLIEN[aktuell];
+  const ziel = t.closest("[data-ziel]"); if (ziel) return springe(ziel.dataset.ziel, ziel);
+  const stufe = t.closest(".stufen button"); if (stufe) return setzeSchritt(+stufe.dataset.schritt);
+  const kk = t.closest("[data-kaufkraft]"); if (kk) { ZU.kaufkraft = kk.dataset.kaufkraft; gleicheRegler(); return neuRechnen(); }
+  if (t.closest("[data-reset]")) { ZU = startZustand(); gleicheRegler(); return neuRechnen(); }
+  const fp = t.closest(".fp"); if (fp) return zeige(+fp.dataset.index);
+  if (f && f.klick) f.klick(elVon(f), ev);
+});
+document.addEventListener("input", ev => {
+  const i = ev.target; if (!i.matches || !i.matches("input[type=range][data-feld]")) return;
+  ZU[i.dataset.feld] = +i.value; gleicheRegler(); neuRechnen();
+});
+$("#btn-weiter").addEventListener("click", weiter);
+$("#btn-zurueck").addEventListener("click", zurueck);
+$("#btn-start").addEventListener("click", zurUebersicht);
+$("#btn-uebersicht").addEventListener("click", zurUebersicht);
+$("#btn-praes").addEventListener("click", () => praesentation(!app.classList.contains("praes")));
+$("#btn-praes-aus").addEventListener("click", () => praesentation(false));
+$("#sch-anim").addEventListener("change", ev => animationen(ev.target.checked, true));
+$("#btn-thema").addEventListener("click", () => {
+  const w = document.documentElement, dunkel = w.dataset.theme ? w.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  w.dataset.theme = dunkel ? "light" : "dark"; neuRechnen();
+});
+document.addEventListener("keydown", ev => {
+  if (ev.altKey || ev.ctrlKey || ev.metaKey) return;
+  const t = ev.target, k = ev.key, ist = s => !!(t.matches && t.matches(s)), imFeld = ist("input:not([type=checkbox]),select,textarea");
+  if (imFeld && k !== "Escape") return;                                   // Pfeiltasten gehören dann dem Regler
+  if (k === "ArrowRight" || k === "PageDown" || (k === " " && !ist("button,[role=button],input"))) { ev.preventDefault(); weiter(); }
+  else if (k === "ArrowLeft" || k === "PageUp") { ev.preventDefault(); zurueck(); }
+  else if (k === "Home") { ev.preventDefault(); zeige(0); }
+  else if (k === "End") { ev.preventDefault(); zeige(FOLIEN.length - 1); }
+  else if (k === "f" || k === "F") praesentation(!app.classList.contains("praes"));
+  else if (k === "Escape") { if (imFeld) t.blur(); else if (app.classList.contains("praes") && !document.fullscreenElement) praesentation(false); else zurUebersicht(); }
+  else if ((k === "Enter" || k === " ") && ist(".bd-zeile.waehlbar")) { ev.preventDefault(); t.click(); }
+});
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) app.classList.remove("praes"); setTimeout(neuRechnen, 150); });
+window.addEventListener("hashchange", () => { const i = FOLIEN.findIndex(f => f.id === decodeURIComponent(location.hash.slice(1))); if (i >= 0 && i !== aktuell) zeige(i, { hash: false }); });
+{ let warte; window.addEventListener("resize", () => { clearTimeout(warte); warte = setTimeout(neuRechnen, 160); }); }
+
+/* Start */
+animationen(DATEN.optionen.animationen !== false && !matchMedia("(prefers-reduced-motion: reduce)").matches && gemerkt("animationen") !== "aus", false);
+baue();
+{
+  const kontrolle = R.rentenluecke({ alter: A.Rentenalter, sparrateLang: sparVorschlag.lang, rendite: A.RenditeProzent, inflation: A.InflationProzent, steuersatz: A.SteuersatzAlterProzent, kaufkraft: "heute" }).lueckeHeute;
+  if (F.Rentenluecke != null && Math.abs(F.Rentenluecke - kontrolle) > 5) console.warn(`Rentenlücke: DATEN.finanzstatus.Rentenluecke (${F.Rentenluecke}) weicht von der Rechnung des Artefakts (${kontrolle.toFixed(2)}) ab.`);
+  const start = FOLIEN.findIndex(f => f.id === decodeURIComponent(location.hash.slice(1)));
+  zeige(start >= 0 ? start : 0, { hash: false });
+}
+</script>

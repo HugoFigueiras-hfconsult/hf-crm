@@ -46,7 +46,7 @@ Ton bleibt Hugos Ton: Du, locker, ehrlich, kein Druck (`docs/09-neumandant.md`, 
 
 ## 4. Basisrisiken
 
-- **Privathaftpflicht:** wichtige Kriterien sind Forderungsausfalldeckung und Mitversicherung deliktunfähiger Kinder. Kinder unter 7 Jahren haften nicht, im Straßenverkehr unter 10 Jahren ([§ 828 BGB](https://www.gesetze-im-internet.de/bgb/__828.html)). Das Beispiel im Leitfaden stimmt hier inhaltlich.
+- **Privathaftpflicht:** wichtige Kriterien sind Forderungsausfalldeckung und Mitversicherung deliktunfähiger Kinder. Kinder unter 7 Jahren haften nicht, bei Unfällen mit Kfz oder Bahn bis 10 Jahre, außer bei Vorsatz. Ein ordnungsgemäß geparktes Auto zu beschädigen fällt in der Regel nicht darunter ([BGH VI ZR 335/03](https://www.bundesgerichtshof.de/SharedDocs/Pressemitteilungen/DE/2004/2004143.html)) ([§ 828 BGB](https://www.gesetze-im-internet.de/bgb/__828.html)). Das Beispiel im Leitfaden stimmt hier inhaltlich.
 - Deckungssummen und Leistungsmerkmale aus dem Tarifvergleich nennen, nicht als Verkaufsargument („zehnfache Summe“).
 - Tiere (Hund, Pferd) braucht eine eigene Tierhalterhaftpflicht, siehe `agent/vorlagen/unterlagen-mail.md`.
 

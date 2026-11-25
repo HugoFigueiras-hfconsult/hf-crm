@@ -1,6 +1,6 @@
 # Mandanten-Artefakt: ein Artefakt je Mandant
 
-Stand 2026-11-25 · **Entschieden, noch nicht gebaut**
+Stand 2026-11-25 · **Vorlage v1 gebaut (Fable 5.2, xhigh), Hugo prüft** · Vorlage: `dashboard/mandant-vorlage.html`, Beschreibung `dashboard/README.md`, zum Anschauen: [Artefakt „Mandanten-Artefakt Vorlage“](https://claude.ai/artifact/6cMyozFZmAAhsVzit74XuZ) (privat, nur Hugo)
 
 ## Ziel (Hugo, 2026-11-25)
 
@@ -63,7 +63,7 @@ Hugo möchte die wichtigsten Zahlen und Argumente während der Beratung vor Auge
 
 ## Umsetzung (Reihenfolge)
 
-1. Vorlage als HTML im Repo (`dashboard/mandant-vorlage.html`) mit **erfundenen Testdaten**. Beim Bauen die Design-Anleitung für Artefakte laden.
+1. ✅ 25.11.: Vorlage als HTML im Repo (`dashboard/mandant-vorlage.html`) mit **erfundenen Testdaten**, gebaut von Fable 5.2 (xhigh), geprüft und veröffentlicht. 16 Folien, Rechner, Animationen, Empfehlungsfolie schaltbar (`DATEN.optionen.empfehlungsfolie`). Noch nicht gebaut: Referentenansicht (zweites Fenster), Detailfolie Wohnen. Offene Fragen an Hugo: `dashboard/README.md`.
 2. Hugo prüft Aufbau, Optik, Animationen und Sprache in einer Probe-Bildschirmfreigabe.
 3. Erster echter Fall, zunächst neben der VVO-Präsentation.
 4. Danach Analyse und Konzept nur noch mit dem Artefakt.
