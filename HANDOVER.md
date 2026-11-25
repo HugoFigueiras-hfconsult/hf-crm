@@ -1,6 +1,6 @@
 # Handover → neuer Chat
 
-Stand: 2026-11-22 · Repo `HugoFigueiras-hfconsult/hf-crm`, Branch `main` · ersetzt `HANDOVER-CLOUD.md` (Stand 12.11.)
+Stand: 2026-11-25 · Repo `HugoFigueiras-hfconsult/hf-crm`, Branch `main` · ersetzt `HANDOVER-CLOUD.md` (Stand 12.11.)
 
 ## In einer Minute
 
@@ -26,7 +26,7 @@ Stand: 2026-11-22 · Repo `HugoFigueiras-hfconsult/hf-crm`, Branch `main` · ers
 0. **Wiedervorlagen prüfen** (`docs/STATUS.md`, Fristen):
    - ab **07.12.2026** an O10/O11 erinnern
    - vor dem **11.12.2026** Testversion → Pay-As-You-Go (O1) und Budget-Alarm (O8)
-1. **Gespräch mit Hugo: Konzept-Termin**, dann Fragerunde und Abschluss. Die Fragen dazu stehen in `docs/09-neumandant.md`. Vorgehen wie bei der Analyse:
+1. ✅ 25.11.: Konzept-Termin + Fragerunde beschrieben (`docs/09-neumandant.md`, inkl. Fachhinweise Altersvorsorgedepot/Riester 2027 und veraltete Aussagen im VVO-Leitfaden 2018). **Offen:** Hugos Antworten auf „Offene Fragen an Hugo (Konzept)“, danach **Gespräch zum Abschluss** (Unterschrift, danach, Absprung, Empfehlungen). Vorgehen wie bei der Analyse:
    - Hugo beschreibt den Ablauf, gern mit einem Transkript als Beispiel.
    - Claude leitet Ablauf, Agent-Aufgaben und Felder ab.
    - Fachaussagen im Transkript mit Quelle prüfen.

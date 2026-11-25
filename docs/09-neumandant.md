@@ -1,6 +1,6 @@
 # Neue Mandanten: Prozess
 
-Stand 2026-11-22 · Rahmen + **Analyse-Termin** inkl. Checkliste besprochen. Konzept-Termin und Fragerunde folgen. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
+Stand 2026-11-25 · Rahmen, **Analyse-Termin** (inkl. Checkliste) und **Konzept-Termin + Fragerunde** besprochen. Offen: Abschluss/Unterschrift und was danach passiert. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
 
 Grundlagen für den Analyse-Teil (2026-11-20): Hugos Beschreibung, der VVO-Leitfaden „Analysegespräch“ (V1, 2024) und **ein** Transkript einer echten Analyse (Fokus Versicherungen, kaum Investment). Beide Dokumente liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Hier stehen nur allgemeine Erkenntnisse, keine Daten der beratenen Person.
 
@@ -107,12 +107,104 @@ Noch unbeantwortet: Soll der Agent die Beratungsdokumentation aus dem Transkript
 
 Wichtig: Gesundheitsangaben aus dem Gespräch nur als **Konsequenz** ins Profil (nur die Handlungsfolge für den Vertrag), keine Diagnosen. Das gilt unabhängig von der ausgesetzten AVV-Regel, als gute Praxis.
 
-## Konzept-Termin, Fragerunde, Abschluss
+## Konzept-Termin
 
-_Offen, nächstes Gespräch._ Fragen dazu:
-- Was entsteht als Konzept (Dokument, Präsentation, Angebote)? Welche Rolle spielt die Mandantenansicht?
-- Wie viele Varianten/Angebote zeigst du, wie wird priorisiert?
-- Was passiert in der Fragerunde, was nach der Unterschrift (JDC-Anlage, Übergang in Update-Termine, Rhythmus am Anfang)?
+Grundlagen (2026-11-25): Hugos Beschreibung, vier Folien der VVO-Präsentation (Screenshots ohne Zahlen), der VVO-„Leitfaden Beratungsgespräch“ (Stand 14.05.2018) und der **Aufbau** der Unterlagen-Mail eines echten Konzepts. Leitfaden und Mail liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Ein Transkript gibt es noch nicht. Hugo nutzt den Leitfaden nur als grobe Orientierung.
+
+### Ablauf (Hugo, 2026-11-25)
+
+| # | Baustein | Inhalt | Werkzeug | Was erfasst wird |
+|---|---|---|---|---|
+| 1 | **Ankommen** | kurzer Smalltalk | – | – |
+| 2 | **Einkommen heute** | Brutto → Steuer → Sozialabgaben (Arbeitslosen-, Kranken-/Pflege-, Rentenversicherung) → Netto → Verwendung: BU, private Vermögensbildung, Lebenshaltung/Luxus/Freizeit, Verbindlichkeiten, Wohnkosten, Absicherung von Risiken | VVO-Folie „Einkommen heute → Einkommen in Zukunft“, linke Seite | Finanzstatus mit Stichtag |
+| 3 | **Einkommen in Zukunft** | Was davon braucht man bis ins Alter: Steuer, Kranken-/Pflegeversicherung, Lebenshaltung, Wohnkosten, Absicherung von Risiken | dieselbe Folie, rechte Seite | Bedarf im Alter (Grundlage der Rentenlücke) |
+| 4 | **Übersicht** | Vorsorge (Gesundheit, Basisrisiken, Einkommen) und Vermögen (Haus und Wohnen, Kapital), Aufwand je Bereich „vor Optimierung“. In jeden Bereich kann Hugo hineinklicken | VVO-Folie „Übersicht“ | Ist-Aufwand je Bereich |
+| 5 | **Gesundheit** | Stand heute vs. Vorschlag (z. B. Krankenkasse, Zahnzusatz) | Vergleiche (siehe unten) | Vorschläge |
+| 6 | **Basisrisiken** | Privathaftpflicht, Hausrat, Rechtsschutz, Kfz: heute vs. Vorschlag | Vergleiche | Vorschläge |
+| 7 | **Einkommen** (Arbeitskraft) | BU, ggf. Krankentagegeld, Unfall, Todesfall: heute vs. Vorschlag | Vergleiche | Vorschläge |
+| 8 | **Haus und Wohnen** | bisher immer übersprungen, Hugo berät (noch) keine Immobilien | – | – |
+| 9 | **Kapital kurz + mittel** | drei Töpfe: Heute (kurz) / berufstätige Jahre (mittel) / berufsfreie Jahre (lang). Kurz und mittel werden **bei gleicher Sparrate** verglichen (z. B. je 1.000 € im Monat), damit der Effekt sichtbar wird | VVO-Folien „drei Töpfe“ und „Vermögensaufbau“ | Ziele je Topf, Sparraten-Vorschlag |
+| 10 | **Kapital lang** | Rentenlücke erklären, dann zeigen, wie sie kleiner wird, meist mit privater Altersvorsorge. bAV/Riester selten (passt nur bei wenigen, nicht Hugos Stil) | Rentenlücken-Rechnung | Rentenlücke vorher/nachher mit Annahmen, Vorschlag |
+| 11 | **Durchgehend** | Zu jedem Bereich ein konkreter **Vertragsvorschlag** mit genauen Konditionen. Dazu ein **Marktvergleich** (alle relevanten Anbieter mit Preis) und ein **Detailvergleich** von drei Anbietern: der günstigste, einer mit gutem Preis-Leistungs-Verhältnis, einer qualitativ top. Sehr interaktiv, viele Fragen zwischendurch | Vergleichsrechner (z. B. Morgen & Morgen) | Vergleichs-PDFs als Link, Fragen und Einwände |
+| 12 | **Abschluss des Termins** | Alle PDFs per Mail. Auftrag an den Mandanten: sichten, sacken lassen. Folgetermin für Fragen | Outlook | Fragerunde, Mail |
+
+Im Konzept-Termin wird **nicht** unterschrieben. Der Leitfaden kennt „Abschluss heute“ (Option 1). Hugo arbeitet wie Option 2: drüber schlafen lassen, Fragen in einem zweiten Termin klären.
+
+### Unterlagen nach dem Konzept (Aufbau eines echten Beispiels, ohne Daten)
+
+Die Mail selbst ist kurz („wie besprochen anbei die Dokumente“). Je vorgeschlagenem Bereich hängen an:
+
+| Dokument | Quelle | Inhalt |
+|---|---|---|
+| Marktvergleich `<Sparte>` | Morgen & Morgen | alle passenden Tarife, sortiert nach Monatsbeitrag, dazu Maximalbeitrag, Berufseinstufung, Rating |
+| Leistungsvergleich `<Sparte>` | Morgen & Morgen | drei Tarife nebeneinander, Leistungskriterien mit erfüllt / eingeschränkt / nicht erfüllt |
+| Kostenvergleich (bei Tarifen ohne Alterungsrückstellung, z. B. Zahnzusatz) | Morgen & Morgen | Beitragsverlauf je Tarif nach Alter, Beitragsentwicklung der letzten Jahre |
+| Krankenkassen-Vergleich | Kassensuche (gesetzlicheKrankenkassen.de) | Beitragssatz, Service, Zusatzleistungen, Bonusprogramm zweier Kassen |
+| Altersvorsorge | Anbieter | Produktinformation, Basisinformationsblatt, Angebot |
+
+Die Vergleichs-PDFs enthalten die Eingabedaten des Mandanten (Geburtsdatum, Beruf, weitere Angaben zur Person). Ablage nur in OneDrive (`04 Analysen und Angebote/`), nie im Repo.
+
+## Fragerunde (Hugo, 2026-11-25)
+
+- Folgetermin nach dem Konzept, um die Fragen zu klären.
+- Ergebnis ist eines von dreien: **Änderung** am Konzept (neue Vergleiche, erneut schicken), **weiterer Fragetermin** oder **Unterschriften-Termin**.
+
+## Was der Agent für Konzept und Fragerunde tut
+
+**Vor dem Konzept** (sobald die Unterlagen da sind):
+1. **Zahlen-Spickzettel** für die VVO-Folien: Einkommen heute Zeile für Zeile (aus Finanzstatus und Verträgen), Aufwand je Bereich (Gesundheit, Basisrisiken, Einkommen, Haus und Wohnen, Kapital). Hugo trägt die Werte ein, der Agent hat keinen Zugriff auf die Präsentation.
+2. **„Vor Optimierung“ je Bereich:** bestehende Verträge mit Beitrag, Leistung, Schwächen und Lücken.
+3. **Vergleichsvorgaben** je Bereich vorschlagen (z. B. Höhe BU-Rente, Endalter, wichtige Leistungskriterien), damit Hugo gezielt rechnet. Rechnen tut Hugo (Ausnahme Kfz, siehe oben).
+4. **Rentenlücke vorrechnen** als Kontrolle: Renteninformation, Bedarf im Alter, Annahmen offen ausweisen (Inflation, Einkommenssteigerung, Rentenbeginn), Besteuerungsanteil nach Rentenbeginnjahr, Kranken-/Pflegeversicherung im Alter. Fehlt die Renteninformation: nachfassen.
+5. **Beispiele in Zahlen:** kurz vs. mittel bei gleicher Sparrate, Wirkung der Vorschläge auf die Rentenlücke.
+6. **Rechtslage prüfen** (Fachhinweise unten), bevor etwas in Vorschläge, Mails oder Artefakte geht.
+7. **Checkliste Unterlagen:** Liegen je vorgeschlagenem Bereich Marktvergleich, Leistungsvergleich und ggf. Angebot vor?
+8. **Berater-Ansicht** aktualisieren: Reihenfolge, offene Fragen aus der Analyse, Ziele, an die die Vorschläge anknüpfen.
+
+**Nach dem Konzept** (Transkript + Whiteboard, O11 beachten):
+1. Termin zusammenfassen: je Vorschlag Stand (passt / offen / ändern / abgelehnt), Fragen und Einwände des Mandanten.
+2. Vorschläge in der DB anlegen bzw. aktualisieren, mit Link auf die Vergleichs-PDFs.
+3. **Mail-Entwurf** mit allen PDFs und dem Termin für die Fragerunde. Nur Entwurf, Hugo schickt.
+4. Fragerunde: Ist ein Termin vereinbart? Wenn nicht, Aufgabe und Erinnerung.
+5. **Mandantenansicht** fortschreiben: Übersicht vor/nach Optimierung, Rentenlücke vorher/nachher, drei Töpfe mit Sparraten. Eigenes Design, keine VVO-Folien kopieren.
+6. Status des Mandanten: Konzept → Fragerunde.
+
+**Vor der Fragerunde:** Fragen bündeln, Antworten mit Quelle vorbereiten, geänderte Vergleiche bei Hugo anfordern.
+
+## Fachhinweise (Agent, 2026-11-25, an Primärquellen geprüft, keine Rechtsberatung)
+
+| Thema | Stand | Quelle |
+|---|---|---|
+| **Riester** | Ab 01.01.2027 keine neuen Verträge nach altem Modell. Bestehende laufen weiter, Wechsel ins neue Modell möglich | [BMF-FAQ](https://www.bundesfinanzministerium.de/Content/DE/FAQ/reform-der-privaten-altersvorsorge.html), [Bundesregierung](https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072) |
+| **Gefördertes Altersvorsorgedepot** (Altersvorsorgereformgesetz, BGBl. 2026 I Nr. 156) | ab 01.01.2027: Depot ohne Garantie (auch ETFs), gefördert werden Eigenbeiträge bis 1.800 €/Jahr plus Zulagen, Erträge in der Ansparphase steuerfrei. Standarddepot mit Kostendeckel 1,0 %, daneben Garantieprodukte (80 % / 100 %). Kann zu Hugos Investment-Stil passen | [BMF-FAQ](https://www.bundesfinanzministerium.de/Content/DE/FAQ/reform-der-privaten-altersvorsorge.html), [DRV](https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Moeglichkeiten-der-Altersvorsorge/Altervorsorgereformgesetz) |
+| **Frühstartrente** | 10 € im Monat vom Staat für Kinder von 6 bis 18 (ab Jahrgang 2020), Start 01.01.2027. Für Mandanten mit Kindern | [BMF-FAQ](https://www.bundesfinanzministerium.de/Content/DE/FAQ/fruehstart-rente.html) |
+| **bAV** | Bei Entgeltumwandlung muss der Arbeitgeber 15 % dazugeben, soweit er Sozialbeiträge spart. Gibt er mehr, lohnt sich ein Blick. In der Analyse nach dem Zuschuss fragen | [§ 1a Abs. 1a BetrAVG](https://www.gesetze-im-internet.de/betravg/__1a.html) |
+| **Besteuerung der gesetzlichen Rente** | Der steuerpflichtige Anteil steigt seit 2023 nur noch um 0,5 Prozentpunkte je Rentenbeginnjahr, 100 % erst ab Rentenbeginn 2058 | [DRV](https://www.deutsche-rentenversicherung.de/DRV/DE/Ueber-uns-und-Presse/Presse/Meldungen/2024/240402-wachstumschancengesetz-rentenbesteuerung) |
+
+### Veraltetes im Leitfaden (Stand 2018): nicht übernehmen
+
+| Aussage im Leitfaden (sinngemäß) | Richtig ist | Quelle |
+|---|---|---|
+| Die halbe Erwerbsminderungsrente wird in der Praxis nie ausgezahlt | Sie wird gezahlt, wenn die Voraussetzungen vorliegen (weniger als 6 Stunden täglich arbeitsfähig) | [§ 43 Abs. 1 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__43.html) |
+| Fondsgewinne: rund 27 % Abgeltungsteuer auf den ganzen Gewinn | 25 % plus Soli (26,375 %), ggf. Kirchensteuer. Bei Aktienfonds sind 30 % des Ertrags steuerfrei (Teilfreistellung), dazu Sparerpauschbetrag 1.000 € | [§ 32d EStG](https://www.gesetze-im-internet.de/estg/__32d.html), [§ 20 InvStG](https://www.gesetze-im-internet.de/invstg_2018/__20.html), [§ 20 Abs. 9 EStG](https://www.gesetze-im-internet.de/estg/__20.html) |
+| Lebensversicherung: Halbeinkünfteverfahren pauschal | nur bei mindestens 12 Jahren Laufzeit und Auszahlung ab 62 (Verträge ab 2012, vorher 60) | [§ 20 Abs. 1 Nr. 6 EStG](https://www.gesetze-im-internet.de/estg/__20.html) |
+| Renten werden künftig „deutlich höher“ besteuert | Anstieg seit 2023 verlangsamt, siehe oben | DRV |
+| Statistiken (z. B. Rentenhöhen) | Zahlen von 2018, nur aktuelle Werte verwenden | – |
+
+Außerdem nutzt der Leitfaden Verkaufstechnik (Zustimmungsfragen, „Abschluss heute“, Personalausweis zücken lassen). Hugo arbeitet so nicht, der Agent übernimmt das nicht.
+
+## Offene Fragen an Hugo (Konzept, Stand 2026-11-25)
+
+1. **Vorschläge speichern:** als `Vertrag` mit Status „Vorschlag“ (Vorschlag des Agenten: ja, beim Abschluss wird daraus einfach der aktive Vertrag) oder in einer eigenen Tabelle?
+2. **Nur der empfohlene Tarif** je Bereich in die DB oder alle drei aus dem Detailvergleich? (Vorschlag: nur der empfohlene, die drei stehen im verlinkten PDF.)
+3. **Fragerunde:** Wird der Termin im Konzept-Termin direkt fest vereinbart?
+4. **Konzept-Mail:** so knapp wie bisher, oder soll der Agent zu jedem Anhang einen Satz schreiben (was drin ist, worauf achten)?
+5. **VVO-Präsentation:** Welche Werte trägst du dort ein, und rechnest du die Rentenlücke im VVO-Werkzeug? Soll der Agent dir die Zahlen vorher als Spickzettel liefern?
+
+## Abschluss (noch offen)
+
+Fragen für das nächste Gespräch:
+- Was passiert im Unterschriften-Termin und danach (Anträge über JDC? Policierung, Übergang in Update-Termine, Rhythmus am Anfang)?
 - Wann wird aus dem Interessenten ein Mandant, was passiert bei Absprung?
 - Empfehlungen: Wie fragst du selbst danach (ohne VVO-Liste), und wie bedankst du dich beim Empfehlungsgeber?
 
@@ -129,3 +221,8 @@ _Offen, nächstes Gespräch._ Fragen dazu:
 | `Aufgabe` | `Zustaendig` (Hugo/Mandant/Agent) | Unterlagen vom Mandanten vs. Prüfungen von Hugo; Rückblick „beide Seiten“ im Update-Termin |
 | `Termin` | `WhiteboardLink` | zweite Quelle neben `TranskriptLink` |
 | **neu** `Formalie` | `MandantId`, `Art`, `Status` (offen/übergeben/unterschrieben), `Datum`, `AblageLink` | Checkliste: meldet Fehlendes, sobald eine Unterschrift ansteht (auch bei Eilfällen) |
+| `Finanzstatus` | `Brutto`, `Steuer`, `AbgabenAV`, `AbgabenKVPV`, `AbgabenRV`, `Verbindlichkeiten` | Folie „Einkommen heute“ im Konzept (2026-11-25) |
+| `Finanzstatus` | `RenteLautInfo` (mtl., aus der Renteninformation), `RenteninfoStand`, `Rentenbeginn` (Jahr), `BedarfImAlter`, `Rentenluecke`, `Annahmen` (Text: Inflation, Steigerung) | Rentenlücke im Konzept, in Update-Terminen nachhalten |
+| `Vertrag` | `Status` um **Vorschlag**, beantragt, abgelehnt erweitern (ersetzt „Angebot“) | Vorschlag aus dem Konzept wird beim Abschluss zum aktiven Vertrag |
+| `Vertrag` | `Bereich` (Gesundheit / Basisrisiken / Einkommen / Haus und Wohnen / Kapital), `Topf` (kurz/mittel/lang, nur Kapital) | Übersicht und drei Töpfe wie in der Präsentation |
+| `Vertrag` | `ErsetztVertragId`, `Variante` (günstig / Preis-Leistung / Top), `TerminId` (vorgestellt in), `VergleichLink` | „vor/nach Optimierung“, Vergleichs-PDFs in OneDrive |

@@ -1,6 +1,6 @@
 # Agent-Handbuch: Hugos Beratungs-Agent
 
-Stand 2026-11-22 · **Konzept, noch nicht gebaut.** Dieses Dokument bündelt alles, was der Agent wissen und beachten muss, und verweist auf die Detail-Dokumente. Mandantendaten stehen **nie** im Repo.
+Stand 2026-11-25 · **Konzept, noch nicht gebaut.** Dieses Dokument bündelt alles, was der Agent wissen und beachten muss, und verweist auf die Detail-Dokumente. Mandantendaten stehen **nie** im Repo.
 
 ## 1. Wofür es den Agenten gibt
 
@@ -24,7 +24,7 @@ Kein klassisches CRM, sondern eine Datenbank, die verknüpft und sich merkt.
 | Artefakte (claude.ai) | zwei dauerhafte Artefakte je Mandant | Konzept (`docs/08-update-termin.md`) |
 | **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen) und **NAFI-KFZ-Rechner** bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitung: `agent/portale/jdc-nafi-kfz.md` | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich) |
 
-**Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
+**Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt), die **VVO-Präsentation** im Konzept-Termin (der Agent liefert Hugo die Zahlen, Hugo trägt sie ein). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
 
 ## 3. Gedächtnis: wo was liegt
 
@@ -64,7 +64,9 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | Analyse nachbereiten | nach der Analyse | `docs/09-neumandant.md`, „Was der Agent für die Analyse tut“ |
 | **Unterlagen-Mail** entwerfen | direkt nach der Analyse | `agent/vorlagen/unterlagen-mail.md` |
 | Unterlagen-Eingang | bis zum Konzept-Termin | `docs/09-neumandant.md` |
-| Konzept, Fragerunde, Abschluss | – | **noch nicht besprochen** |
+| Konzept vorbereiten (Zahlen-Spickzettel, „vor Optimierung“, Vergleichsvorgaben, Rentenlücke) | wenn die Unterlagen da sind | `docs/09-neumandant.md`, „Was der Agent für Konzept und Fragerunde tut“ |
+| Konzept nachbereiten (Stand je Vorschlag, Mail-Entwurf mit PDFs, Fragerunde) | nach dem Konzept-Termin | ebd. |
+| Abschluss / Unterschrift | – | **noch nicht besprochen** |
 | Update-Termin vorbereiten und nachbereiten | Rhythmus quartals- oder halbjährlich | `docs/08-update-termin.md` |
 | Themen-Radar, fällige Termine, Fristen 90 Tage | wöchentlich | `docs/08-update-termin.md`, `docs/02-schema.md` |
 | Eilfälle (Frist vor dem nächsten Termin) | sofort | Aufgabe mit Fälligkeit, Formalia-Checkliste vorziehen |
@@ -75,7 +77,8 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 
 **Kommunikation**
 - Hugos Stil: locker, direkt, per **Du**, ehrlich statt verkäuferisch, Minimalist bei Versicherungen, Denken in kurz/mittel/lang. Details: `docs/09-neumandant.md`, „Hugos Beratungsstil“.
-- **Keine VVO-Verkaufsrhetorik** (Werbekosten-Story, Immobilien-Stories, Empfehlungslisten).
+- **Keine VVO-Verkaufsrhetorik** (Werbekosten-Story, Immobilien-Stories, Empfehlungslisten, Zustimmungsfragen, „Abschluss heute“).
+- **VVO-Leitfäden sind veraltet** (Beratungsgespräch Stand 2018): Aussagen daraus nicht übernehmen, ohne sie zu prüfen. Bekannte Fehler: `docs/09-neumandant.md`, „Veraltetes im Leitfaden“.
 - Mails an Mandanten nur als **Entwurf**. Hugo prüft und verschickt.
 - Folge-Mail nach einem Termin nur, wenn der Mandant noch Infos erwartet.
 
