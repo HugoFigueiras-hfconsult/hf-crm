@@ -46,6 +46,14 @@ Stand 2026-11-25 · **Entschieden, noch nicht gebaut**
 - Zusätzlich ein **Schalter „Animationen aus“** und Rücksicht auf die Systemeinstellung „Bewegung reduzieren“.
 - **Sachliche Sprache** (`agent/fachwissen.md` Abschnitt 1): „heute / Vorschlag“ statt „vor / nach Optimierung“, keine Superlative, Hochrechnungen mit Bandbreite.
 
+## Kennzahlen im Termin (Hugo, 2026-11-25)
+
+Hugo möchte die wichtigsten Zahlen und Argumente während der Beratung vor Augen haben, damit er sich nicht verspricht. Quelle ist **`agent/fachwissen.md` Abschnitt 9** (nur geprüfte Werte mit Quelle) und Abschnitt 10 (Fehlaussagen).
+
+- **Faktenbox im Kapitel:** Sachliche Fakten, die der Mandant sehen darf, stehen klein im passenden Kapitel, mit Quelle. Beispiele: Kapitel 6 Einkommen „volle BU-Rente ab 50 %“, „frühester Rentenbeginn 63, nur mit 35 Jahren, 14,4 % Abschlag“; Kapitel 7/8 „Abgeltungsteuer 26,375 %, Teilfreistellung 30 %“.
+- **Referentenansicht nur für Hugo:** Formulierungshilfen („so nicht sagen“, Abschnitt 10) und Argumente gehören nicht auf den geteilten Bildschirm. Sie stehen in einer Referentenansicht in einem zweiten Fenster (wie in PowerPoint). Hugo gibt in Teams nur das Präsentationsfenster frei, nicht den ganzen Bildschirm. Technik beim Bauen prüfen; geht das nicht, kommen sie ins Briefing im Chat.
+- Der Agent wählt je Mandant nur die Kennzahlen, die zu dessen Bereichen passen (z. B. BU-Endalter nur, wenn eine BU Thema ist).
+
 ## Daten
 
 - **Im Artefakt eingebettet.** Der Agent schreibt sie aus der DB und veröffentlicht das Artefakt neu (gleiche Adresse, neue Version). Die Rechner laufen im Browser.

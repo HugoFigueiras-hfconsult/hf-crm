@@ -155,3 +155,81 @@ Ton bleibt Hugos Ton: Du, locker, ehrlich, kein Druck (`docs/09-neumandant.md`, 
 | **Verschwiegenheit** | Dem Empfehlungsgeber nie etwas über die Finanzen oder Verträge der empfohlenen Person erzählen, auch nicht „nur grob“ | gute Praxis, Datenschutz |
 
 Das VVO-Vorgehen „Empfehlungsliste mit 10–15 Namen“ und anschließendes Anrufen widerspricht § 7 UWG, wenn die Genannten nicht selbst eingewilligt haben.
+
+---
+
+## 9. Kennzahlen und Argumente für den Termin (Spickzettel)
+
+Hugo möchte die wichtigsten Zahlen im Termin vor Augen haben, damit er sich nicht verspricht (2026-11-25). Der Agent übernimmt die passenden Zeilen ins Mandanten-Artefakt (`docs/10-mandanten-artefakt.md`, „Kennzahlen im Termin“). Nur geprüfte Werte mit Quelle, jährlich prüfen wie oben.
+
+### 9.1 Berufsunfähigkeit und Rentenbeginn
+
+| Kennzahl | Wert | Argument im Gespräch | Quelle |
+|---|---|---|---|
+| Regelaltersgrenze ab Jahrgang 1964 | **67** | BU-Endalter passend zum Rentenbeginn wählen, also meist 67 | [§ 35 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__35.html) |
+| Frühester Rentenbeginn | **63**, nur mit **35 Jahren** Wartezeit, **14,4 %** Abschlag für immer (0,3 % je Monat) | Wer z. B. mit 40 berufsunfähig wird, hat die 35 Jahre meist nicht. Endet die BU mit 62, fehlt das Einkommen bis 67 | [§ 36](https://www.gesetze-im-internet.de/sgb_6/__36.html), [§ 77 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__77.html) |
+| Rente ab 62 | **nur** mit Schwerbehinderung (GdB ab 50), dann **10,8 %** Abschlag, ohne Abschlag ab 65 | „Ab 62 in Rente“ ist der Sonderfall, nicht die Regel | [§ 37 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__37.html) |
+| 45 Beitragsjahre | ab **65** ohne Abschlag, nicht früher | | [§ 38 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__38.html) |
+| Wie viele werden berufsunfähig? | Frau: bis 62 **19,9 %**, bis 65 **27,2 %** | Gerade die letzten Jahre vor der Rente sind riskant, rund 7 Punkte allein zwischen 62 und 65 | [DAV](https://aktuar.de/de/wissen/magazine/detail/jeder-vierte-wird-berufsunfaehig) |
+| Ab wann volle BU-Rente | ab **50 %** BU die **volle** Rente | Anteilige Rente nur bei vereinbarter Staffelregel, die man meist nicht will | [BaFin](https://www.bafin.de/DE/verbraucherinnen-verbraucher/themen-finanzprodukte/versicherungen/berufsunfaehigkeitsversicherung/berufsunfaehigkeitsversicherung_node.html) |
+| Wer entscheidet über die Leistung | der Versicherer nach eigener Prüfung, im Streit ein Gericht | Ein Attest ist ein Baustein, kein Automatismus | Bedingungen, [§ 173 VVG](https://www.gesetze-im-internet.de/vvg_2008/__173.html) |
+| Verschwiegene Vorerkrankung | Rücktritt oder Kündigung nur **5 Jahre** nach Vertragsschluss, bei Vorsatz oder Arglist **10 Jahre**. Ausnahme: Die BU tritt innerhalb der Frist ein | Gesundheitsfragen vollständig beantworten, dann ist man nach 5 Jahren sicher | [§ 21 Abs. 3 VVG](https://www.gesetze-im-internet.de/vvg_2008/__21.html) |
+| Unbekannte Diagnosen | Anzugeben ist nur, was der Kunde **kennt** | Im Zweifel Arztakten und Patientenquittung anfordern | [§ 19 Abs. 1 VVG](https://www.gesetze-im-internet.de/vvg_2008/__19.html) |
+| Leistungsquoten | freiwillige Vergangenheitswerte, stark vom Bestand abhängig. Franke und Bornberg: im Schnitt knapp **80 %** der Anträge anerkannt | Wer die Quote meldet (Versicherer oder Ratingagentur) und für welches Jahr, immer dazusagen | Franke und Bornberg, BU-Leistungspraxis |
+| Größe eines Versicherers | deutsche Zahlen vergleichen (Beitragseinnahmen in Deutschland), nicht den Weltkonzern | | Geschäftsberichte |
+| Zahlbeitrag und Höchstbeitrag | beide zeigen, siehe Abschnitt 5 | Nur Tarife mit festem Beitrag können nicht steigen | Marktvergleich |
+
+### 9.2 Krankheit, Familie, Gesundheit
+
+| Kennzahl | Wert | Quelle |
+|---|---|---|
+| Krankengeld | 70 % vom Brutto, höchstens 90 % vom Netto, bis 78 Wochen (Details Abschnitt 5) | § 47, § 48 SGB V |
+| Kindererziehungszeit | **3 Jahre** je Kind (Geburt ab 1992), etwa 1 Entgeltpunkt je Jahr, also rund **3 Entgeltpunkte**. „Wer wegen Kindern nicht arbeitet, bekommt keine Rente“ stimmt nicht | [§ 56](https://www.gesetze-im-internet.de/sgb_6/__56.html), [§ 70 SGB VI](https://www.gesetze-im-internet.de/sgb_6/__70.html) |
+| Trennung ohne Ehe | **kein Versorgungsausgleich** (gilt nur für Ehe und eingetragene Lebenspartnerschaft). Neue Lebenspartnerschaften gibt es seit 01.10.2017 nicht mehr | [§ 1 VersAusglG](https://www.gesetze-im-internet.de/versausglg/__1.html) |
+| Kassenwechsel | 12 Monate Bindung, Sonderkündigung bei Erhöhung des Zusatzbeitrags (Abschnitt 3) | § 175 Abs. 4 SGB V |
+
+### 9.3 Kapital und Steuern
+
+| Kennzahl | Wert | Quelle |
+|---|---|---|
+| Abgeltungsteuer | **26,375 %** inkl. Soli auf den **Gewinn**, Aktienfonds **30 %** Teilfreistellung (effektiv rund 18,5 %), Sparerpauschbetrag 1.000 € | Abschnitt 6.2 |
+| Einmal besteuert | Jeder Gewinn wird **einmal** besteuert, wenn er realisiert wird (Verkauf, auch beim Umschichten im Depot). Das Auszahlen aus dem Depot kostet keine weitere Steuer | § 20 Abs. 2, § 32d EStG |
+| Umschichten in der Fondspolice | steuerfrei, besteuert wird erst die Auszahlung (Abschnitt 6.2) | § 20 Abs. 1 Nr. 6 EStG |
+| Vorabpauschale | gibt es seit **2018**, ist klein und wird beim Verkauf angerechnet | [§ 18](https://www.gesetze-im-internet.de/invstg_2018/__18.html), [§ 19 Abs. 1 InvStG](https://www.gesetze-im-internet.de/invstg_2018/__19.html) |
+| Ausgabeaufschlag | in Fondspolicen in der Regel **keiner**. Kosten aus dem Basisinformationsblatt nennen | Produktinformationen der Versicherer |
+| Verbreitung Altersvorsorge | 62 % haben eine Betriebsrente und/oder Riester (BMAS 2023). Keine Zahlen ohne Quelle nennen | [BMAS](https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/Forschungsberichte/fb-653-verbreitung-der-altersvorsorge-2023.pdf?__blob=publicationFile&v=4) |
+
+### 9.4 Kfz
+
+| Kennzahl | Wert | Quelle |
+|---|---|---|
+| Kündigung zum 01.01. | muss spätestens **30.11.** beim Versicherer **eingehen** (ein Monat vor Ablauf) | AKB G.2.1 (Musterbedingungen, Vertrag prüfen) |
+| Beitragserhöhung ohne mehr Leistung | Sonderkündigung innerhalb eines Monats nach der Mitteilung | [§ 40 VVG](https://www.gesetze-im-internet.de/vvg_2008/__40.html) |
+| Kfz-Unfallversicherung | meist überflüssig: Mitfahrer haben Ansprüche gegen die Kfz-Haftpflicht, auch ohne Verschulden (seit 2002 auch unentgeltlich Mitfahrende). Den Fahrer schützt eine private Unfallversicherung oder ein Fahrerschutz-Baustein | [§ 7 StVG](https://www.gesetze-im-internet.de/stvg/__7.html) |
+| Anhänger | braucht eine eigene Haftpflicht, der Halter des Anhängers haftet mit (seit 2020) | [§ 19 StVG](https://www.gesetze-im-internet.de/stvg/__19.html) |
+| Beförderte Sachen und Tiere | zahlt die Kfz-Haftpflicht nicht (z. B. Pferde im eigenen Anhänger) | AKB A.1.5.5 |
+| Werkstattbindung | spart Beitrag, im Kaskoschaden repariert dann die Partnerwerkstatt. Beim Wechsel prüfen, ob der Altvertrag sie hatte | Tarifbedingungen |
+
+---
+
+## 10. Häufige Fehlaussagen aus der Praxis
+
+Hugo hat viele Aussagen von anderen Beratern übernommen (2026-11-25). Diese hier kamen in einem echten Fragetermin vor und sind geprüft. Der Agent prüft Transkripte **immer** auf solche Sätze und nennt die Korrektur mit Quelle.
+
+| So nicht sagen | Richtig | Abschnitt |
+|---|---|---|
+| „Ab 62 kannst du die gesetzliche Rente ziehen.“ | frühestens 63 mit 35 Jahren und 14,4 % Abschlag, ab 62 nur mit Schwerbehinderung | 9.1 |
+| „Bei 50–60 % BU gibt es nur 60 % der Rente.“ | ab 50 % die volle Rente | 9.1 |
+| „BU-Risiko unter 20 %, nach 62 fast null.“ | Frau bis 62: 19,9 %, bis 65: 27,2 % | 9.1 |
+| „Attestiert der Arzt 50 %, muss die Versicherung zahlen.“ | der Versicherer prüft selbst | 9.1 |
+| „Auch nach 20 Jahren wird wegen Vorerkrankungen nicht gezahlt.“ | 5 Jahre, bei Vorsatz oder Arglist 10 Jahre | 9.1 |
+| „Versicherer X ist viel größer als Y.“ (Weltkonzern gegen deutsche Gesellschaft) | deutsche Zahlen vergleichen | 9.1 |
+| „Endalter 67 ist 30–40 % teurer.“ | mit eigener Rechnung belegen (Beispiel: 65 → 67 rund +14 %) | Marktvergleich |
+| „Im Depot 25 % Steuer beim Umschichten und nochmal beim Rausziehen.“ | ein Gewinn wird einmal besteuert | 9.3 |
+| „5 % Ausgabeaufschlag auf jede Rate“ (bei einer Fondspolice) | in der Fondspolice meist keiner | 9.3 |
+| „ETFs sind unter Druck, weil die Vorabbesteuerung jetzt läuft.“ | Vorabpauschale seit 2018, wird angerechnet | 9.3 |
+| „In allen anderen Ländern ist die Kapitalertragsteuer höher.“ | falsch, manche höher (z. B. Frankreich), manche niedriger (z. B. Schweiz, Belgien) | – |
+| „80 % haben eine private Altersvorsorge.“ | nicht belegt, BMAS: 62 % bAV und/oder Riester | 9.3 |
+| „Wer wegen Kindern nicht arbeitet, bekommt keine Rente.“ | 3 Jahre Kindererziehungszeit je Kind | 9.2 |
+
+**Haftung:** Keine privaten Meinungen gegen eine Absicherung („privat würde ich keine BU nehmen“), schon gar nicht in aufgezeichneten Terminen. Wenn Hugo eine Absicherung nicht empfiehlt, dann mit sachlicher Begründung und Dokumentation.
