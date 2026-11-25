@@ -1,6 +1,6 @@
 # Phase 3 – DB-Schema
 
-**Status: 🟡 Datenmodell v1 als VORSCHLAG in `db/migrations/001_init.sql` (2026-11-25), wartet auf Hugos Freigabe.** Tabellen und Auswahlwerte: Abschnitt „Entitäten“ unten. Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` ist ungültig.
+**Status: ✅ Datenmodell v1 FREIGEGEBEN (Hugo, 2026-11-25)** in `db/migrations/001_init.sql`, noch **nicht ausgeführt**. Tabellen und Auswahlwerte: Abschnitt „Entitäten“ unten. Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` ist ungültig.
 Noch **keine** Migration; DAB hat nur den Platzhalter `Verbindungstest`.
 
 ## Konzept v0 (Vorschlag Agent, 2026-11-12, noch nicht freigegeben)
@@ -190,7 +190,7 @@ Mandanten/
 - Idempotent wo möglich (`IF NOT EXISTS`)
 - `db/apply.sh` verweigert Dateien, die noch `-- STATUS: VORSCHLAG` tragen
 
-## Entitäten (Datenmodell v1, Vorschlag 2026-11-25)
+## Entitäten (Datenmodell v1, freigegeben 2026-11-25)
 
 SQL: `db/migrations/001_init.sql`. Getestet am 2026-11-25 auf SQL Server 2022 (Testcontainer): läuft fehlerfrei, zweimal hintereinander ausführbar, Umlaute, Verknüpfungen und Prüfregeln funktionieren.
 
@@ -211,7 +211,7 @@ Allgemein: Schlüssel sind GUIDs (`…Id`). `ErstelltAm`/`GeaendertAm` in UTC, `
 
 Löschen ist für Claude überall aus (DAB `delete-record: false`). Statt Löschen: Status (z. B. `verworfen`, `archiv`, `inaktiv`).
 
-**Annahme, bitte bestätigen:** Mandant = die Einheit mit **einem** OneDrive-Ordner, meist der **Haushalt** (Entscheidung 2). Zweite Person eines Paares steht im Profil. Eine eigene Tabelle `Person` folgt erst, wenn nötig.
+**Entschieden (Hugo, 2026-11-25):** Mandant = die Einheit mit **einem** OneDrive-Ordner, meist der **Haushalt** (Entscheidung 2). Zweite Person eines Paares steht im Profil. Eine eigene Tabelle `Person` folgt erst, wenn nötig.
 
 **Bewusst nicht in v1:** `Transkript` (nur mit Import ohne Claude), `ProfilVersion`, `Dokument`, Telegram-Verlauf (Phase 7). JDC-Exportformat (Entscheidung 4) betrifft nur den Import, nicht die Tabellen.
 

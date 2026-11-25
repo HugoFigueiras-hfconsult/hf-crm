@@ -1,4 +1,4 @@
--- STATUS: VORSCHLAG
+-- STATUS: FREIGEGEBEN (2026-11-25, Hugo)
 -- ZWECK: Erstes Schema für das HF-CRM (Gedächtnis + Verknüpfung für Hugos Beratungs-Agenten).
 --        10 Tabellen: Mandant, Termin, Ziel, Finanzstatus, Vertrag, Aufgabe, Formalie,
 --        Depotstand, DepotPosition, Thema. Fachliche Beschreibung: docs/02-schema.md, Abschnitt "Entitäten".
