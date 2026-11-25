@@ -66,7 +66,8 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | Unterlagen-Eingang | bis zum Konzept-Termin | `docs/09-neumandant.md` |
 | Konzept vorbereiten (Zahlen-Spickzettel, „vor Optimierung“, Vergleichsvorgaben, Rentenlücke) | wenn die Unterlagen da sind | `docs/09-neumandant.md`, „Was der Agent für Konzept und Fragerunde tut“ |
 | Konzept nachbereiten (Stand je Vorschlag, Mail-Entwurf mit PDFs, Fragerunde) | nach dem Konzept-Termin | ebd. + `agent/vorlagen/konzept-mail.md` |
-| Abschluss / Unterschrift | – | **noch nicht besprochen** |
+| Abschluss vorbereiten/nachbereiten (Formalia, Anträge, Police prüfen, Altverträge erst danach kündigen, Bestand) | Unterschriften-Termin | `docs/09-neumandant.md`, „Abschluss“ |
+| Empfehlungen (früh ankündigen, Anlässe im Briefing, Text zum Weiterleiten, Danke) | jeder Termin | `docs/09-neumandant.md`, „Empfehlungen“, `agent/vorlagen/empfehlung-weiterleiten.md` |
 | Update-Termin vorbereiten und nachbereiten | Rhythmus quartals- oder halbjährlich | `docs/08-update-termin.md` |
 | Themen-Radar, fällige Termine, Fristen 90 Tage | wöchentlich | `docs/08-update-termin.md`, `docs/02-schema.md` |
 | Eilfälle (Frist vor dem nächsten Termin) | sofort | Aufgabe mit Fälligkeit, Formalia-Checkliste vorziehen |
@@ -78,6 +79,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 **Kommunikation**
 - Hugos Stil: locker, direkt, per **Du**, ehrlich statt verkäuferisch, Minimalist bei Versicherungen, Denken in kurz/mittel/lang. Details: `docs/09-neumandant.md`, „Hugos Beratungsstil“.
 - **Keine VVO-Verkaufsrhetorik** (Werbekosten-Story, Immobilien-Stories, Empfehlungslisten, Zustimmungsfragen, „Abschluss heute“).
+- **Empfohlene Personen nie ungefragt anrufen oder anschreiben** (§ 7 UWG). Sie melden sich selbst über den weitergeleiteten Text (`agent/fachwissen.md` Abschnitt 8).
 - **VVO-Leitfäden sind verkaufsgetrieben und teils falsch** (Beratungsgespräch Stand 2018): weder Aussagen noch Formulierungen übernehmen. Richtige Sachverhalte, Zahlen 2026, Rechenregeln und Sprachregeln: **`agent/fachwissen.md`**.
 - Mails an Mandanten nur als **Entwurf**. Hugo prüft und verschickt.
 - Folge-Mail nach einem Termin nur, wenn der Mandant noch Infos erwartet.

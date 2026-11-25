@@ -142,3 +142,16 @@ Ton bleibt Hugos Ton: Du, locker, ehrlich, kein Druck (`docs/09-neumandant.md`, 
 | 53 % „Risiko- und Kostenanteil“ | Effektivkosten aus dem Basisinformationsblatt | 6.4 |
 | Vergleich 3 % (alt) gegen 6 % (neu) | gleiche Rendite-Annahme vor Kosten | 6.4 |
 | Statistiken von 2018 | aktuelle Werte, eigene Zahlen des Mandanten | 1 |
+
+---
+
+## 8. Empfehlungen: was rechtlich gilt
+
+| Thema | Regel | Quelle |
+|---|---|---|
+| **Empfohlene Person anrufen** | Werbeanruf bei Verbrauchern nur mit deren **vorheriger ausdrücklicher Einwilligung**. Die Zustimmung des Empfehlungsgebers zählt nicht. Darum: Die empfohlene Person meldet sich selbst oder hat ausdrücklich zugestimmt, dass Hugo anruft | [§ 7 Abs. 2 Nr. 1 UWG](https://www.gesetze-im-internet.de/uwg_2004/__7.html) |
+| **Werbe-Mail an die empfohlene Person** | ebenfalls nur mit vorheriger ausdrücklicher Einwilligung | [§ 7 Abs. 2 Nr. 2 UWG](https://www.gesetze-im-internet.de/uwg_2004/__7.html) |
+| **Dankeschön an Empfehlungsgeber** | Versicherungsvermittler dürfen Versicherungsnehmern keine Sondervergütungen geben (keine Provisionsbeteiligung, keine Rabatte). Geringwertige Geschenke bis **15 € pro Versicherungsverhältnis und Kalenderjahr** sind erlaubt. Im Zweifel mit der VVO-Compliance klären | [§ 48b VAG](https://www.gesetze-im-internet.de/vag_2016/__48b.html) |
+| **Verschwiegenheit** | Dem Empfehlungsgeber nie etwas über die Finanzen oder Verträge der empfohlenen Person erzählen, auch nicht „nur grob“ | gute Praxis, Datenschutz |
+
+Das VVO-Vorgehen „Empfehlungsliste mit 10–15 Namen“ und anschließendes Anrufen widerspricht § 7 UWG, wenn die Genannten nicht selbst eingewilligt haben.

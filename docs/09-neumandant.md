@@ -1,6 +1,6 @@
 # Neue Mandanten: Prozess
 
-Stand 2026-11-25 · Rahmen, **Analyse-Termin** (inkl. Checkliste) und **Konzept-Termin + Fragerunde** besprochen. Offen: Abschluss/Unterschrift und was danach passiert. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
+Stand 2026-11-25 · Rahmen, **Analyse**, **Konzept**, **Fragerunde** und **Abschluss** besprochen, inkl. Empfehlungen. Offen: Rückfragen zum Abschluss (unten), danach Datenmodell final. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
 
 Grundlagen für den Analyse-Teil (2026-11-20): Hugos Beschreibung, der VVO-Leitfaden „Analysegespräch“ (V1, 2024) und **ein** Transkript einer echten Analyse (Fokus Versicherungen, kaum Investment). Beide Dokumente liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Hier stehen nur allgemeine Erkenntnisse, keine Daten der beratenen Person.
 
@@ -183,12 +183,52 @@ Richtige Sachverhalte, Zahlen 2026, Rechenregeln (Rentenlücke, Steuern) und die
 4. Die **Konzept-Mail** wird etwas ausführlicher: Vorlage `agent/vorlagen/konzept-mail.md`. Kurzfassung nur, wenn Hugo den Mandanten schon außerhalb des Termins gebrieft hat.
 5. Die **Rentenlücke** rechnet Hugo bisher in der VVO-Präsentation. **Ziel:** weg von der VVO-Präsentation, hin zu **einem eigenen Artefakt je Mandant** für Analyse und Konzept, das der Agent erstellt (`docs/10-mandanten-artefakt.md`). Gezeigt nur per Bildschirmfreigabe, der Mandant bekommt am Ende die Mail mit den PDFs. Bis dahin liefert der Agent die Zahlen als Spickzettel.
 
-## Abschluss (noch offen)
+## Abschluss (Hugo, 2026-11-25)
 
-Fragen für das nächste Gespräch:
-- Was passiert im Unterschriften-Termin und danach (Anträge über JDC? Policierung, Übergang in Update-Termine, Rhythmus am Anfang)?
-- Wann wird aus dem Interessenten ein Mandant, was passiert bei Absprung?
-- Empfehlungen: Wie fragst du selbst danach (ohne VVO-Liste), und wie bedankst du dich beim Empfehlungsgeber?
+„Beim Abschluss passiert eigentlich nicht viel“:
+1. **Verträge und Formalia durchgehen:** Anträge, Datenschutz-Einwilligung, Maklervollmacht, Beratungsdokumentation, ggf. Geeignetheitserklärung (Checkliste „Formalia“ oben).
+2. **Unterschreiben.**
+3. **Nach Empfehlungen fragen.** Für Hugo „richtig unangenehm“, deshalb spricht er es in Analyse und Konzept kaum an, obwohl seine Akquise zu 100 % von Empfehlungen abhängt. Siehe „Empfehlungen“ unten.
+
+### Was der Agent für den Abschluss tut
+
+**Vorher:**
+1. **Formalia-Checkliste** (`Formalie`): Was fehlt noch, was muss unterschrieben werden? Liste an Hugo.
+2. Je Vorschlag mit Stand „passt“: Antragsunterlagen bereit? Offene Gesundheits- oder Antragsfragen?
+3. **Briefing** für Hugo, inklusive **Empfehlungsanlässe** (unten).
+4. **Artefakt**, Kapitel „Nächste Schritte“: was heute unterschrieben wird, was danach passiert.
+
+**Nachher:**
+1. `Vertrag.Status` Vorschlag → **beantragt**. `Formalie` → unterschrieben, mit Ablage-Link (OneDrive).
+2. **Police abwarten und prüfen:** Stimmt die Police mit dem Vorschlag überein (Beitrag, Leistung, Beginn)? Abweichungen an Hugo. Danach Status **aktiv**.
+3. **Altverträge erst kündigen, wenn der neue Vertrag steht** (bei BU: Police da). Kündigungsaufgabe mit Frist und `VertragId` anlegen, Kündigung macht Hugo.
+4. Mandant auf **Bestand** setzen, `Terminrhythmus` eintragen, ersten Update-Termin vorschlagen.
+5. Empfehlungen festhalten (wer hat den Text weitergeleitet, wer hat sich gemeldet), Dank an Empfehlungsgeber erinnern.
+
+**Absprung:** Status „abgesprungen“ mit Datum und Grund im Profil. Kein Nachfassen ohne Hugos Okay (Regel unten offen).
+
+## Empfehlungen: so, dass es sich nicht unangenehm anfühlt
+
+Leitidee: **Nicht am Ende nach Namen fragen**, sondern es früh ankündigen, an echte Anlässe anknüpfen und dem Mandanten etwas zum Weiterleiten geben. Dann muss Hugo nie „verkaufen“, und rechtlich ist es sauber (`agent/fachwissen.md` Abschnitt 8).
+
+| # | Baustein | Wann | Was der Agent liefert |
+|---|---|---|---|
+| 1 | **Früh ankündigen**, ein Satz | Analyse, bei der Vorstellung (Baustein 2) | Satz im Briefing, z. B. „Ich arbeite fast nur über Empfehlungen, so bist du ja auch zu mir gekommen. Wenn du am Ende zufrieden bist, erzähl gern von mir.“ Später ist die Frage dann nur noch eine Erinnerung |
+| 2 | **Anlässe statt Listen** | jeder Termin | Aus Transkript und Profil: erwähnte Personen mit passendem Thema (Partner, Geschwister, Kollegen, „mein Bruder fängt gerade an zu arbeiten“). Im Briefing mit einem passenden Satz, z. B. „Du hattest deine Schwester erwähnt … wenn sie mag, kann sie sich gern melden.“ |
+| 3 | **Der richtige Moment** | nach positivem Feedback: Ende der Analyse (Hugos Feedback-Frage), nach der Fragerunde, nach der Unterschrift, im Update-Termin nach guten Nachrichten | Markierung im Briefing: „guter Moment für die Empfehlungsfrage“ |
+| 4 | **Zum Weiterleiten** statt Namen nennen | nach dem Abschluss (und wenn ein Anlass da ist) | Kurzer Text, den der Mandant per WhatsApp oder Mail weiterleiten kann, mit Hugos Kontakt (`agent/vorlagen/empfehlung-weiterleiten.md`). Die empfohlene Person meldet sich selbst, Hugo ruft niemanden ungefragt an |
+| 5 | **Danke sagen** | sobald sich jemand meldet | Erinnerung an Hugo. Kleines Dankeschön höchstens 15 €, wenn der Empfehlungsgeber selbst Versicherungskunde ist. **Nie** Details über die Finanzen der empfohlenen Person erzählen |
+| 6 | **Nachhalten** | laufend | Wer hat weitergeleitet, wer hat sich gemeldet. Die empfohlene Person wird **nicht** angerufen oder angeschrieben, solange sie nicht selbst Kontakt aufnimmt oder zugestimmt hat |
+
+Optional (Hugo entscheidet): dezente letzte Folie im Artefakt, z. B. „Zu mir kommt man fast immer über Empfehlungen, so wie du über X.“ Dann sagt das Artefakt den Satz, nicht Hugo.
+
+## Offene Fragen an Hugo (Abschluss, Stand 2026-11-25)
+
+1. **Anträge:** über JDC oder direkt beim Versicherer? Bekommst du die Police (für den Abgleich durch den Agenten)?
+2. **Ab wann „Bestand“:** mit der Unterschrift oder wenn die erste Police da ist? (Vorschlag: Unterschrift → „Abschluss“, erste Police → „Bestand“.)
+3. **Absprung:** Nach wie vielen Wochen ohne Rückmeldung gilt jemand als abgesprungen? Soll der Agent einmal einen freundlichen Nachfass-Entwurf schreiben?
+4. **Erster Update-Termin:** wie lange nach dem Abschluss (z. B. 3 Monate), dann normaler Rhythmus?
+5. **Empfehlungen:** Passen die Bausteine 1–6? Und willst du die dezente letzte Folie im Artefakt?
 
 ## Auswirkungen aufs Datenmodell (Vorschlag, noch nicht entschieden)
 
