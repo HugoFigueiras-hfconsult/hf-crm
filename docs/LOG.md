@@ -153,3 +153,7 @@ Chronologisch, neueste Einträge **unten**. Pro Eintrag: Datum · wer · Aktion/
 - **Hugo**: O10 + O11 zurückgestellt, Risiko vorerst akzeptiert, Erinnerung gewünscht. → **Agent**: einmalige geplante Aufgabe `hf-crm-erinnerung-erstinfo-aufzeichnung` (07.12.2026, 09:00, lokal auf Hugos PC), zusätzlich Wiedervorlage in STATUS + Regel in `CLAUDE.md`, Entscheidung in `00-entscheidungen.md`.
 - **Hugo**: Unterlagen-Mail für die erste echte Analyse von Claude entwerfen lassen (nur im Chat, nicht im Repo). Arbeit vorerst **hybrid**, bis der Agent gebaut ist.
 - **Agent**: Doku für Übergabe an einen neuen Chat: `agent/README.md` (Agent-Handbuch: Zweck, Werkzeuge und Grenzen, Gedächtnis, Eingänge, Abläufe, Regeln, Artefakte, Umsetzungsstand, Hybridphase), `agent/vorlagen/unterlagen-mail.md` (allgemeine Vorlage + Regeln für die Liste), `docs/02-schema.md` (Gesamtübersicht der Tabellen-Kandidaten aus 02/08/09), `HANDOVER.md` (neu, ersetzt `HANDOVER-CLOUD.md`), `CLAUDE.md` (Lesereihenfolge, Abschnitt „Zusammenarbeit mit Hugo“), README, STATUS.
+
+## 2026-11-25
+
+- **Agent** (Cloud-Session): Wiedereinstieg über `HANDOVER.md`, Repo auf `23f406c` aktualisiert. Server-Check ohne Token: `POST https://mcp.hf-consult.de/mcp` → **401** nach 23,5 s (Kaltstart), `/.well-known/oauth-protected-resource` liefert die Discovery korrekt. Der Connector `HF-CRM` ist in dieser Claude-Code-Cloud-Session **nicht** als Werkzeug verfügbar (nur in claude.ai-Chats bzw. dort, wo er aktiviert ist). Keine Änderungen an Azure.
