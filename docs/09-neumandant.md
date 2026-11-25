@@ -1,6 +1,6 @@
 # Neue Mandanten: Prozess
 
-Stand 2026-11-25 · Rahmen, **Analyse**, **Konzept**, **Fragerunde** und **Abschluss** besprochen, inkl. Empfehlungen. Offen: Rückfragen zum Abschluss (unten), danach Datenmodell final. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
+Stand 2026-11-25 · **Prozess komplett besprochen:** Rahmen, Analyse, Konzept, Fragerunde, Abschluss, Empfehlungen. Datenmodell v1 als Vorschlag: `docs/02-schema.md`, `db/migrations/001_init.sql`. Erst danach `db/migrations/001_init.sql` (Hugo: „wenn wir das alles durchgesprochen haben … dann schießen wir los“).
 
 Grundlagen für den Analyse-Teil (2026-11-20): Hugos Beschreibung, der VVO-Leitfaden „Analysegespräch“ (V1, 2024) und **ein** Transkript einer echten Analyse (Fokus Versicherungen, kaum Investment). Beide Dokumente liegen **nicht** im Repo (VVO-intern bzw. personenbezogen). Hier stehen nur allgemeine Erkenntnisse, keine Daten der beratenen Person.
 
@@ -202,10 +202,10 @@ Richtige Sachverhalte, Zahlen 2026, Rechenregeln (Rentenlücke, Steuern) und die
 1. `Vertrag.Status` Vorschlag → **beantragt**. `Formalie` → unterschrieben, mit Ablage-Link (OneDrive).
 2. **Police abwarten und prüfen:** Stimmt die Police mit dem Vorschlag überein (Beitrag, Leistung, Beginn)? Abweichungen an Hugo. Danach Status **aktiv**.
 3. **Altverträge erst kündigen, wenn der neue Vertrag steht** (bei BU: Police da). Kündigungsaufgabe mit Frist und `VertragId` anlegen, Kündigung macht Hugo.
-4. Mandant auf **Bestand** setzen, `Terminrhythmus` eintragen, ersten Update-Termin vorschlagen.
+4. Mandant mit der Unterschrift auf **Abschluss**, mit der ersten Police auf **Bestand** setzen, `Terminrhythmus` eintragen, ersten Update-Termin **3 Monate** nach dem Abschluss vorschlagen.
 5. Empfehlungen festhalten (wer hat den Text weitergeleitet, wer hat sich gemeldet), Dank an Empfehlungsgeber erinnern.
 
-**Absprung:** Status „abgesprungen“ mit Datum und Grund im Profil. Kein Nachfassen ohne Hugos Okay (Regel unten offen).
+**Absprung:** nach 6 Wochen ohne Rückmeldung Erinnerung an Hugo mit Nachfass-Entwurf (Entscheidungen unten). Setzt Hugo „abgesprungen“: Datum in `StatusSeit`, Grund ins Profil.
 
 ## Empfehlungen: so, dass es sich nicht unangenehm anfühlt
 
@@ -222,13 +222,13 @@ Leitidee: **Nicht am Ende nach Namen fragen**, sondern es früh ankündigen, an 
 
 Optional (Hugo entscheidet): dezente letzte Folie im Artefakt, z. B. „Zu mir kommt man fast immer über Empfehlungen, so wie du über X.“ Dann sagt das Artefakt den Satz, nicht Hugo.
 
-## Offene Fragen an Hugo (Abschluss, Stand 2026-11-25)
+## Entscheidungen zum Abschluss (Hugo, 2026-11-25)
 
-1. **Anträge:** über JDC oder direkt beim Versicherer? Bekommst du die Police (für den Abgleich durch den Agenten)?
-2. **Ab wann „Bestand“:** mit der Unterschrift oder wenn die erste Police da ist? (Vorschlag: Unterschrift → „Abschluss“, erste Police → „Bestand“.)
-3. **Absprung:** Nach wie vielen Wochen ohne Rückmeldung gilt jemand als abgesprungen? Soll der Agent einmal einen freundlichen Nachfass-Entwurf schreiben?
-4. **Erster Update-Termin:** wie lange nach dem Abschluss (z. B. 3 Monate), dann normaler Rhythmus?
-5. **Empfehlungen:** Passen die Bausteine 1–6? Und willst du die dezente letzte Folie im Artefakt?
+1. **Anträge** laufen über **JDC**. Der Agent gleicht die Police ab, sobald sie dort vorliegt (Lesen über JDC iCRM, `agent/portale/jdc-nafi-kfz.md`; ob Policen dort als Dokument liegen, beim ersten Fall prüfen).
+2. **Status:** Unterschrift → „Abschluss“, erste Police → „Bestand“.
+3. **Absprung:** 6 Wochen ohne Rückmeldung (gezählt ab `StatusSeit` bzw. letztem Kontakt). Dann erinnert der Agent Hugo und bietet einen freundlichen Nachfass-Entwurf an. Hugo entscheidet, ob er ihn schickt oder den Mandanten auf „abgesprungen“ setzt.
+4. **Erster Update-Termin** 3 Monate nach dem Abschluss, danach der vereinbarte Rhythmus.
+5. **Empfehlungen:** Die sechs Bausteine passen (Hugo: „sehr gut“). Offen ist nur noch, ob das Artefakt eine dezente letzte Folie dazu bekommt.
 
 ## Auswirkungen aufs Datenmodell (Vorschlag, noch nicht entschieden)
 

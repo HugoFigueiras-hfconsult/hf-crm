@@ -1,6 +1,6 @@
 # Phase 3 – DB-Schema
 
-**Status: 🟡 Konzept v0.1 in Diskussion (Stand 2026-11-22, Gesamtübersicht der Tabellen unten).** Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` (Abschnitt 7, Phase 3) ist laut Hugo **ungültig** und wird nicht verwendet.
+**Status: 🟡 Datenmodell v1 als VORSCHLAG in `db/migrations/001_init.sql` (2026-11-25), wartet auf Hugos Freigabe.** Tabellen und Auswahlwerte: Abschnitt „Entitäten“ unten. Der Tabellenentwurf aus `docs/HANDOVER-2026-11-11.md` ist ungültig.
 Noch **keine** Migration; DAB hat nur den Platzhalter `Verbindungstest`.
 
 ## Konzept v0 (Vorschlag Agent, 2026-11-12, noch nicht freigegeben)
@@ -190,8 +190,29 @@ Mandanten/
 - Idempotent wo möglich (`IF NOT EXISTS`)
 - `db/apply.sh` verweigert Dateien, die noch `-- STATUS: VORSCHLAG` tragen
 
-## Entitäten (wird beim Entwurf gefüllt)
+## Entitäten (Datenmodell v1, Vorschlag 2026-11-25)
 
-| Tabelle | Zweck | Felder (Typ) | An Claude | An Copilot |
-|---|---|---|---|---|
-| _offen_ | | | | |
+SQL: `db/migrations/001_init.sql`. Getestet am 2026-11-25 auf SQL Server 2022 (Testcontainer): läuft fehlerfrei, zweimal hintereinander ausführbar, Umlaute, Verknüpfungen und Prüfregeln funktionieren.
+
+Allgemein: Schlüssel sind GUIDs (`…Id`). `ErstelltAm`/`GeaendertAm` in UTC, `GeaendertAm` setzt der Agent. Geld in EUR, Finanzstatus-Beträge pro Monat. **Auswahlwerte ohne Umlaute** (z. B. `uebergeben`), weil sie per Prüfregel fest vorgegeben sind. Zeitangaben im Format `JJJJ-MM-TTThh:mm:ss`.
+
+| Tabelle | Zweck | Wichtige Felder | Auswahlwerte | An Claude | An Copilot |
+|---|---|---|---|---|---|
+| `Mandant` | wer, wo liegt was, Gedächtnis | `Anzeigename`, `Art`, `Status` + `StatusSeit`, `EMail`, `Geburtsjahr`, `Schwerpunkt`, `Risikoprofil` (+ Am, Quelle), `EmpfohlenVonMandantId` / `EmpfohlenVonText`, `Quelle`, `Erstkontakt` (Hint), `OneDriveOrdnerId`/`-Pfad`, `JdcKundennummer`, `VvoKundennummer`, **`Profil`** (Markdown), `ProfilStand`, `Terminrhythmus`, `ArtefaktUrl` | Art: Person, Haushalt, Firma · Status: Interessent → Analyse → Konzept → Fragerunde → Abschluss → Bestand, abgesprungen, inaktiv · Schwerpunkt: Versicherung, Investment, beides · Risikoprofil 1–10 · Rhythmus: Quartal, Halbjahr, Jahr | lesen, anlegen, ändern | später, lesen |
+| `Termin` | jeder Kontakt mit Vor- und Nachbereitung | `MandantId`, `Beginn` (deutsche Ortszeit), `Art`, `Ort`, `Status`, `OutlookEventId`, `Vorbereitung`, `Zusammenfassung`, `Ergebnisse`, `TranskriptLink`, `WhiteboardLink` | Art: Telefonat, Analyse, Konzept, Fragerunde, Unterschrift, Update, Beratung · Ort: online, Buero, Telefon · Status: geplant, vorbereitet, durchgefuehrt, nachbereitet, abgesagt | lesen, anlegen, ändern | später, lesen |
+| `Ziel` | drei Töpfe | `MandantId`, `Topf`, `Beschreibung`, `Betrag`, `Jahr` (Zieljahr, aus Alter über `Geburtsjahr`), `Status`, `Notiz` | Topf: kurz, mittel, lang · Status: offen, erreicht, verworfen | lesen, anlegen, ändern | später, lesen |
+| `Finanzstatus` | Einkommen, Drittel-Regel, Sparraten, Rentenlücke je Stichtag | `Stichtag`, `Brutto`, `Steuer`, `AbgabenAV`/`KVPV`/`RV`, `NettoVon`/`Bis`, `Nebeneinkommen`, `Wohnkosten`, `Lebenshaltung`, `Verbindlichkeiten`, `Ruecklage`, `SparrateKurz`/`Mittel`/`Lang`, `RenteLautInfo`, `RenteninfoStand`, `Rentenbeginn` (Jahr), `BedarfImAlter`, `Rentenluecke`, `Annahmen` | – | lesen, anlegen, ändern | später, lesen |
+| `Vertrag` | bestehende Verträge (eigene + fremde) **und** Vorschläge, Fristen, Konditionen | `MandantId`, `Bereich`, `Topf`, `Sparte`, `Gesellschaft`, `Tarif`, `Vertragsnummer`, `Beginn`, `Ablauf`, `KuendigungBis`, `Beitrag`, `Zahlweise`, `KonditionenKurz`, `Status`, `Betreuung`, `Hinweis`, `Quelle`, `QuelleLink`, `StandVom`, `ErsetztVertragId`, `Variante`, `TerminId`, `VergleichLink` | Bereich: Gesundheit, Basisrisiken, Einkommen, Wohnen, Kapital · Status: aktiv, pausiert, gekuendigt, Vorschlag, beantragt, abgelehnt · Betreuung: Hugo, fremd · Quelle: Analyse, Dokument, JDC, Vergleich · Variante: guenstig, Preis-Leistung, Top · Zahlweise: monatlich … einmalig | lesen, anlegen, ändern | später, lesen |
+| `Aufgabe` | Fristen, Wiedervorlagen, To-dos, Unterlagen, Fragen, Kündigungen, Empfehlungen | `MandantId` (optional), `Titel`, `Beschreibung`, `FaelligAm`, `Art`, `Zustaendig`, `VertragId`, `TerminId`, `Status`, `ErledigtAm` | Art: Frist, Wiedervorlage, To-do, Unterlage, Frage, Kuendigung, Empfehlung · Zuständig: Hugo, Mandant, Agent · Status: offen, erledigt, verworfen | lesen, anlegen, ändern | später, lesen |
+| `Formalie` | Checkliste vor Unterschriften | `MandantId`, `Art`, `VertragId` (optional), `Status`, `Datum`, `AblageLink` | Art: Erstinformation, Datenschutz, Maklervollmacht, Geeignetheit, Beratungsdokumentation, Aufzeichnung · Status: offen, uebergeben, unterschrieben | lesen, anlegen, ändern | nein |
+| `Depotstand` | FNZ-Depot je Stichtag | `MandantId`, `Stichtag`, `Depotnummer`, `Gesamtwert`, `Einzahlungen`, `QuelleLink` | – | lesen, anlegen, ändern | später, lesen |
+| `DepotPosition` | Positionen eines Depotstands | `DepotstandId`, `Bezeichnung`, `ISIN`, `Anteile`, `Wert`, `Anteil` (%) | – | lesen, anlegen, ändern | später, lesen |
+| `Thema` | zentrales Themen-Radar | `Kategorie`, `Titel`, `Kurzfassung`, `GiltAb`, `Zeitraum`, `BetrifftWen`, `QuelleLink`, `Status` | Kategorie: Markt, Vorsorge, Versicherung, Steuer · Status: aktuell, archiv | lesen, anlegen, ändern | später, lesen |
+
+Löschen ist für Claude überall aus (DAB `delete-record: false`). Statt Löschen: Status (z. B. `verworfen`, `archiv`, `inaktiv`).
+
+**Annahme, bitte bestätigen:** Mandant = die Einheit mit **einem** OneDrive-Ordner, meist der **Haushalt** (Entscheidung 2). Zweite Person eines Paares steht im Profil. Eine eigene Tabelle `Person` folgt erst, wenn nötig.
+
+**Bewusst nicht in v1:** `Transkript` (nur mit Import ohne Claude), `ProfilVersion`, `Dokument`, Telegram-Verlauf (Phase 7). JDC-Exportformat (Entscheidung 4) betrifft nur den Import, nicht die Tabellen.
+
+**Nach der Freigabe:** SQL ausführen (`docs/BETRIEB.md` Abschnitt 3, am einfachsten Weg A im Portal), dann DAB-Entities mit Feldbeschreibungen in `dab/dab-config.json`, Platzhalter `Verbindungstest` entfernen, Image bauen und ausrollen, über den Connector testen (Abschnitt 2, 4, 6).

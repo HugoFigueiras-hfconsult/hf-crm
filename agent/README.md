@@ -105,7 +105,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 |---|---|
 | Infrastruktur (Azure SQL, MCP-Server, Login, Domain) | ✅ läuft |
 | Connector HF-CRM | ✅ verbunden, liest nur den Platzhalter |
-| Datenbank-Schema | ⬜ Konzept steht, SQL fehlt (nach dem Gespräch zum Konzept-Termin) |
+| Datenbank-Schema | 🟡 v1 als Vorschlag (`db/migrations/001_init.sql`, getestet), wartet auf Hugos Freigabe |
 | DAB-Entities | ⬜ nach dem Schema |
 | Routinen (Vor-/Nachbereitung, wöchentlich) | ⬜ |
 | Artefakt-Vorlagen | ⬜ |
