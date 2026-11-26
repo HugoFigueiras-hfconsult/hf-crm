@@ -59,6 +59,7 @@ hf-crm/
 │  ├─ migrations/            # Schema, nummeriert (leer, Schema offen)
 │  └─ setup/                 # DB-User/Rechte (kein Schema)
 ├─ agent/                    # Agent-Handbuch (README.md) + Vorlagen (vorlagen/) + Portal-Anleitungen (portale/), keine Mandantendaten
+├─ .claude/skills/           # Skills für den Agenten (kfz-vergleich)
 ├─ dab/                      # dab-config.json, Caddyfile, start.sh, Dockerfile (DAB + Türsteher)
 ├─ dashboard/                # HTML des Claude-Artefakts (Phase 8)
 └─ .github/workflows/        # Image-Build nach ghcr.io

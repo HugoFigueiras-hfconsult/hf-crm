@@ -65,7 +65,7 @@ Bis 25.11. galten zwei Artefakte (Mandantenansicht + Berater-Ansicht). Jetzt: **
 
 ## „Bessere Konditionen“
 
-Der Agent kann die meisten Vergleichsrechner (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner) nicht bedienen. Ausnahme seit 2026-11-25: **NAFI-KFZ** über Claude in Chrome (`agent/portale/jdc-nafi-kfz.md`). Sonst **markiert er Kandidaten** (alter Tarif, starke Beitragserhöhung, Ablauf/Kündigungsfrist naht, Lebensereignis verändert Bedarf) und Hugo rechnet gezielt nur diese.
+Der Agent kann die meisten Vergleichsrechner (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner) nicht bedienen. Ausnahme seit 2026-11-25: **NAFI-KFZ** über Claude in Chrome (Skill `.claude/skills/kfz-vergleich/SKILL.md`). Sonst **markiert er Kandidaten** (alter Tarif, starke Beitragserhöhung, Ablauf/Kündigungsfrist naht, Lebensereignis verändert Bedarf) und Hugo rechnet gezielt nur diese.
 
 ## Was der Agent wann tut
 

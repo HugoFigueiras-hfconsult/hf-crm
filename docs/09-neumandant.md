@@ -103,7 +103,7 @@ Noch unbeantwortet: Soll der Agent die Beratungsdokumentation aus dem Transkript
 
 **Zwischen Analyse und Konzept** (Unterlagen kommen per Mail):
 - Unterlagen im Mandantenordner ablegen, Vertragsdaten (Beitrag, Fristen, Konditionen) übernehmen, angeforderte Unterlagen als erledigt markieren, fehlende nachhaken.
-- Vergleichskandidaten für Hugo auflisten. Rechnen tut Hugo, Ausnahme **Kfz**: den NAFI-KFZ-Rechner bedient der Agent selbst (`agent/portale/jdc-nafi-kfz.md`), Antrag und Kündigung bleiben bei Hugo.
+- Vergleichskandidaten für Hugo auflisten. Rechnen tut Hugo, Ausnahme **Kfz**: den NAFI-KFZ-Rechner bedient der Agent selbst (Skill `.claude/skills/kfz-vergleich/SKILL.md`), Antrag und Kündigung bleiben bei Hugo.
 
 Wichtig: Gesundheitsangaben aus dem Gespräch nur als **Konsequenz** ins Profil (nur die Handlungsfolge für den Vertrag), keine Diagnosen. Das gilt unabhängig von der ausgesetzten AVV-Regel, als gute Praxis.
 
@@ -224,7 +224,7 @@ Optional (Hugo entscheidet): dezente letzte Folie im Artefakt, z. B. „Zu mir k
 
 ## Entscheidungen zum Abschluss (Hugo, 2026-11-25)
 
-1. **Anträge** laufen über **JDC**. Der Agent gleicht die Police ab, sobald sie dort vorliegt (Lesen über JDC iCRM, `agent/portale/jdc-nafi-kfz.md`; ob Policen dort als Dokument liegen, beim ersten Fall prüfen).
+1. **Anträge** laufen über **JDC**. Der Agent gleicht die Police ab, sobald sie dort vorliegt (Lesen über JDC iCRM, Skill `.claude/skills/kfz-vergleich/SKILL.md`; ob Policen dort als Dokument liegen, beim ersten Fall prüfen).
 2. **Status:** Unterschrift → „Abschluss“, erste Police → „Bestand“.
 3. **Absprung:** 6 Wochen ohne Rückmeldung (gezählt ab `StatusSeit` bzw. letztem Kontakt). Dann erinnert der Agent Hugo und bietet einen freundlichen Nachfass-Entwurf an. Hugo entscheidet, ob er ihn schickt oder den Mandanten auf „abgesprungen“ setzt.
 4. **Erster Update-Termin** 3 Monate nach dem Abschluss, danach der vereinbarte Rhythmus.

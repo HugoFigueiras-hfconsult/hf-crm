@@ -22,7 +22,7 @@ Kein klassisches CRM, sondern eine Datenbank, die verknüpft und sich merkt.
 | Connector **Microsoft 365** | OneDrive/SharePoint: lesen, suchen, Ordner anlegen, verschieben, umbenennen, hochladen. Outlook: Kalender, Mail-**Entwürfe**. Teams | in claude.ai verbunden. ✅ 2026-11-25 mit echten Daten genutzt (Mails/Anhänge lesen, Ordner anlegen). Upload nur bis 1 MB |
 | Websuche | Themen-Radar (Markt, Gesetzesänderungen) | verfügbar |
 | Artefakte (claude.ai) | **ein** dauerhaftes Artefakt je Mandant, Hugo präsentiert es per Bildschirmfreigabe, ersetzt die VVO-Präsentation | Konzept (`docs/10-mandanten-artefakt.md`), Vorlage v1 mit Testdaten: `dashboard/mandant-vorlage.html` (Hugo prüft) |
-| **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen), **NAFI-KFZ-Rechner** und **Morgen & Morgen** (BU) bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitungen: `agent/portale/jdc-nafi-kfz.md`, `agent/portale/jdc-mm-bu.md` | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich, BU-Vergleich mit PDF) |
+| **Claude in Chrome** (Browser-Erweiterung in Hugos Edge) | JDC iCRM (Interessenten anlegen), **NAFI-KFZ-Rechner** und **Morgen & Morgen** (BU) bedienen, wenn Hugo angemeldet ist und den Tab in die Tab-Gruppe des Agenten zieht. Anleitungen: Skill `.claude/skills/kfz-vergleich/SKILL.md` (Kfz), `agent/portale/jdc-mm-bu.md` (BU) | ✅ erprobt 2026-11-25 (Kfz-Wechselvergleich, BU-Vergleich mit PDF) |
 
 **Nicht erreichbar:** JDC per API (keine Schnittstelle), FNZ-Depots (Screenshots von Kai Stettner über Hugo), Vergleichsrechner außer NAFI-KFZ (Morgen & Morgen, Franke und Bornberg, übrige JDC-Rechner noch nicht erprobt), die **VVO-Präsentation** im Konzept-Termin (der Agent liefert Hugo die Zahlen, Hugo trägt sie ein). Dort **markiert der Agent Kandidaten**, Hugo rechnet. **Über den Browser erreichbar** (seit 2026-11-25): JDC iCRM und NAFI-KFZ, siehe Claude in Chrome oben. Login, Antrag, eVB und Kündigung bleiben bei Hugo.
 
@@ -72,7 +72,7 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | Themen-Radar, fällige Termine, Fristen 90 Tage | wöchentlich | `docs/08-update-termin.md`, `docs/02-schema.md` |
 | Eilfälle (Frist vor dem nächsten Termin) | sofort | Aufgabe mit Fälligkeit, Formalia-Checkliste vorziehen |
 | Formalia prüfen | sobald eine Unterschrift ansteht | `docs/09-neumandant.md`, „Formalia“ |
-| **Kfz-Vergleich** (Interessent in JDC anlegen, NAFI rechnen, Vergleich speichern, Ergebnis für Hugo aufbereiten) | Unterlagen da, Frist 30.11. bzw. Beitragserhöhung | `agent/portale/jdc-nafi-kfz.md` |
+| **Kfz-Vergleich** (Interessent in JDC anlegen, NAFI rechnen, Vergleich speichern, Ergebnis für Hugo aufbereiten) | Unterlagen da, Frist 30.11. bzw. Beitragserhöhung | Skill `.claude/skills/kfz-vergleich/SKILL.md` |
 | **BU-Vergleich / Gegenangebot prüfen** (M&M rechnen mit gleicher Rente und gleichem Endalter, PDF, Prüfung in den Mandantenordner) | Konzept oder Gegenangebot eines Mitbewerbers | `agent/portale/jdc-mm-bu.md` |
 
 ## 6. Regeln für den Agenten
@@ -114,7 +114,8 @@ Tabellen-Kandidaten gesamt: `docs/02-schema.md`, Abschnitt „Gesamtübersicht�
 | OneDrive-Struktur `Mandanten/` | 🟡 Hugo nutzt `Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/` mit `Unterlagen Analyse/` und `Unterlagen Konzept/` (seit 2026-11-25, Altbestand wird per Copilot-Agent umsortiert). Abgleich mit Vorschlag in `docs/02-schema.md` offen |
 | Whiteboard auslesen | ⬜ ungetestet (.whiteboard-Datei kann der M365-Connector nicht lesen, Export als Bild nötig) |
 | M365-Connector mit echten Daten | ✅ 2026-11-25: Mails + Anhänge (PDF, Bild) lesen, OneDrive-Ordner anlegen. Upload nur bis 1 MB |
-| JDC iCRM + NAFI-KFZ per Claude in Chrome | ✅ 2026-11-25 erprobt (`agent/portale/jdc-nafi-kfz.md`) |
+| JDC iCRM + NAFI-KFZ per Claude in Chrome | ✅ 2026-11-25/26 erprobt, als Skill `.claude/skills/kfz-vergleich/SKILL.md` |
+| Skills für den Agenten | ✅ erster Skill `kfz-vergleich` (2026-11-26). Liegen in `.claude/skills/<name>/SKILL.md`: Claude Code lädt sie im Repo automatisch, für claude.ai den Ordner als ZIP hochladen |
 | Morgen & Morgen (BU) per Claude in Chrome, PDF-Download | ✅ 2026-11-25 erprobt (`agent/portale/jdc-mm-bu.md`) |
 
 ## 9. Hybridphase (bis der Agent steht)

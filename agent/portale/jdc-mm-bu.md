@@ -4,7 +4,7 @@ Stand 2026-11-25 · am ersten echten Fall erprobt (Gegenangebot eines anderen Be
 
 ## 1. Voraussetzungen und Grenzen
 
-- Werkzeug: **Claude in Chrome** in Hugos Edge, Tab-Gruppe mit JDC iCRM. Login macht Hugo (wie `jdc-nafi-kfz.md` Abschnitt 1).
+- Werkzeug: **Claude in Chrome** in Hugos Edge, Tab-Gruppe mit JDC iCRM. Login macht Hugo (wie im Skill kfz-vergleich, Abschnitt 1).
 - Der Mandant ist in JDC angelegt. M&M übernimmt Name und Geburtsdatum aus JDC.
 - **Kein Antrag** aus M&M heraus („Jetzt beantragen“) ohne Hugos ausdrückliches Ja.
 - Gesundheitsangaben gehören nicht in den Rechner. Die Gesundheitsprüfung macht der Versicherer, bei Unklarheiten erst eine anonyme Risikovoranfrage.
