@@ -109,7 +109,7 @@ Erfahrung: Bei Motorrädern mit hoher SF-Klasse liegen die günstigen Tarife oft
 
 - Bis zu **3 Tarife** links über die Kästchen markieren (mehr lässt NAFI nicht zu), dann oben **PDF erstellen** → **„Nur ausgewählte Tarife“**. NAFI rechnet die Kaskovarianten (ca. 15 s) und lädt die Datei **direkt in Hugos Downloads** (`Angebot Kfz <Kennzeichen>.pdf`), es öffnet sich kein Tab. Ergebnis: Detailvergleich der 3 Tarife (ca. 10 Seiten).
 - „Alle Tarife berücksichtigen“ (oder ein Klick ohne Auswahl) liefert eine Marktübersicht aller angezeigten Tarife (ca. 6 Seiten).
-- Datei danach sprechend umbenennen, z. B. `Kfz-Vergleich <Vorname Nachname> <Jahr> - Top 3 ohne Werkstattbindung.pdf`. Der WGV-/Direktversicherer-Beitrag steht nicht im PDF, ihn in der Mail nennen.
+- Datei danach sprechend umbenennen und in `Unterlagen Konzept` hochladen (Abschnitt 10), z. B. `Kfz-Vergleich <Vorname Nachname> <Jahr> - Top 3 ohne Werkstattbindung.pdf`. Der WGV-/Direktversicherer-Beitrag steht nicht im PDF, ihn in der Mail nennen.
 - Inhalt prüfen ohne PDF-Bibliothek: Textströme mit Python `zlib` entpacken und nach `Tj`/`TJ` suchen (reicht für Tarifnamen und Beiträge).
 
 ## 9. Für Hugo aufbereiten
@@ -125,5 +125,13 @@ Erfahrung: Bei Motorrädern mit hoher SF-Klasse liegen die günstigen Tarife oft
 ## 10. Ablage
 
 - Ergebnis und Annahmen ins **Profil des Mandanten** im OneDrive (`Dokumente/VVO Finance/Mandanten/<Vorname Nachname>/Profil <Vorname Nachname>.md`), Abschnitt „Was erklärt wurde“ und „Offene Aufgaben“.
-- Dateien über 1 MB zieht Hugo selbst in den Ordner (Connector-Grenze).
+- PDFs aus Hugos Downloads in den Mandantenordner bringen: Weg unten. Der Connector lädt nur Text gut hoch (Binärdateien nur als Base64, fehleranfällig).
+
+**Lokale Dateien (z. B. PDFs aus Hugos Downloads) nach OneDrive hochladen**, ohne Base64 und ohne Größengrenze des Connectors (erprobt 26.11.2026):
+1. Datei in den Arbeitsordner der Session kopieren (das Upload-Werkzeug darf nur dort lesen).
+2. Zielordner in OneDrive im Browser öffnen: `https://hfconsult-my.sharepoint.com/my?id=` + URL-kodierter Pfad `/personal/hugo_figueiras_hf-consult_de/Documents/Dokumente/VVO Finance/Mandanten/<Name>/Unterlagen Konzept`.
+3. Per `javascript_tool` ein eigenes `<input type="file" multiple>` mit `aria-label` in die Seite einfügen, per `find` die `ref` holen, `file_upload` mit den Pfaden.
+4. Per `javascript_tool` die Dateien aus dem Feld in ein `DataTransfer` legen und `dragenter`, `dragover`, `drop` auf `[role=main]` auslösen. OneDrive lädt sie wie beim Hineinziehen hoch („2 Elemente … hochgeladen“).
+5. Nicht auf „Dateien hochladen“ klicken (öffnet den Windows-Dialog). Danach Kopien im Arbeitsordner löschen, Tab schließen. Hugo sagen, dass der Upload per Skript in der Seite lief.
+
 - Neue Portal-Erkenntnisse in **diese Datei**, Verlauf in `docs/LOG.md` (ohne Mandantendaten).
