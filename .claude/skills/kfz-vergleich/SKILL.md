@@ -5,7 +5,7 @@ description: Kfz-Versicherung (Pkw, Motorrad, Anhänger) für einen Mandanten vo
 
 # Kfz-Vergleich über JDC und NAFI
 
-Stand 2026-11-26 · erprobt an echten Fällen (Pkw und Motorrad, Wechsel zum 01.01., Nachberechnung mit nachgelieferten Angaben). Diese Datei ist die **einzige** Anleitung dafür. Neue Erkenntnisse hier eintragen, ohne Mandantendaten.
+Stand 2026-11-26 · erprobt an echten Fällen (Pkw und Motorrad, Wechsel zum 01.01., Nachberechnung mit nachgelieferten Angaben, Varianten, PDF für den Mandanten). Diese Datei ist die **einzige** Anleitung dafür. Neue Erkenntnisse hier eintragen, ohne Mandantendaten.
 
 ## 1. Rahmen
 
@@ -105,6 +105,13 @@ Erfahrung: Bei Motorrädern mit hoher SF-Klasse liegen die günstigen Tarife oft
 - **Varianten** (z. B. 1:1 mit den Merkmalen des Altvertrags, um nur den Preis zu vergleichen) als eigenen Vergleich speichern und kennzeichnen: `NUR VERGLEICHSRECHNUNG ... NICHT fuer Antrag verwenden`. Ein Antrag braucht immer die **tatsächlichen** Angaben.
 - Erfahrung: Der Abstellort (Garage oder Carport) verändert die Beiträge vieler Tarife kaum, Fahrerkreis und Werkstattbindung deutlich.
 
+### PDF für den Mandanten (nur auf Hugos Wunsch)
+
+- Bis zu **3 Tarife** links über die Kästchen markieren (mehr lässt NAFI nicht zu), dann oben **PDF erstellen** → **„Nur ausgewählte Tarife“**. NAFI rechnet die Kaskovarianten (ca. 15 s) und lädt die Datei **direkt in Hugos Downloads** (`Angebot Kfz <Kennzeichen>.pdf`), es öffnet sich kein Tab. Ergebnis: Detailvergleich der 3 Tarife (ca. 10 Seiten).
+- „Alle Tarife berücksichtigen“ (oder ein Klick ohne Auswahl) liefert eine Marktübersicht aller angezeigten Tarife (ca. 6 Seiten).
+- Datei danach sprechend umbenennen, z. B. `Kfz-Vergleich <Vorname Nachname> <Jahr> - Top 3 ohne Werkstattbindung.pdf`. Der WGV-/Direktversicherer-Beitrag steht nicht im PDF, ihn in der Mail nennen.
+- Inhalt prüfen ohne PDF-Bibliothek: Textströme mit Python `zlib` entpacken und nach `Tj`/`TJ` suchen (reicht für Tarifnamen und Beiträge).
+
 ## 9. Für Hugo aufbereiten
 
 1. **Bestand fair machen:** Beitrag Altvertrag fürs neue Jahr, überflüssige Bausteine herausrechnen (Kfz-Unfall ist neben Fahrerschutz, privater Unfallversicherung und BU fast immer überflüssig). Weichen Merkmale vom Altvertrag ab, sagen, dass der Altbeitrag nach der Meldung noch steigt oder sinkt.
@@ -113,7 +120,7 @@ Erfahrung: Bei Motorrädern mit hoher SF-Klasse liegen die günstigen Tarife oft
 4. **Rabatte beim Altversicherer** prüfen (z. B. WGV-Mehrvertragsbonus auf Pkw-KH/-Kasko).
 5. **Fristen:** Kündigung muss am **30.11.** beim Versicherer **eingegangen** sein (AKB G.2.1). Der **JDC-Kündigungsservice** braucht früher (Hinweis auf dem JDC-Dashboard, 2026: 27.11., 14:00). Beitragserhöhung: Sonderkündigung 1 Monat ab Zugang (§ 40 VVG). Regel: **erst neuer Vertrag, dann kündigen**.
 6. **Nebenbefunde:** überfällige HU (Bußgeld und erweiterte HU, siehe `agent/fachwissen.md` 9.4 im Repo hf-crm), Anhänger (§ 19 StVG), beförderte Tiere (AKB A.1.5.5), Meldepflicht bei geänderten Merkmalen.
-7. Rückfragen an den Mandanten nur als **Outlook-Entwurf**, Du-Form, eine Mail mit allem, mit Frist.
+7. Rückfragen und Ergebnis an den Mandanten nur als **Outlook-Entwurf** (Antwort im bestehenden Verlauf), Du-Form, eine Mail mit allem, mit Frist. Der Connector kann keine Anhänge anfügen: Hugo hängt die PDFs selbst an. Zitiert der Entwurf eine Mail mit Fotos (z. B. Führerschein), Hugo darauf hinweisen, die Bilder vor dem Senden zu entfernen.
 
 ## 10. Ablage
 
