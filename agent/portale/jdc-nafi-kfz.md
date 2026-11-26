@@ -1,6 +1,6 @@
 # Portal-Anleitung: JDC iCRM + NAFI-KFZ (Kfz-Vergleich)
 
-Stand 2026-11-25 · **Am ersten echten Fall erprobt** (Pkw, Tarifwechsel zum 01.01.) · Keine Mandantendaten in dieser Datei.
+Stand 2026-11-26 · **Am ersten echten Fall erprobt** (Pkw, Tarifwechsel zum 01.01., Nachberechnung mit nachgelieferten Angaben) · Keine Mandantendaten in dieser Datei.
 
 Wie der Agent im JDC-Maklerportal einen Interessenten anlegt und im Kfz-Vergleichsrechner (NAFI) einen Wechselvergleich rechnet. Gilt für Claude in Chrome (Browser-Erweiterung in Hugos Edge).
 
@@ -32,6 +32,7 @@ Aus dem **Fahrzeugschein** (Teil I): HSN (Feld 2.1), TSN (Feld 2.2, erste 3 Zeic
 | Kilometerstand | Pflichtfeld | aus letztem Stand + Fahrleistung hochrechnen |
 | Finanzierung, Garage abschließbar | Pflichtfelder | plausible Annahme, markieren |
 | ADAC-Mitglied? | Schutzbrief doppelt? | nachfragen |
+| Abstellort und Fahrleistung **heute** (nicht laut Altvertrag) | Weicht es ab, muss der Mandant es dem Altversicherer melden (AKB K.4), der Altbeitrag steigt oder sinkt dann | nachfragen, Abweichung Hugo melden |
 
 ## 3. JDC iCRM: Interessent anlegen
 
@@ -62,6 +63,14 @@ Linke Leiste: Start → Fahrzeug → Merkmale → Versicherungsnehmer → Fahrer
 | **SF** | Vorversicherer, dort seit, gekündigt, Wechsel in 3 Jahren, weitere Fahrzeuge, SF-Klasse **manuell zum Vertragsbeginn**, Sondereinstufung, Schäden | SF-Auswahl ist ein Suchfeld: anklicken, „SF 10“ tippen, Enter |
 | **Anforderungen** | Vorbelegt: Wildschaden mind. Nutztiere, Fahrerschutz Ja, grobe Fahrlässigkeit. Für einen fairen Vergleich die Bausteine des Altvertrags auf „Ja“ (z. B. Schutzbrief, Auslandsschadenschutz). Kfz-Unfall „nicht wichtig“ | Auswahlfelder: anklicken, **Escape**, dann **Pfeil runter**. Ein Mausklick auf die Option greift nicht |
 | **Ergebnis** | Reiter „Alle Anforderungen erfüllt“ / „Alle Tarife“ / „ohne Prämien“. **Tarif-Details**: Gesamt, KH, Kasko, Kosten je Tarif. Symbole: Schraubenschlüssel = Werkstattbindung, ⚠ = Hinweis anklicken | – |
+
+**Vergleich nachträglich ändern** (wenn der Mandant Angaben nachliefert): Die NAFI-Sitzung läuft nach 16 h ab („Sitzungskennung ungültig“). Dann aus JDC neu öffnen (Kundenliste → Taschenrechner-Symbol in der Zeile → KFZ-Rechner). In NAFI Startseite → „Belegübersicht zum aktuellen Kunden“ → Vergleiche → Zeile anklicken → **Vergleich laden**. Alle Eingaben sind wieder da, links direkt zum Schritt springen, ändern, dann „Ergebnis“. Neu speichern legt einen weiteren Vergleich an, der alte bleibt.
+
+**Stolpersteine beim Fahrerkreis:** Bei „beliebig mit Altersgrenzen“ steht „Alle Fahrer sind Familienangehörige in häuslicher Gemeinschaft“ auf **Ja** vorbelegt. Fahren Partner oder Geschwister mit, die nicht im Haushalt leben: auf **Nein**. „Kürzester Führerscheinbesitz“ ist Pflicht, unbekannt → Annahme eintragen und markieren. Ein Führerscheindatum mit 17 setzt „begleitetes Fahren“ automatisch auf Ja.
+
+**Vorschäden** (Schritt SF): „Schaden hinzufügen“ → Jahr tippen, Sparte (Auswahlfeld: Escape, Pfeil runter: Haftpflicht, Vollkasko, Teilkasko). Teilkasko-Schäden (z. B. Glas) kosten keine SF-Klasse, werden aber abgefragt.
+
+**Ergebnis lesen:** Filter „Werkstattwahl“ links (freie Werkstattwahl / Werkstattbindung). Reiter „Alle Tarife“ zeigt auch Tarife unter 100 %. Klick auf die Prozent-Plakette zeigt, welche Anforderung fehlt (oft nur Auslandsschadenschutz, dann als günstigere Option nennen).
 
 **Vergleich speichern** (Ergebnisseite oben) → Beschreibung eintragen, z. B. „Wechsel zum 01.01.JJJJ (Claude, vorläufig): Kaufpreis und Führerschein geschätzt, Fahrerkreis nur VN – vor Antrag prüfen“ → **Speichern**. Das Häkchen für die Stammdaten bleibt leer.
 
